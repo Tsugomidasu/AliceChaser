@@ -13,9 +13,13 @@ public class AliceMovement : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.08f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
     private Rigidbody2D rb;
     private float moveInput;
     private bool jumpRequested;
+    private bool isGrounded;
 
     private void Awake()
     {
@@ -31,7 +35,7 @@ public class AliceMovement : MonoBehaviour
             return;
         }
 
-        // Read left and right movement.
+        // Read movement.
         moveInput = 0f;
 
         if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
@@ -44,8 +48,8 @@ public class AliceMovement : MonoBehaviour
             moveInput = 1f;
         }
 
-        // Check if Alice is standing on the ground.
-        bool isGrounded = Physics2D.OverlapCircle(
+        // Check if Alice is on the ground.
+        isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             groundCheckRadius,
             groundLayer
@@ -55,7 +59,12 @@ public class AliceMovement : MonoBehaviour
         if (keyboard.spaceKey.wasPressedThisFrame && isGrounded)
         {
             jumpRequested = true;
+            animator.SetTrigger("Jump");
         }
+
+        // Update movement animations.
+        animator.SetBool("IsMoving", moveInput != 0f);
+        animator.SetBool("IsGrounded", isGrounded);
     }
 
     private void FixedUpdate()
@@ -78,7 +87,7 @@ public class AliceMovement : MonoBehaviour
             return;
         }
 
-        // Show the ground check in the Scene view.
+        // Show the ground check.
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }
