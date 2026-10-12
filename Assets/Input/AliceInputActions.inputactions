@@ -1,0 +1,36 @@
+{
+    "version": 1,
+    "name": "AliceInputActions",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "95bfab66-1a15-4185-9958-1c679893ec39",
+            "actions": [
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "9a5f15db-e538-41e6-bcac-6f4ca4a8d501",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Tap,SlowTap",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "dc550d01-4889-4a22-afce-5bde1ae85f90",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

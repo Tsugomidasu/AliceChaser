@@ -1,0 +1,416 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
+
+[RequireComponent(typeof(AliceMovement))]
+public class AliceCombat : MonoBehaviour
+{
+    [Header("Input")]
+    [SerializeField] private InputActionAsset inputActions;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+
+    [Header("Attack 1")]
+    [SerializeField] private Transform attack1Hitbox;
+    [SerializeField] private Vector2 attack1Size = new Vector2(1.2f, 1f);
+    [SerializeField] private int attack1Damage = 1;
+
+    [Header("Attack 2")]
+    [SerializeField] private Transform attack2Hitbox;
+    [SerializeField] private Vector2 attack2Size = new Vector2(1.4f, 0.7f);
+    [SerializeField] private int attack2Damage = 1;
+
+    [Header("Attack 3")]
+    [SerializeField] private Transform attack3Hitbox;
+    [SerializeField] private Vector2 attack3Size = new Vector2(1.5f, 0.8f);
+    [SerializeField] private int attack3Damage = 2;
+
+    [Header("Combo")]
+    [SerializeField] private float comboInputWindow = 0.25f;
+
+    [Header("Heavy Attack")]
+    [SerializeField] private int heavyDamage = 4;
+
+    [Header("Damage")]
+    [SerializeField] private LayerMask damageLayers;
+
+    private AliceMovement movement;
+    private InputAction attackAction;
+
+    private int currentAttack;
+    private int queuedAttacks;
+
+    private bool waitingForComboInput;
+    private float comboWindowEndTime;
+
+    private bool isHeavyAttack;
+
+    public bool IsAttacking { get; private set; }
+    public bool IsCharging { get; private set; }
+
+    public bool IsHoldingAttack =>
+        attackAction != null &&
+        attackAction.IsPressed();
+
+    private static readonly int AliceIdleState =
+        Animator.StringToHash("Base Layer.AliceIdle");
+
+    private static readonly int AliceRunState =
+        Animator.StringToHash("Base Layer.AliceRun");
+
+    private static readonly int AliceJumpAirState =
+        Animator.StringToHash("Base Layer.AliceJumpAir");
+
+    private static readonly int AliceAttack1State =
+        Animator.StringToHash("Base Layer.AliceAttack1");
+
+    private static readonly int AliceAttack2State =
+        Animator.StringToHash("Base Layer.AliceAttack2");
+
+    private static readonly int AliceAttack3State =
+        Animator.StringToHash("Base Layer.AliceAttack3");
+
+    private void Awake()
+    {
+        movement = GetComponent<AliceMovement>();
+
+        // Find the Attack action.
+        if (inputActions != null)
+        {
+            attackAction = inputActions.FindAction("Player/Attack");
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (attackAction == null)
+        {
+            return;
+        }
+
+        attackAction.started += AttackStarted;
+        attackAction.performed += AttackPerformed;
+        attackAction.canceled += AttackCanceled;
+
+        attackAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        if (attackAction == null)
+        {
+            return;
+        }
+
+        attackAction.started -= AttackStarted;
+        attackAction.performed -= AttackPerformed;
+        attackAction.canceled -= AttackCanceled;
+
+        attackAction.Disable();
+    }
+
+    private void Start()
+    {
+        // Check the Attack action.
+        if (inputActions == null)
+        {
+            Debug.LogError(
+                "Alice Combat is missing the Input Actions asset."
+            );
+        }
+        else if (attackAction == null)
+        {
+            Debug.LogError(
+                "Alice Input Actions is missing Player/Attack."
+            );
+        }
+
+        // Check the attack states.
+        if (!animator.HasState(0, AliceAttack1State) ||
+            !animator.HasState(0, AliceAttack2State) ||
+            !animator.HasState(0, AliceAttack3State))
+        {
+            Debug.LogError(
+                "Alice Animator is missing AliceAttack1, AliceAttack2, or AliceAttack3."
+            );
+        }
+    }
+
+    private void Update()
+    {
+        // End the combo window.
+        if (waitingForComboInput &&
+            Time.time >= comboWindowEndTime)
+        {
+            EndAttack();
+        }
+    }
+
+    private void AttackStarted(InputAction.CallbackContext context)
+    {
+        // Start charging the heavy attack.
+        if (context.interaction is SlowTapInteraction &&
+            !IsAttacking &&
+            movement.IsGrounded)
+        {
+            IsCharging = true;
+        }
+    }
+
+    private void AttackPerformed(InputAction.CallbackContext context)
+    {
+        // Use the heavy attack.
+        if (context.interaction is SlowTapInteraction)
+        {
+            IsCharging = false;
+
+            if (!IsAttacking && movement.IsGrounded)
+            {
+                StartHeavyAttack();
+            }
+
+            return;
+        }
+
+        // Use a normal attack.
+        if (context.interaction is TapInteraction)
+        {
+            IsCharging = false;
+            ReadLightAttack();
+        }
+    }
+
+    private void AttackCanceled(InputAction.CallbackContext context)
+    {
+        // Cancel the charge.
+        if (context.interaction is SlowTapInteraction)
+        {
+            IsCharging = false;
+        }
+    }
+
+    private void ReadLightAttack()
+    {
+        // Start Attack 1.
+        if (!IsAttacking)
+        {
+            if (movement.IsGrounded)
+            {
+                StartLightAttack(1);
+            }
+
+            return;
+        }
+
+        if (isHeavyAttack)
+        {
+            return;
+        }
+
+        // Continue during the combo window.
+        if (waitingForComboInput && currentAttack < 3)
+        {
+            StartLightAttack(currentAttack + 1);
+            return;
+        }
+
+        // Queue the next attack.
+        if (currentAttack + queuedAttacks < 3)
+        {
+            queuedAttacks++;
+        }
+    }
+
+    private void StartLightAttack(int attackNumber)
+    {
+        IsAttacking = true;
+        isHeavyAttack = false;
+        currentAttack = attackNumber;
+
+        waitingForComboInput = false;
+
+        // Play the current attack.
+        switch (currentAttack)
+        {
+            case 1:
+                animator.Play(AliceAttack1State, 0, 0f);
+                break;
+
+            case 2:
+                animator.Play(AliceAttack2State, 0, 0f);
+                break;
+
+            case 3:
+                animator.Play(AliceAttack3State, 0, 0f);
+                break;
+        }
+    }
+
+    private void StartHeavyAttack()
+    {
+        IsAttacking = true;
+        IsCharging = false;
+
+        isHeavyAttack = true;
+        currentAttack = 3;
+        queuedAttacks = 0;
+
+        waitingForComboInput = false;
+
+        // Heavy attack uses Attack 3.
+        animator.Play(AliceAttack3State, 0, 0f);
+    }
+
+    public void AttackHit()
+    {
+        // Heavy attack uses Attack 3's hitbox.
+        if (isHeavyAttack)
+        {
+            CheckHitbox(
+                attack3Hitbox.position,
+                attack3Size,
+                heavyDamage
+            );
+
+            return;
+        }
+
+        // Check the current hitbox.
+        switch (currentAttack)
+        {
+            case 1:
+                CheckHitbox(
+                    attack1Hitbox.position,
+                    attack1Size,
+                    attack1Damage
+                );
+                break;
+
+            case 2:
+                CheckHitbox(
+                    attack2Hitbox.position,
+                    attack2Size,
+                    attack2Damage
+                );
+                break;
+
+            case 3:
+                CheckHitbox(
+                    attack3Hitbox.position,
+                    attack3Size,
+                    attack3Damage
+                );
+                break;
+        }
+    }
+
+    private void CheckHitbox(
+        Vector2 position,
+        Vector2 size,
+        int damage
+    )
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            position,
+            size,
+            0f,
+            damageLayers
+        );
+
+        // Prevent duplicate damage.
+        HashSet<DestructibleObject> damagedObjects = new();
+
+        foreach (Collider2D hit in hits)
+        {
+            DestructibleObject destructible =
+                hit.GetComponentInParent<DestructibleObject>();
+
+            if (destructible != null &&
+                damagedObjects.Add(destructible))
+            {
+                destructible.TakeDamage(damage);
+            }
+        }
+    }
+
+    public void AttackFinished()
+    {
+        // Finish the heavy attack.
+        if (isHeavyAttack)
+        {
+            EndAttack();
+            return;
+        }
+
+        // Continue a buffered combo.
+        if (queuedAttacks > 0 && currentAttack < 3)
+        {
+            queuedAttacks--;
+            StartLightAttack(currentAttack + 1);
+            return;
+        }
+
+        // Wait briefly for the next combo input.
+        if (currentAttack < 3)
+        {
+            StartComboWindow();
+            return;
+        }
+
+        // Attack 3 ends the combo.
+        EndAttack();
+    }
+
+    private void StartComboWindow()
+    {
+        waitingForComboInput = true;
+        comboWindowEndTime = Time.time + comboInputWindow;
+    }
+
+    private void EndAttack()
+    {
+        IsAttacking = false;
+        IsCharging = false;
+
+        currentAttack = 0;
+        queuedAttacks = 0;
+
+        waitingForComboInput = false;
+        isHeavyAttack = false;
+
+        // Return to movement.
+        if (!movement.IsGrounded)
+        {
+            animator.Play(AliceJumpAirState, 0, 0f);
+        }
+        else if (movement.IsMoving)
+        {
+            animator.Play(AliceRunState, 0, 0f);
+        }
+        else
+        {
+            animator.Play(AliceIdleState, 0, 0f);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Show the attack hitboxes.
+        if (attack1Hitbox != null)
+        {
+            Gizmos.DrawWireCube(attack1Hitbox.position, attack1Size);
+        }
+
+        if (attack2Hitbox != null)
+        {
+            Gizmos.DrawWireCube(attack2Hitbox.position, attack2Size);
+        }
+
+        if (attack3Hitbox != null)
+        {
+            Gizmos.DrawWireCube(attack3Hitbox.position, attack3Size);
+        }
+    }
+}

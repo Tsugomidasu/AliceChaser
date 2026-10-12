@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &894824687499764065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7896102340399593677}
+  m_Layer: 6
+  m_Name: AttackHitbox2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7896102340399593677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894824687499764065}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.85, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4417982411439277998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4249731109239989538
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,6 +42,7 @@ GameObject:
   - component: {fileID: 9161577323549288220}
   - component: {fileID: 5396154060443932108}
   - component: {fileID: 8325375331153171299}
+  - component: {fileID: 199980994743742501}
   m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
@@ -115,6 +147,80 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &199980994743742501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4249731109239989538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f877f55442df49b7b800bed61fd46c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AliceAnimationEvents
+--- !u!1 &5416725204714644955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8852913555551947234}
+  m_Layer: 6
+  m_Name: AttackHitbox3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8852913555551947234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416725204714644955}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.85, y: -0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4417982411439277998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6739888262568548140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3408246672045855891}
+  m_Layer: 6
+  m_Name: AttackHitbox1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3408246672045855891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6739888262568548140}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4417982411439277998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7340572731950068500
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +233,7 @@ GameObject:
   - component: {fileID: 1382487899834290633}
   - component: {fileID: 5509803117837897961}
   - component: {fileID: 2965208715196033519}
+  - component: {fileID: 674560891528403909}
   m_Layer: 6
   m_Name: Alice
   m_TagString: Player
@@ -149,6 +256,9 @@ Transform:
   m_Children:
   - {fileID: 9161577323549288220}
   - {fileID: 7533373737104570344}
+  - {fileID: 3408246672045855891}
+  - {fileID: 7896102340399593677}
+  - {fileID: 8852913555551947234}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1382487899834290633
@@ -244,6 +354,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   animator: {fileID: 8325375331153171299}
+--- !u!114 &674560891528403909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340572731950068500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2333e6c6c4a1e4df6be00365bb8df847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AliceAttack
+  inputActions: {fileID: -944628639613478452, guid: 37bf1a4ca8dcf44f7b69edd1c543137e, type: 3}
+  animator: {fileID: 8325375331153171299}
+  attack1Hitbox: {fileID: 3408246672045855891}
+  attack1Size: {x: 1.2, y: 1}
+  attack1Damage: 1
+  attack2Hitbox: {fileID: 7896102340399593677}
+  attack2Size: {x: 1.4, y: 0.6}
+  attack2Damage: 1
+  attack3Hitbox: {fileID: 8852913555551947234}
+  attack3Size: {x: 1.4, y: 0.7}
+  attack3Damage: 2
+  comboInputWindow: 0.25
+  heavyDamage: 4
+  damageLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &8809739313170888297
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,13 +17,19 @@ public class AliceMovement : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private Rigidbody2D rb;
+    private AliceCombat combat;
+
     private float moveInput;
     private bool jumpRequested;
     private bool isGrounded;
 
+    public bool IsGrounded => isGrounded;
+    public bool IsMoving => moveInput != 0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        combat = GetComponent<AliceCombat>();
     }
 
     private void Update()
@@ -56,7 +62,12 @@ public class AliceMovement : MonoBehaviour
         ) != null;
 
         // Jump with Space.
-        if (keyboard.spaceKey.wasPressedThisFrame && isGrounded)
+        if (keyboard.spaceKey.wasPressedThisFrame &&
+            isGrounded &&
+            (combat == null ||
+            (!combat.IsAttacking &&
+             !combat.IsCharging &&
+             !combat.IsHoldingAttack)))
         {
             jumpRequested = true;
             animator.SetTrigger("Jump");
