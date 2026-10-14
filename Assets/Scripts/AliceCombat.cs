@@ -47,6 +47,9 @@ public class AliceCombat : MonoBehaviour
 
     private bool isHeavyAttack;
 
+    // Track objects already damaged by the current attack.
+    private readonly HashSet<DestructibleObject> damagedThisAttack = new();
+
     public bool IsAttacking { get; private set; }
     public bool IsCharging { get; private set; }
 
@@ -60,8 +63,8 @@ public class AliceCombat : MonoBehaviour
     private static readonly int AliceRunState =
         Animator.StringToHash("Base Layer.AliceRun");
 
-    private static readonly int AliceJumpAirState =
-        Animator.StringToHash("Base Layer.AliceJumpAir");
+    private static readonly int AliceJumpState =
+        Animator.StringToHash("Base Layer.AliceJump");
 
     private static readonly int AliceAttack1State =
         Animator.StringToHash("Base Layer.AliceAttack1");
@@ -225,6 +228,9 @@ public class AliceCombat : MonoBehaviour
 
     private void StartLightAttack(int attackNumber)
     {
+        // Reset damaged objects for the new attack.
+        damagedThisAttack.Clear();
+
         IsAttacking = true;
         isHeavyAttack = false;
         currentAttack = attackNumber;
@@ -250,6 +256,9 @@ public class AliceCombat : MonoBehaviour
 
     private void StartHeavyAttack()
     {
+        // Reset damaged objects for the new attack.
+        damagedThisAttack.Clear();
+
         IsAttacking = true;
         IsCharging = false;
 
@@ -319,16 +328,14 @@ public class AliceCombat : MonoBehaviour
             damageLayers
         );
 
-        // Prevent duplicate damage.
-        HashSet<DestructibleObject> damagedObjects = new();
-
         foreach (Collider2D hit in hits)
         {
             DestructibleObject destructible =
                 hit.GetComponentInParent<DestructibleObject>();
 
+            // Prevent duplicate damage during the same attack.
             if (destructible != null &&
-                damagedObjects.Add(destructible))
+                damagedThisAttack.Add(destructible))
             {
                 destructible.TakeDamage(damage);
             }
@@ -380,10 +387,12 @@ public class AliceCombat : MonoBehaviour
         waitingForComboInput = false;
         isHeavyAttack = false;
 
+        damagedThisAttack.Clear();
+
         // Return to movement.
         if (!movement.IsGrounded)
         {
-            animator.Play(AliceJumpAirState, 0, 0f);
+            animator.Play(AliceJumpState, 0, 0f);
         }
         else if (movement.IsMoving)
         {

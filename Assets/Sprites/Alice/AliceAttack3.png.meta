@@ -149,12 +149,12 @@ TextureImporter:
       name: AliceAttack3_1
       rect:
         serializedVersion: 2
-        x: 724
+        x: 733
         y: 0
-        width: 724
+        width: 744
         height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.48655915, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -171,12 +171,12 @@ TextureImporter:
       name: AliceAttack3_2
       rect:
         serializedVersion: 2
-        x: 1448
+        x: 1477
         y: 0
-        width: 724
+        width: 695
         height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5208633, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []

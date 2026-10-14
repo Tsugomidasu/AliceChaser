@@ -12,7 +12,7 @@
                     "id": "9a5f15db-e538-41e6-bcac-6f4ca4a8d501",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Tap,SlowTap",
+                    "interactions": "Tap,SlowTap(duration=0.25,pressPoint=1.401298E-45)",
                     "initialStateCheck": false,
                     "priority": 0
                 }
