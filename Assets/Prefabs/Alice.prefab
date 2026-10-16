@@ -230,7 +230,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6167794679997027301}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -326,6 +326,7 @@ GameObject:
   - component: {fileID: 5509803117837897961}
   - component: {fileID: 2965208715196033519}
   - component: {fileID: 674560891528403909}
+  - component: {fileID: 4512389076123456789}
   m_Layer: 6
   m_Name: Alice
   m_TagString: Player
@@ -476,6 +477,24 @@ MonoBehaviour:
   damageLayers:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &4512389076123456789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340572731950068500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dda1189202c54e6ea1851b7a7b25063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AliceAttackVFX
+  verticalSlash: {fileID: 7265600576379727415}
+  horizontalSlash: {fileID: 2310965250665416250}
+  duration: 0.09
+  startScaleMultiplier: 0.85
+  endScaleMultiplier: 1.05
+  fadeStart: 0.55
 --- !u!1 &8510643672204160093
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,7 +535,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8510643672204160093}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
