@@ -7,7 +7,10 @@ public class AliceAttackVFX : MonoBehaviour
     [SerializeField] private SpriteRenderer verticalSlash;
     [SerializeField] private SpriteRenderer horizontalSlash;
 
-    [Header("Slash Animation")]
+    [Header("Thrust Effect")]
+    [SerializeField] private SpriteRenderer thrustEffect;
+
+    [Header("Slash and Thrust Animation")]
     [SerializeField] private float duration = 0.09f;
     [SerializeField] private float startScaleMultiplier = 0.85f;
     [SerializeField] private float endScaleMultiplier = 1.05f;
@@ -18,6 +21,7 @@ public class AliceAttackVFX : MonoBehaviour
 
     private Vector3 verticalBaseScale;
     private Vector3 horizontalBaseScale;
+    private Vector3 thrustBaseScale;
 
     private Coroutine activeRoutine;
 
@@ -31,19 +35,26 @@ public class AliceAttackVFX : MonoBehaviour
         if (verticalSlash != null)
         {
             verticalBaseScale = verticalSlash.transform.localScale;
-            ResetSlash(verticalSlash, verticalBaseScale);
+            ResetEffect(verticalSlash, verticalBaseScale);
         }
 
         if (horizontalSlash != null)
         {
             horizontalBaseScale = horizontalSlash.transform.localScale;
-            ResetSlash(horizontalSlash, horizontalBaseScale);
+            ResetEffect(horizontalSlash, horizontalBaseScale);
+        }
+
+        // Store the original thrust scale.
+        if (thrustEffect != null)
+        {
+            thrustBaseScale = thrustEffect.transform.localScale;
+            ResetEffect(thrustEffect, thrustBaseScale);
         }
     }
 
     public void ShowVerticalSlash()
     {
-        PlaySlash(
+        PlayEffect(
             verticalSlash,
             verticalBaseScale
         );
@@ -51,13 +62,21 @@ public class AliceAttackVFX : MonoBehaviour
 
     public void ShowHorizontalSlash()
     {
-        PlaySlash(
+        PlayEffect(
             horizontalSlash,
             horizontalBaseScale
         );
     }
 
-    private void PlaySlash(
+    public void ShowThrust()
+    {
+        PlayEffect(
+            thrustEffect,
+            thrustBaseScale
+        );
+    }
+
+    private void PlayEffect(
         SpriteRenderer renderer,
         Vector3 baseScale
     )
@@ -67,7 +86,7 @@ public class AliceAttackVFX : MonoBehaviour
             return;
         }
 
-        // Stop the previous slash effect.
+        // Stop the previous slash or thrust effect.
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
@@ -77,7 +96,7 @@ public class AliceAttackVFX : MonoBehaviour
         // Hide both slash effects.
         if (verticalSlash != null)
         {
-            ResetSlash(
+            ResetEffect(
                 verticalSlash,
                 verticalBaseScale
             );
@@ -85,19 +104,28 @@ public class AliceAttackVFX : MonoBehaviour
 
         if (horizontalSlash != null)
         {
-            ResetSlash(
+            ResetEffect(
                 horizontalSlash,
                 horizontalBaseScale
             );
         }
 
-        // Play the selected slash effect.
+        // Hide the thrust effect.
+        if (thrustEffect != null)
+        {
+            ResetEffect(
+                thrustEffect,
+                thrustBaseScale
+            );
+        }
+
+        // Play the selected slash or thrust effect.
         activeRoutine = StartCoroutine(
-            AnimateSlash(renderer, baseScale)
+            AnimateEffect(renderer, baseScale)
         );
     }
 
-    private IEnumerator AnimateSlash(
+    private IEnumerator AnimateEffect(
         SpriteRenderer renderer,
         Vector3 baseScale
     )
@@ -118,7 +146,7 @@ public class AliceAttackVFX : MonoBehaviour
                 elapsed / duration
             );
 
-            // Expand the slash slightly.
+            // Expand the slash or thrust effect slightly.
             float scaleMultiplier = Mathf.Lerp(
                 startScaleMultiplier,
                 endScaleMultiplier,
@@ -130,7 +158,7 @@ public class AliceAttackVFX : MonoBehaviour
 
             float opacity = 1f;
 
-            // Fade the slash near the end.
+            // Fade the slash or thrust effect near the end.
             if (t > fadeStart)
             {
                 float fadeT = Mathf.InverseLerp(
@@ -151,12 +179,12 @@ public class AliceAttackVFX : MonoBehaviour
             yield return null;
         }
 
-        // Hide and restore the slash.
-        ResetSlash(renderer, baseScale);
+        // Hide and restore the slash or thrust effect.
+        ResetEffect(renderer, baseScale);
         activeRoutine = null;
     }
 
-    private void ResetSlash(
+    private void ResetEffect(
         SpriteRenderer renderer,
         Vector3 baseScale
     )
@@ -185,7 +213,7 @@ public class AliceAttackVFX : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop the active slash effect.
+        // Stop the active slash or thrust effect.
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
@@ -195,7 +223,7 @@ public class AliceAttackVFX : MonoBehaviour
         // Reset both slash effects.
         if (verticalSlash != null)
         {
-            ResetSlash(
+            ResetEffect(
                 verticalSlash,
                 verticalBaseScale
             );
@@ -203,9 +231,18 @@ public class AliceAttackVFX : MonoBehaviour
 
         if (horizontalSlash != null)
         {
-            ResetSlash(
+            ResetEffect(
                 horizontalSlash,
                 horizontalBaseScale
+            );
+        }
+
+        // Reset the thrust effect.
+        if (thrustEffect != null)
+        {
+            ResetEffect(
+                thrustEffect,
+                thrustBaseScale
             );
         }
     }

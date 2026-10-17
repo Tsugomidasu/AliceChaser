@@ -38,4 +38,12 @@ public class AliceAnimationEvents : MonoBehaviour
             attackVFX.ShowHorizontalSlash();
         }
     }
+
+    public void ShowThrust()
+    {
+        if (attackVFX != null)
+        {
+            attackVFX.ShowThrust();
+        }
+    }
 }

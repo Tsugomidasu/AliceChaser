@@ -58,10 +58,10 @@ Material:
     - _BreakUpCutOff: 0.18
     - _BreakUpFeather: 0.28
     - _BreakUpScale: 10
-    - _CoreWidth: 0.026
+    - _CoreWidth: 0.041
     - _EnableExternalAlpha: 0
     - _Feather: 0.005
-    - _InnerRadius: 0.88
+    - _InnerRadius: 0.85
     - _NoiseScale: 6
     - _Opacity: 1
     - _OuterRadius: 0.95

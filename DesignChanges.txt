@@ -1,3 +1,4 @@
 Alice Chaser - Design Changes
 
 - The charged heavy attack reuses the third combo attack animation instead of having a separate heavy attack animation.
+- Custom visual effects were added to Alice's attacks to provide clearer combat feedback.
