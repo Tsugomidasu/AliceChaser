@@ -9,6 +9,7 @@ public class AliceAttackVFX : MonoBehaviour
 
     [Header("Thrust Effect")]
     [SerializeField] private SpriteRenderer thrustEffect;
+    [SerializeField] private float heavyThrustScaleMultiplier = 1.5f;
 
     [Header("Slash and Thrust Animation")]
     [SerializeField] private float duration = 0.09f;
@@ -16,8 +17,24 @@ public class AliceAttackVFX : MonoBehaviour
     [SerializeField] private float endScaleMultiplier = 1.05f;
     [SerializeField, Range(0f, 1f)] private float fadeStart = 0.55f;
 
+    private AliceCombat combat;
+
     private MaterialPropertyBlock propertyBlock;
     private int opacityId;
+    private int thrustColorId;
+    private int coreColorId;
+
+    private static readonly Color NormalThrustColor =
+        new Color32(0x00, 0xB6, 0xFF, 0xFF);
+
+    private static readonly Color HeavyThrustColor =
+        new Color32(0xBB, 0x0A, 0x1E, 0xFF);
+
+    private static readonly Color NormalThrustCoreColor =
+        Color.white;
+
+    private static readonly Color HeavyThrustCoreColor =
+        Color.black;
 
     private Vector3 verticalBaseScale;
     private Vector3 horizontalBaseScale;
@@ -27,9 +44,13 @@ public class AliceAttackVFX : MonoBehaviour
 
     private void Awake()
     {
+        combat = GetComponent<AliceCombat>();
+
         // Set up the shader property block.
         propertyBlock = new MaterialPropertyBlock();
         opacityId = Shader.PropertyToID("_Opacity");
+        thrustColorId = Shader.PropertyToID("_ThrustColor");
+        coreColorId = Shader.PropertyToID("_CoreColor");
 
         // Store the original slash scales.
         if (verticalSlash != null)
@@ -70,15 +91,42 @@ public class AliceAttackVFX : MonoBehaviour
 
     public void ShowThrust()
     {
+        if (thrustEffect == null)
+        {
+            return;
+        }
+
+        bool isHeavy =
+            combat != null && combat.IsHeavyAttack;
+
+        // Use the heavy thrust colors.
+        if (isHeavy)
+        {
+            SetThrustColors(
+                HeavyThrustColor,
+                HeavyThrustCoreColor
+            );
+        }
+        else
+        {
+            // Use the normal thrust colors.
+            SetThrustColors(
+                NormalThrustColor,
+                NormalThrustCoreColor
+            );
+        }
+
         PlayEffect(
             thrustEffect,
-            thrustBaseScale
+            thrustBaseScale,
+            isHeavy ? heavyThrustScaleMultiplier : 1f
         );
     }
 
     private void PlayEffect(
         SpriteRenderer renderer,
-        Vector3 baseScale
+        Vector3 baseScale,
+        float effectScaleMultiplier = 1f
     )
     {
         if (renderer == null)
@@ -121,17 +169,24 @@ public class AliceAttackVFX : MonoBehaviour
 
         // Play the selected slash or thrust effect.
         activeRoutine = StartCoroutine(
-            AnimateEffect(renderer, baseScale)
+            AnimateEffect(
+                renderer,
+                baseScale,
+                effectScaleMultiplier
+            )
         );
     }
 
     private IEnumerator AnimateEffect(
         SpriteRenderer renderer,
-        Vector3 baseScale
+        Vector3 baseScale,
+        float effectScaleMultiplier
     )
     {
         renderer.transform.localScale =
-            baseScale * startScaleMultiplier;
+            baseScale *
+            effectScaleMultiplier *
+            startScaleMultiplier;
 
         SetOpacity(renderer, 1f);
         renderer.enabled = true;
@@ -154,7 +209,9 @@ public class AliceAttackVFX : MonoBehaviour
             );
 
             renderer.transform.localScale =
-                baseScale * scaleMultiplier;
+                baseScale *
+                effectScaleMultiplier *
+                scaleMultiplier;
 
             float opacity = 1f;
 
@@ -193,6 +250,23 @@ public class AliceAttackVFX : MonoBehaviour
         renderer.transform.localScale = baseScale;
 
         SetOpacity(renderer, 1f);
+    }
+
+    private void SetThrustColors(
+        Color thrustColor,
+        Color coreColor
+    )
+    {
+        if (propertyBlock == null || thrustEffect == null)
+        {
+            return;
+        }
+
+        // Override the thrust shader colors.
+        thrustEffect.GetPropertyBlock(propertyBlock);
+        propertyBlock.SetColor(thrustColorId, thrustColor);
+        propertyBlock.SetColor(coreColorId, coreColor);
+        thrustEffect.SetPropertyBlock(propertyBlock);
     }
 
     private void SetOpacity(

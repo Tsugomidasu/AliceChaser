@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 894824687499764065}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.85, y: 0.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.7, y: 0.05, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4417982411439277998}
@@ -184,8 +184,8 @@ Transform:
   m_GameObject: {fileID: 5416725204714644955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.8, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4417982411439277998}
@@ -248,7 +248,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7e8720545a7db4eb79d29339837dd6b6, type: 2}
+  - {fileID: 2100000, guid: f6fac7dcee9ee4ee29a1704bc4a43356, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -374,6 +374,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &6521007728122402290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2500540393226949496}
+  m_Layer: 6
+  m_Name: HeavyHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2500540393226949496
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6521007728122402290}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalScale: {x: 1.9, y: 1.7, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4417982411439277998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6739888262568548140
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,8 +430,8 @@ Transform:
   m_GameObject: {fileID: 6739888262568548140}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.85, y: 0.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.6, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4417982411439277998}
@@ -444,6 +475,7 @@ Transform:
   - {fileID: 3408246672045855891}
   - {fileID: 7896102340399593677}
   - {fileID: 8852913555551947234}
+  - {fileID: 2500540393226949496}
   - {fileID: 5558799735890283326}
   - {fileID: 7936433633535469624}
   - {fileID: 2103722237253657582}
@@ -557,15 +589,13 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: 37bf1a4ca8dcf44f7b69edd1c543137e, type: 3}
   animator: {fileID: 8325375331153171299}
   attack1Hitbox: {fileID: 3408246672045855891}
-  attack1Size: {x: 1.2, y: 1}
   attack1Damage: 1
   attack2Hitbox: {fileID: 7896102340399593677}
-  attack2Size: {x: 1.4, y: 0.6}
   attack2Damage: 1
   attack3Hitbox: {fileID: 8852913555551947234}
-  attack3Size: {x: 1.4, y: 0.7}
   attack3Damage: 2
   comboInputWindow: 0.25
+  heavyHitbox: {fileID: 2500540393226949496}
   heavyDamage: 4
   damageLayers:
     serializedVersion: 2
@@ -585,6 +615,7 @@ MonoBehaviour:
   verticalSlash: {fileID: 7265600576379727415}
   horizontalSlash: {fileID: 2310965250665416250}
   thrustEffect: {fileID: 8196312557803501835}
+  heavyThrustScaleMultiplier: 1.5
   duration: 0.09
   startScaleMultiplier: 0.85
   endScaleMultiplier: 1.05

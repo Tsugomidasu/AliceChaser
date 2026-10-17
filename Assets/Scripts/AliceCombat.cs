@@ -14,23 +14,21 @@ public class AliceCombat : MonoBehaviour
 
     [Header("Attack 1")]
     [SerializeField] private Transform attack1Hitbox;
-    [SerializeField] private Vector2 attack1Size = new Vector2(1.2f, 1f);
     [SerializeField] private int attack1Damage = 1;
 
     [Header("Attack 2")]
     [SerializeField] private Transform attack2Hitbox;
-    [SerializeField] private Vector2 attack2Size = new Vector2(1.4f, 0.7f);
     [SerializeField] private int attack2Damage = 1;
 
     [Header("Attack 3")]
     [SerializeField] private Transform attack3Hitbox;
-    [SerializeField] private Vector2 attack3Size = new Vector2(1.5f, 0.8f);
     [SerializeField] private int attack3Damage = 2;
 
     [Header("Combo")]
     [SerializeField] private float comboInputWindow = 0.25f;
 
     [Header("Heavy Attack")]
+    [SerializeField] private Transform heavyHitbox;
     [SerializeField] private int heavyDamage = 4;
 
     [Header("Damage")]
@@ -52,6 +50,7 @@ public class AliceCombat : MonoBehaviour
 
     public bool IsAttacking { get; private set; }
     public bool IsCharging { get; private set; }
+    public bool IsHeavyAttack => isHeavyAttack;
 
     public bool IsHoldingAttack =>
         attackAction != null &&
@@ -274,12 +273,11 @@ public class AliceCombat : MonoBehaviour
 
     public void AttackHit()
     {
-        // Heavy attack uses Attack 3's hitbox.
+        // Check the heavy hitbox.
         if (isHeavyAttack)
         {
             CheckHitbox(
-                attack3Hitbox.position,
-                attack3Size,
+                heavyHitbox,
                 heavyDamage
             );
 
@@ -291,24 +289,21 @@ public class AliceCombat : MonoBehaviour
         {
             case 1:
                 CheckHitbox(
-                    attack1Hitbox.position,
-                    attack1Size,
+                    attack1Hitbox,
                     attack1Damage
                 );
                 break;
 
             case 2:
                 CheckHitbox(
-                    attack2Hitbox.position,
-                    attack2Size,
+                    attack2Hitbox,
                     attack2Damage
                 );
                 break;
 
             case 3:
                 CheckHitbox(
-                    attack3Hitbox.position,
-                    attack3Size,
+                    attack3Hitbox,
                     attack3Damage
                 );
                 break;
@@ -316,15 +311,21 @@ public class AliceCombat : MonoBehaviour
     }
 
     private void CheckHitbox(
-        Vector2 position,
-        Vector2 size,
+        Transform hitbox,
         int damage
     )
     {
+        Vector3 scale = hitbox.lossyScale;
+
+        Vector2 size = new Vector2(
+            Mathf.Abs(scale.x),
+            Mathf.Abs(scale.y)
+        );
+
         Collider2D[] hits = Physics2D.OverlapBoxAll(
-            position,
+            hitbox.position,
             size,
-            0f,
+            hitbox.eulerAngles.z,
             damageLayers
         );
 
@@ -407,19 +408,27 @@ public class AliceCombat : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         // Show the attack hitboxes.
-        if (attack1Hitbox != null)
+        DrawHitbox(attack1Hitbox);
+        DrawHitbox(attack2Hitbox);
+        DrawHitbox(attack3Hitbox);
+        DrawHitbox(heavyHitbox);
+    }
+
+    private void DrawHitbox(Transform hitbox)
+    {
+        if (hitbox == null)
         {
-            Gizmos.DrawWireCube(attack1Hitbox.position, attack1Size);
+            return;
         }
 
-        if (attack2Hitbox != null)
-        {
-            Gizmos.DrawWireCube(attack2Hitbox.position, attack2Size);
-        }
+        Matrix4x4 previousMatrix = Gizmos.matrix;
 
-        if (attack3Hitbox != null)
-        {
-            Gizmos.DrawWireCube(attack3Hitbox.position, attack3Size);
-        }
+        Gizmos.matrix = hitbox.localToWorldMatrix;
+        Gizmos.DrawWireCube(
+            Vector3.zero,
+            Vector3.one
+        );
+
+        Gizmos.matrix = previousMatrix;
     }
 }
