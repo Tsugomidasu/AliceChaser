@@ -11,15 +11,6 @@ TextureImporter:
   - first:
       213: -2575374133411749834
     second: AliceRun_2
-  - first:
-      213: -4948130147827739238
-    second: AliceRun_3
-  - first:
-      213: -7639442017731177071
-    second: AliceRun_4
-  - first:
-      213: 7751387909889090416
-    second: AliceRun_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +40,7 @@ TextureImporter:
   cubemapConvolution: 0
   seamlessCubemap: 0
   textureFormat: 1
-  maxTextureSize: 2048
+  maxTextureSize: 4096
   textureSettings:
     serializedVersion: 2
     filterMode: 1
@@ -89,7 +80,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -102,7 +93,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -115,7 +106,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -133,12 +124,12 @@ TextureImporter:
       name: AliceRun_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 44
+        y: 24
+        width: 652
+        height: 648
+      alignment: 9
+      pivot: {x: 0.487730, y: 0.521605}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -155,12 +146,12 @@ TextureImporter:
       name: AliceRun_1
       rect:
         serializedVersion: 2
-        x: 724
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 762
+        y: 23
+        width: 619
+        height: 644
+      alignment: 9
+      pivot: {x: 0.523425, y: 0.526398}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,12 +168,12 @@ TextureImporter:
       name: AliceRun_2
       rect:
         serializedVersion: 2
-        x: 1448
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1461
+        y: 27
+        width: 644
+        height: 645
+      alignment: 9
+      pivot: {x: 0.541925, y: 0.519380}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -207,9 +198,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":724.0,"y":724.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
       AliceRun_0: -3580444997786020958
       AliceRun_1: -4923555341406402635

@@ -11,15 +11,6 @@ TextureImporter:
   - first:
       213: 8888131156677194042
     second: AliceDefeat_2
-  - first:
-      213: -4759996718774438989
-    second: AliceDefeat_3
-  - first:
-      213: -6938952542861427370
-    second: AliceDefeat_4
-  - first:
-      213: -6031129608065768540
-    second: AliceDefeat_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +40,7 @@ TextureImporter:
   cubemapConvolution: 0
   seamlessCubemap: 0
   textureFormat: 1
-  maxTextureSize: 2048
+  maxTextureSize: 4096
   textureSettings:
     serializedVersion: 2
     filterMode: 1
@@ -89,7 +80,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -102,7 +93,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -115,7 +106,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -133,12 +124,12 @@ TextureImporter:
       name: AliceDefeat_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 25
+        y: 55
+        width: 649
+        height: 605
+      alignment: 9
+      pivot: {x: 0.519260, y: 0.507438}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -155,12 +146,12 @@ TextureImporter:
       name: AliceDefeat_1
       rect:
         serializedVersion: 2
-        x: 724
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 766
+        y: 45
+        width: 561
+        height: 510
+      alignment: 9
+      pivot: {x: 0.570410, y: 0.621569}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,12 +168,12 @@ TextureImporter:
       name: AliceDefeat_2
       rect:
         serializedVersion: 2
-        x: 1448
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1474
+        y: 44
+        width: 687
+        height: 403
+      alignment: 9
+      pivot: {x: 0.489083, y: 0.789082}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -207,9 +198,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":724.0,"y":724.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
       AliceDefeat_0: -2749896438607627647
       AliceDefeat_1: 3826275594023679372

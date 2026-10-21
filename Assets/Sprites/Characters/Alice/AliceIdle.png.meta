@@ -11,39 +11,6 @@ TextureImporter:
   - first:
       213: -1612580602122410653
     second: AliceIdle_2
-  - first:
-      213: -4741618691486174014
-    second: AliceIdle_3
-  - first:
-      213: 74475504681196582
-    second: AliceIdle_4
-  - first:
-      213: 2606438422483733171
-    second: AliceIdle_5
-  - first:
-      213: 3583134346484203683
-    second: AliceIdle_6
-  - first:
-      213: 3760094404445476011
-    second: AliceIdle_7
-  - first:
-      213: -185830653222322664
-    second: AliceIdle_8
-  - first:
-      213: 3937284893550445489
-    second: AliceIdle_9
-  - first:
-      213: 2047540117510512853
-    second: AliceIdle_10
-  - first:
-      213: 746005788644320931
-    second: AliceIdle_11
-  - first:
-      213: -4784889248049166376
-    second: AliceIdle_12
-  - first:
-      213: -7343122840953548107
-    second: AliceIdle_13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -73,7 +40,7 @@ TextureImporter:
   cubemapConvolution: 0
   seamlessCubemap: 0
   textureFormat: 1
-  maxTextureSize: 2048
+  maxTextureSize: 4096
   textureSettings:
     serializedVersion: 2
     filterMode: 1
@@ -113,7 +80,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -126,7 +93,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -139,7 +106,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -157,12 +124,12 @@ TextureImporter:
       name: AliceIdle_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 63
+        y: 9
+        width: 571
+        height: 682
+      alignment: 9
+      pivot: {x: 0.586793, y: 0.517595}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -179,12 +146,12 @@ TextureImporter:
       name: AliceIdle_1
       rect:
         serializedVersion: 2
-        x: 724
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 759
+        y: 9
+        width: 564
+        height: 683
+      alignment: 9
+      pivot: {x: 0.579787, y: 0.516837}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -201,12 +168,12 @@ TextureImporter:
       name: AliceIdle_2
       rect:
         serializedVersion: 2
-        x: 1448
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1489
+        y: 10
+        width: 553
+        height: 682
+      alignment: 9
+      pivot: {x: 0.580470, y: 0.516129}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -231,9 +198,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":724.0,"y":724.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
       AliceIdle_0: 8932171822089016300
       AliceIdle_1: -7621577757961951053

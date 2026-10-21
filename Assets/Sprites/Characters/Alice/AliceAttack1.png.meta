@@ -11,21 +11,6 @@ TextureImporter:
   - first:
       213: 2219078270131425188
     second: AliceAttack1_2
-  - first:
-      213: -8485546942929569276
-    second: AliceAttack1_3
-  - first:
-      213: 3745621933012843762
-    second: AliceAttack1_4
-  - first:
-      213: 1150592247551006420
-    second: AliceAttack1_5
-  - first:
-      213: 1170196050016172880
-    second: AliceAttack1_6
-  - first:
-      213: -6192981419137720187
-    second: AliceAttack1_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +40,7 @@ TextureImporter:
   cubemapConvolution: 0
   seamlessCubemap: 0
   textureFormat: 1
-  maxTextureSize: 2048
+  maxTextureSize: 4096
   textureSettings:
     serializedVersion: 2
     filterMode: 1
@@ -95,7 +80,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -108,7 +93,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -121,7 +106,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -139,12 +124,12 @@ TextureImporter:
       name: AliceAttack1_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 94
+        y: 21
+        width: 620
+        height: 535
+      alignment: 9
+      pivot: {x: 0.432258, y: 0.637383}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -161,12 +146,12 @@ TextureImporter:
       name: AliceAttack1_1
       rect:
         serializedVersion: 2
-        x: 724
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 874
+        y: 6
+        width: 457
+        height: 718
+      alignment: 9
+      pivot: {x: 0.463895, y: 0.495822}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -183,12 +168,12 @@ TextureImporter:
       name: AliceAttack1_2
       rect:
         serializedVersion: 2
-        x: 1448
-        y: 0
-        width: 724
-        height: 724
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 1507
+        y: 6
+        width: 575
+        height: 543
+      alignment: 9
+      pivot: {x: 0.526957, y: 0.655617}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -213,9 +198,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":724.0,"y":724.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
       AliceAttack1_0: 6158954015864066683
       AliceAttack1_1: 8330548737417175701
