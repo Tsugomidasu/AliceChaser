@@ -46,7 +46,7 @@ public class AliceCombat : MonoBehaviour
     private bool isHeavyAttack;
 
     // Track objects already damaged by the current attack.
-    private readonly HashSet<DestructibleObject> damagedThisAttack = new();
+    private readonly HashSet<UnityEngine.Object> damagedThisAttack = new();
 
     public bool IsAttacking { get; private set; }
     public bool IsCharging { get; private set; }
@@ -155,7 +155,8 @@ public class AliceCombat : MonoBehaviour
         // Start charging the heavy attack.
         if (context.interaction is SlowTapInteraction &&
             !IsAttacking &&
-            movement.IsGrounded)
+            movement.IsGrounded &&
+            movement.CanAct)
         {
             IsCharging = true;
         }
@@ -163,6 +164,12 @@ public class AliceCombat : MonoBehaviour
 
     private void AttackPerformed(InputAction.CallbackContext context)
     {
+        // Ignore attacks while controls are locked.
+        if (!movement.CanAct)
+        {
+            return;
+        }
+
         // Use the heavy attack.
         if (context.interaction is SlowTapInteraction)
         {
@@ -195,6 +202,11 @@ public class AliceCombat : MonoBehaviour
 
     private void ReadLightAttack()
     {
+        if (!movement.CanAct)
+        {
+            return;
+        }
+
         // Start Attack 1.
         if (!IsAttacking)
         {
@@ -331,6 +343,22 @@ public class AliceCombat : MonoBehaviour
 
         foreach (Collider2D hit in hits)
         {
+            // Check for enemies first.
+            EnemyHealth enemy =
+                hit.GetComponentInParent<EnemyHealth>();
+
+            if (enemy != null)
+            {
+                // Prevent duplicate damage during the same attack.
+                if (damagedThisAttack.Add(enemy))
+                {
+                    enemy.TakeDamage(damage);
+                }
+
+                continue;
+            }
+
+            // Check for destructible objects.
             DestructibleObject destructible =
                 hit.GetComponentInParent<DestructibleObject>();
 
@@ -371,14 +399,9 @@ public class AliceCombat : MonoBehaviour
         EndAttack();
     }
 
-    private void StartComboWindow()
+    public void InterruptAttack()
     {
-        waitingForComboInput = true;
-        comboWindowEndTime = Time.time + comboInputWindow;
-    }
-
-    private void EndAttack()
-    {
+        // Clear the current attack state.
         IsAttacking = false;
         IsCharging = false;
 
@@ -389,6 +412,17 @@ public class AliceCombat : MonoBehaviour
         isHeavyAttack = false;
 
         damagedThisAttack.Clear();
+    }
+
+    private void StartComboWindow()
+    {
+        waitingForComboInput = true;
+        comboWindowEndTime = Time.time + comboInputWindow;
+    }
+
+    private void EndAttack()
+    {
+        InterruptAttack();
 
         // Return to movement.
         if (!movement.IsGrounded)

@@ -22,9 +22,11 @@ public class AliceMovement : MonoBehaviour
     private float moveInput;
     private bool jumpRequested;
     private bool isGrounded;
+    private float controlsLockedUntil;
 
     public bool IsGrounded => isGrounded;
     public bool IsMoving => moveInput != 0f;
+    public bool CanAct => Time.time >= controlsLockedUntil;
 
     private void Awake()
     {
@@ -44,14 +46,17 @@ public class AliceMovement : MonoBehaviour
         // Read movement.
         moveInput = 0f;
 
-        if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
+        if (CanAct)
         {
-            moveInput = -1f;
-        }
+            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
+            {
+                moveInput = -1f;
+            }
 
-        if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
-        {
-            moveInput = 1f;
+            if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
+            {
+                moveInput = 1f;
+            }
         }
 
         // Check if Alice is on the ground.
@@ -60,6 +65,15 @@ public class AliceMovement : MonoBehaviour
             groundCheckRadius,
             groundLayer
         ) != null;
+
+        // Stop input while controls are locked.
+        if (!CanAct)
+        {
+            jumpRequested = false;
+            animator.SetBool("IsMoving", false);
+            animator.SetBool("IsGrounded", isGrounded);
+            return;
+        }
 
         // Jump with Space.
         if (keyboard.spaceKey.wasPressedThisFrame &&
@@ -80,6 +94,11 @@ public class AliceMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!CanAct)
+        {
+            return;
+        }
+
         // Move Alice.
         rb.linearVelocityX = moveInput * moveSpeed;
 
@@ -89,6 +108,18 @@ public class AliceMovement : MonoBehaviour
             rb.linearVelocityY = jumpSpeed;
             jumpRequested = false;
         }
+    }
+
+    public void LockControls(float duration)
+    {
+        // Extend the current control lock if needed.
+        controlsLockedUntil = Mathf.Max(
+            controlsLockedUntil,
+            Time.time + duration
+        );
+
+        moveInput = 0f;
+        jumpRequested = false;
     }
 
     private void OnDrawGizmosSelected()
