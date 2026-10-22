@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody2D))]
 public class AliceMovement : MonoBehaviour
 {
+    [Header("Input")]
+    [SerializeField] private InputActionAsset inputActions;
+
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 6f;
 
@@ -19,6 +22,9 @@ public class AliceMovement : MonoBehaviour
     private Rigidbody2D rb;
     private AliceCombat combat;
 
+    private InputAction moveAction;
+    private InputAction jumpAction;
+
     private float moveInput;
     private bool jumpRequested;
     private bool isGrounded;
@@ -27,36 +33,58 @@ public class AliceMovement : MonoBehaviour
     public bool IsGrounded => isGrounded;
     public bool IsMoving => moveInput != 0f;
     public bool CanAct => Time.time >= controlsLockedUntil;
+    public float MoveInput => moveInput;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         combat = GetComponent<AliceCombat>();
+
+        // Find the movement actions.
+        if (inputActions != null)
+        {
+            moveAction = inputActions.FindAction("Player/Move");
+            jumpAction = inputActions.FindAction("Player/Jump");
+        }
+    }
+
+    private void OnEnable()
+    {
+        moveAction?.Enable();
+        jumpAction?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        moveAction?.Disable();
+        jumpAction?.Disable();
+    }
+
+    private void Start()
+    {
+        // Check the movement actions.
+        if (inputActions == null)
+        {
+            Debug.LogError(
+                "Alice Movement is missing the Input Actions asset."
+            );
+        }
+        else if (moveAction == null || jumpAction == null)
+        {
+            Debug.LogError(
+                "Alice Input Actions is missing Player/Move or Player/Jump."
+            );
+        }
     }
 
     private void Update()
     {
-        Keyboard keyboard = Keyboard.current;
-
-        if (keyboard == null)
-        {
-            return;
-        }
-
         // Read movement.
         moveInput = 0f;
 
-        if (CanAct)
+        if (CanAct && moveAction != null)
         {
-            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed)
-            {
-                moveInput = -1f;
-            }
-
-            if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed)
-            {
-                moveInput = 1f;
-            }
+            moveInput = moveAction.ReadValue<float>();
         }
 
         // Check if Alice is on the ground.
@@ -75,8 +103,9 @@ public class AliceMovement : MonoBehaviour
             return;
         }
 
-        // Jump with Space.
-        if (keyboard.spaceKey.wasPressedThisFrame &&
+        // Jump with the Jump action.
+        if (jumpAction != null &&
+            jumpAction.WasPressedThisFrame() &&
             isGrounded &&
             (combat == null ||
             (!combat.IsAttacking &&

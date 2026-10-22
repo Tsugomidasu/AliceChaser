@@ -15,6 +15,7 @@ public class CrabEnemy : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    private EnemyHealth health;
     private float startX;
     private int direction;
 
@@ -23,6 +24,7 @@ public class CrabEnemy : MonoBehaviour
         // Cache the Crab components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        health = GetComponent<EnemyHealth>();
     }
 
     private void Start()
@@ -36,6 +38,13 @@ public class CrabEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Stop movement while the Crab is reacting to a hit.
+        if (health.IsHitStunned || health.IsDead)
+        {
+            rb.linearVelocityX = 0f;
+            return;
+        }
+
         // Calculate the patrol limits.
         float leftEdge = startX - patrolDistance;
         float rightEdge = startX + patrolDistance;

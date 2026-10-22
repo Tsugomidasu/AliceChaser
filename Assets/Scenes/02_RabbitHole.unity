@@ -124,6 +124,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4417982411439277998, guid: 103013394f02b45f9a6f58d3693fed68, type: 3}
   m_PrefabInstance: {fileID: 3259742480545547132}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &256110988 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7340572731950068500, guid: 103013394f02b45f9a6f58d3693fed68, type: 3}
+  m_PrefabInstance: {fileID: 3259742480545547132}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &256110994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 256110988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac167a2c29f0547dc92700006f4cd05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AliceHealth
+  maxHealth: 5
+  invulnerabilityTime: 1
+  controlLockTime: 0.2
+  knockback: {x: 3.5, y: 4}
+  animator: {fileID: 0}
 --- !u!1 &352767935
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,10 +225,9 @@ MonoBehaviour:
   mainCamera: {fileID: 1820637012}
   floorCollider: {fileID: 2034423174}
   activeObjects: {fileID: 1651774950}
-  scrollStartX: 2.45
-  scrollSpeed: 6
+  leftDeadZone: -3.75
+  rightDeadZone: 4.25
   spawnPadding: 1.5
-  despawnPadding: 2
   levelLength: 95
   spawnSequence:
   - prefab: {fileID: 3651400933933657871, guid: 2e5a2d19b301c4b32b81df17f9fa690e, type: 3}
@@ -290,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 1672549341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.05, y: 0, z: 0}
+  m_LocalPosition: {x: 96, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -505,7 +526,7 @@ Transform:
   m_GameObject: {fileID: 1986867157}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.55, y: 0, z: 0}
+  m_LocalPosition: {x: -5.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -690,8 +711,8 @@ Transform:
   m_GameObject: {fileID: 2034423173}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 0}
-  m_LocalScale: {x: 30, y: 1, z: 1}
+  m_LocalPosition: {x: 45, y: -1.5, z: 0}
+  m_LocalScale: {x: 110, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -803,13 +824,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.14
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7000000000000000100, guid: 103013394f02b45f9a6f58d3693fed68, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4417982411439277998, guid: 103013394f02b45f9a6f58d3693fed68, type: 3}
       insertIndex: -1
       addedObject: {fileID: 352767936}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7340572731950068500, guid: 103013394f02b45f9a6f58d3693fed68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 256110994}
   m_SourcePrefab: {fileID: 100100000, guid: 103013394f02b45f9a6f58d3693fed68, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

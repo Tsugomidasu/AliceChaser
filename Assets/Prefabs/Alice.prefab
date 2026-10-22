@@ -535,6 +535,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae2c521ba8f34350b5ae80cc3610ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AliceMovement
+  inputActions: {fileID: -944628639613478452, guid: 37bf1a4ca8dcf44f7b69edd1c543137e, type: 3}
   moveSpeed: 6
   jumpSpeed: 7.5
   groundCheck: {fileID: 7533373737104570344}
@@ -564,7 +565,7 @@ MonoBehaviour:
   attack3Hitbox: {fileID: 8852913555551947234}
   attack3Damage: 2
   comboInputWindow: 0.25
-  heavyHitbox: {fileID: 0}
+  heavyHitbox: {fileID: 8852913555551947234}
   heavyDamage: 4
   damageLayers:
     serializedVersion: 2

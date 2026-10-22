@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2380305794832555054}
   - component: {fileID: 3853019270925676592}
   - component: {fileID: 4139833496404341389}
-  - component: {fileID: 7394330680207986560}
   - component: {fileID: 1000679549435711060}
   m_Layer: 7
   m_Name: PH_BreakableFurniture
@@ -109,18 +108,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.2}
   m_EdgeRadius: 0
---- !u!114 &7394330680207986560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6261627727864617226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fac3dbed15f5c4623b08b0ab6dbe58c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RabbitHoleScrollObject
 --- !u!114 &1000679549435711060
 MonoBehaviour:
   m_ObjectHideFlags: 0

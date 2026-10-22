@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class RabbitHoleController : MonoBehaviour
 {
@@ -17,88 +16,83 @@ public class RabbitHoleController : MonoBehaviour
     [SerializeField] private Collider2D floorCollider;
     [SerializeField] private Transform activeObjects;
 
-    [Header("Scrolling")]
-    [SerializeField] private float scrollStartX = 2.45f;
-    [SerializeField] private float scrollSpeed = 6f;
+    [Header("Camera")]
+    [SerializeField] private float leftDeadZone = -3.75f;
+    [SerializeField] private float rightDeadZone = 4.25f;
+
+    [Header("Progress")]
     [SerializeField] private float spawnPadding = 1.5f;
-    [SerializeField] private float despawnPadding = 2f;
     [SerializeField] private float levelLength = 95f;
 
     [Header("Sequence")]
     [SerializeField] private SpawnEntry[] spawnSequence;
 
-    private float distanceTravelled;
+    private float levelStartX;
+    private float initialCameraX;
+    private float furthestProgress;
     private int nextSpawnIndex;
-    private bool levelFinished;
+    private bool completionLogged;
 
-    public bool IsScrolling { get; private set; }
-    public float ScrollSpeed => scrollSpeed;
-
-    public float DespawnX
+    private void Awake()
     {
-        get
+        if (alice != null)
         {
-            float cameraDistance =
-                Mathf.Abs(mainCamera.transform.position.z);
+            levelStartX = alice.position.x;
+        }
 
-            float leftEdge =
-                mainCamera.ViewportToWorldPoint(
-                    new Vector3(
-                        0f,
-                        0.5f,
-                        cameraDistance
-                    )
-                ).x;
+        if (mainCamera != null)
+        {
+            initialCameraX = mainCamera.transform.position.x;
+        }
+    }
 
-            return leftEdge - despawnPadding;
+    private void Start()
+    {
+        if (alice == null)
+        {
+            Debug.LogError(
+                "Rabbit Hole Controller is missing Alice."
+            );
+        }
+
+        if (mainCamera == null)
+        {
+            Debug.LogError(
+                "Rabbit Hole Controller is missing the Main Camera."
+            );
+        }
+
+        if (floorCollider == null)
+        {
+            Debug.LogError(
+                "Rabbit Hole Controller is missing the Floor collider."
+            );
         }
     }
 
     private void Update()
     {
-        if (levelFinished)
-        {
-            IsScrolling = false;
-            return;
-        }
-
-        Keyboard keyboard = Keyboard.current;
-
-        if (keyboard == null)
-        {
-            IsScrolling = false;
-            return;
-        }
-
-        bool rightHeld =
-            keyboard.dKey.isPressed ||
-            keyboard.rightArrowKey.isPressed;
-
-        bool leftHeld =
-            keyboard.aKey.isPressed ||
-            keyboard.leftArrowKey.isPressed;
-
-        // Scroll while Alice pushes against the right boundary.
-        IsScrolling =
-            alice.position.x >= scrollStartX &&
-            rightHeld &&
-            !leftHeld;
-    }
-
-    private void FixedUpdate()
-    {
-        if (!IsScrolling)
+        if (alice == null)
         {
             return;
         }
 
-        // Advance through the Rabbit Hole.
-        distanceTravelled +=
-            scrollSpeed * Time.fixedDeltaTime;
+        // Track only the furthest point Alice has reached so backtracking
+        // never causes an already-used sequence entry to spawn again.
+        float currentProgress = Mathf.Clamp(
+            alice.position.x - levelStartX,
+            0f,
+            levelLength
+        );
 
-        // Spawn reached entries.
+        furthestProgress = Mathf.Max(
+            furthestProgress,
+            currentProgress
+        );
+
+        // Spawn each entry once when Alice first reaches its distance.
         while (nextSpawnIndex < spawnSequence.Length &&
-               distanceTravelled >=
+               furthestProgress >=
                spawnSequence[nextSpawnIndex].distance)
         {
             SpawnObject(
@@ -108,12 +102,10 @@ public class RabbitHoleController : MonoBehaviour
             nextSpawnIndex++;
         }
 
-        // End the placeholder sequence.
-        if (distanceTravelled >= levelLength)
+        if (!completionLogged &&
+            furthestProgress >= levelLength)
         {
-            distanceTravelled = levelLength;
-            levelFinished = true;
-            IsScrolling = false;
+            completionLogged = true;
 
             Debug.Log(
                 "Rabbit Hole placeholder complete."
@@ -121,9 +113,54 @@ public class RabbitHoleController : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (alice == null || mainCamera == null)
+        {
+            return;
+        }
+
+        Transform cameraTransform = mainCamera.transform;
+        float cameraX = cameraTransform.position.x;
+        float targetX = cameraX;
+
+        // Alice moves freely inside the horizontal dead zone. The camera
+        // follows only after she crosses one of its edges.
+        float leftEdge = cameraX + leftDeadZone;
+        float rightEdge = cameraX + rightDeadZone;
+
+        if (alice.position.x < leftEdge)
+        {
+            targetX = alice.position.x - leftDeadZone;
+        }
+        else if (alice.position.x > rightEdge)
+        {
+            targetX = alice.position.x - rightDeadZone;
+        }
+
+        // Do not scroll before the beginning of the Rabbit Hole or beyond
+        // the playable level length.
+        float maximumCameraX =
+            levelStartX + levelLength - rightDeadZone;
+
+        targetX = Mathf.Clamp(
+            targetX,
+            initialCameraX,
+            maximumCameraX
+        );
+
+        cameraTransform.position = new Vector3(
+            targetX,
+            cameraTransform.position.y,
+            cameraTransform.position.z
+        );
+    }
+
     private void SpawnObject(SpawnEntry entry)
     {
-        if (entry.prefab == null)
+        if (entry.prefab == null ||
+            mainCamera == null ||
+            floorCollider == null)
         {
             return;
         }
@@ -150,26 +187,11 @@ public class RabbitHoleController : MonoBehaviour
                 0f
             );
 
-        GameObject spawned = Instantiate(
+        Instantiate(
             entry.prefab,
             spawnPosition,
             Quaternion.identity,
             activeObjects
         );
-
-        RabbitHoleScrollObject scrollObject =
-            spawned.GetComponent<RabbitHoleScrollObject>();
-
-        if (scrollObject == null)
-        {
-            Debug.LogError(
-                spawned.name +
-                " is missing RabbitHoleScrollObject."
-            );
-
-            return;
-        }
-
-        scrollObject.Initialize(this);
     }
 }

@@ -44,6 +44,8 @@ public class AliceCombat : MonoBehaviour
     private float comboWindowEndTime;
 
     private bool isHeavyAttack;
+    private bool isAirAttack;
+    private bool hasUsedAirAttack;
 
     // Track objects already damaged by the current attack.
     private readonly HashSet<UnityEngine.Object> damagedThisAttack = new();
@@ -77,6 +79,12 @@ public class AliceCombat : MonoBehaviour
     private void Awake()
     {
         movement = GetComponent<AliceMovement>();
+
+        // Heavy attack uses Attack 3's hitbox by default.
+        if (heavyHitbox == null)
+        {
+            heavyHitbox = attack3Hitbox;
+        }
 
         // Find the Attack action.
         if (inputActions != null)
@@ -142,6 +150,12 @@ public class AliceCombat : MonoBehaviour
 
     private void Update()
     {
+        // Reset the air attack after Alice lands.
+        if (movement.IsGrounded)
+        {
+            hasUsedAirAttack = false;
+        }
+
         // End the combo window.
         if (waitingForComboInput &&
             Time.time >= comboWindowEndTime)
@@ -214,11 +228,15 @@ public class AliceCombat : MonoBehaviour
             {
                 StartLightAttack(1);
             }
+            else if (!hasUsedAirAttack)
+            {
+                StartAirAttack();
+            }
 
             return;
         }
 
-        if (isHeavyAttack)
+        if (isHeavyAttack || isAirAttack)
         {
             return;
         }
@@ -244,6 +262,7 @@ public class AliceCombat : MonoBehaviour
 
         IsAttacking = true;
         isHeavyAttack = false;
+        isAirAttack = false;
         currentAttack = attackNumber;
 
         waitingForComboInput = false;
@@ -265,6 +284,24 @@ public class AliceCombat : MonoBehaviour
         }
     }
 
+    private void StartAirAttack()
+    {
+        // Reset damaged objects for the air attack.
+        damagedThisAttack.Clear();
+
+        IsAttacking = true;
+        isHeavyAttack = false;
+        isAirAttack = true;
+        hasUsedAirAttack = true;
+        currentAttack = 1;
+        queuedAttacks = 0;
+
+        waitingForComboInput = false;
+
+        // Air attack uses Attack 1.
+        animator.Play(AliceAttack1State, 0, 0f);
+    }
+
     private void StartHeavyAttack()
     {
         // Reset damaged objects for the new attack.
@@ -274,6 +311,7 @@ public class AliceCombat : MonoBehaviour
         IsCharging = false;
 
         isHeavyAttack = true;
+        isAirAttack = false;
         currentAttack = 3;
         queuedAttacks = 0;
 
@@ -327,6 +365,14 @@ public class AliceCombat : MonoBehaviour
         int damage
     )
     {
+        if (hitbox == null)
+        {
+            Debug.LogError(
+                "Alice Combat is missing an attack hitbox."
+            );
+            return;
+        }
+
         Vector3 scale = hitbox.lossyScale;
 
         Vector2 size = new Vector2(
@@ -352,7 +398,10 @@ public class AliceCombat : MonoBehaviour
                 // Prevent duplicate damage during the same attack.
                 if (damagedThisAttack.Add(enemy))
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(
+                        damage,
+                        transform.position
+                    );
                 }
 
                 continue;
@@ -373,6 +422,13 @@ public class AliceCombat : MonoBehaviour
 
     public void AttackFinished()
     {
+        // Finish the air attack.
+        if (isAirAttack)
+        {
+            EndAttack();
+            return;
+        }
+
         // Finish the heavy attack.
         if (isHeavyAttack)
         {
@@ -410,6 +466,7 @@ public class AliceCombat : MonoBehaviour
 
         waitingForComboInput = false;
         isHeavyAttack = false;
+        isAirAttack = false;
 
         damagedThisAttack.Clear();
     }

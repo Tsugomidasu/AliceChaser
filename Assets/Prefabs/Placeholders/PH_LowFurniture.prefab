@@ -103,7 +103,6 @@ GameObject:
   - component: {fileID: 2789505962146642236}
   - component: {fileID: 2525015870356799367}
   - component: {fileID: 4679931095786420722}
-  - component: {fileID: 4548607656207179251}
   m_Layer: 7
   m_Name: PH_LowFurniture
   m_TagString: Untagged
@@ -200,15 +199,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.8, y: 0.5}
   m_EdgeRadius: 0
---- !u!114 &4548607656207179251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3185581769569378753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fac3dbed15f5c4623b08b0ab6dbe58c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RabbitHoleScrollObject
