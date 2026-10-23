@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(EnemyHealth))]
 public class CrabEnemy : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class CrabEnemy : MonoBehaviour
     {
         // Cache the Crab components.
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         health = GetComponent<EnemyHealth>();
     }
 

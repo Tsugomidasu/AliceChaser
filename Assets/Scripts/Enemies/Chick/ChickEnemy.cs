@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(EnemyHealth))]
 public class ChickEnemy : MonoBehaviour
 {
@@ -33,7 +32,7 @@ public class ChickEnemy : MonoBehaviour
     {
         // Cache the Chick components.
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         health = GetComponent<EnemyHealth>();
     }
 

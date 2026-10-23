@@ -50,6 +50,10 @@ public class AliceCombat : MonoBehaviour
     // Track objects already damaged by the current attack.
     private readonly HashSet<UnityEngine.Object> damagedThisAttack = new();
 
+    // Reuse attack query results.
+    private readonly List<Collider2D> hitResults = new();
+    private ContactFilter2D damageFilter;
+
     public bool IsAttacking { get; private set; }
     public bool IsCharging { get; private set; }
     public bool IsHeavyAttack => isHeavyAttack;
@@ -91,6 +95,11 @@ public class AliceCombat : MonoBehaviour
         {
             attackAction = inputActions.FindAction("Player/Attack");
         }
+
+        // Include trigger hurtboxes in attack checks.
+        damageFilter = new ContactFilter2D();
+        damageFilter.SetLayerMask(damageLayers);
+        damageFilter.useTriggers = true;
     }
 
     private void OnEnable()
@@ -380,14 +389,17 @@ public class AliceCombat : MonoBehaviour
             Mathf.Abs(scale.y)
         );
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(
+        hitResults.Clear();
+
+        Physics2D.OverlapBox(
             hitbox.position,
             size,
             hitbox.eulerAngles.z,
-            damageLayers
+            damageFilter,
+            hitResults
         );
 
-        foreach (Collider2D hit in hits)
+        foreach (Collider2D hit in hitResults)
         {
             // Check for enemies first.
             EnemyHealth enemy =
