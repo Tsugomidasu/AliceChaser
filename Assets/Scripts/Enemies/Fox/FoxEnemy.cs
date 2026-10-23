@@ -1,0 +1,66 @@
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(EnemyHealth))]
+public class FoxEnemy : MonoBehaviour
+{
+    [Header("Run")]
+    [SerializeField] private float runSpeed = 6f;
+    [SerializeField] private float despawnDistance = 24f;
+
+    [Header("Sprite")]
+    [SerializeField] private bool spriteFacesRight = true;
+
+    private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
+    private EnemyHealth health;
+
+    private float startX;
+
+    private void Awake()
+    {
+        // Cache the Fox components.
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
+        health = GetComponent<EnemyHealth>();
+    }
+
+    private void Start()
+    {
+        // Store where the Fox entered the encounter.
+        startX = rb.position.x;
+
+        // The source sprites face right, but the Fox always runs left.
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipX = spriteFacesRight;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // Leave defeat movement to the shared health reaction.
+        if (health.IsDead)
+        {
+            return;
+        }
+
+        // Keep the Fox committed to its run even after normal hits.
+        rb.linearVelocityX = -runSpeed;
+
+        // Remove the Fox after it has crossed the encounter and moved offscreen.
+        if (startX - rb.position.x >= despawnDistance)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Stop normal movement when the Fox is disabled.
+        if (rb != null && (health == null || !health.IsDead))
+        {
+            rb.linearVelocityX = 0f;
+        }
+    }
+}
