@@ -29,19 +29,19 @@ public class RoosterEnemy : MonoBehaviour
     private static readonly int WalkState = Animator.StringToHash("RoosterWalk");
 
     private Rigidbody2D rb;
+    private Collider2D bodyCollider;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private EnemyHealth health;
     private Transform player;
+    private Collider2D playerCollider;
 
     private Coroutine peckRoutine;
     private float startX;
     private float peckHitboxX;
     private int direction;
-    private int aggressionSide;
     private bool isAggressive;
     private bool isAttacking;
-    private bool reengageLocked;
     private bool wasHitStunned;
     private bool deathHandled;
 
@@ -49,11 +49,12 @@ public class RoosterEnemy : MonoBehaviour
     {
         // Cache the Rooster components.
         rb = GetComponent<Rigidbody2D>();
+        bodyCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         animator = GetComponentInChildren<Animator>(true);
         health = GetComponent<EnemyHealth>();
 
-        // Keep the peck hitbox inactive until the attack reaches its active frames.
+        // Keep the peck hitbox inactive until the attack.
         if (peckHitbox != null)
         {
             peckHitbox.enabled = false;
@@ -113,27 +114,17 @@ public class RoosterEnemy : MonoBehaviour
 
         float playerDistance = Vector2.Distance(rb.position, player.position);
 
-        // Unlock detection after Alice has moved clear of the Rooster.
-        if (reengageLocked && playerDistance >= disengageRange)
-        {
-            reengageLocked = false;
-        }
-
         if (isAggressive)
         {
-            // End the chase when Alice crosses behind the side where aggression started.
-            if (HasCrossedAggressionSide())
+            // Stop when Alice passes the Rooster or moves out of range.
+            if (!IsEnemyInFrontOfAlice() ||
+                playerDistance >= disengageRange ||
+                !HasLineOfSight())
             {
-                StopAggression(true);
-            }
-            else if (playerDistance >= disengageRange)
-            {
-                StopAggression(false);
+                StopAggression();
             }
         }
-        else if (!reengageLocked &&
-                 playerDistance <= aggressionRange &&
-                 IsPlayerInFront())
+        else if (CanDetectAlice(aggressionRange))
         {
             StartAggression();
         }
@@ -164,7 +155,7 @@ public class RoosterEnemy : MonoBehaviour
             return;
         }
 
-        // Keep chasing in the direction the Rooster was already facing.
+        // Keep chasing in the current direction.
         rb.linearVelocityX = direction * aggressiveMoveSpeed;
     }
 
@@ -187,28 +178,25 @@ public class RoosterEnemy : MonoBehaviour
         UpdateFacing();
     }
 
-    private void StartAggression()
+    private bool CanDetectAlice(float range)
     {
-        isAggressive = true;
+        if (player == null)
+        {
+            return false;
+        }
 
-        // Remember which side Alice was on when the chase began.
-        float horizontalOffset = player.position.x - rb.position.x;
-        aggressionSide = horizontalOffset >= 0f ? 1 : -1;
+        float playerDistance = Vector2.Distance(rb.position, player.position);
+
+        return IsEnemyInFrontOfAlice() &&
+               IsPlayerInFront() &&
+               playerDistance <= range &&
+               HasLineOfSight();
     }
 
-    private void StopAggression(bool lockReengage)
+    private bool IsEnemyInFrontOfAlice()
     {
-        isAggressive = false;
-
-        if (lockReengage)
-        {
-            reengageLocked = true;
-        }
-
-        if (isAttacking || peckRoutine != null)
-        {
-            CancelPeck(true);
-        }
+        // Alice always faces right in gameplay.
+        return player != null && rb.position.x > player.position.x;
     }
 
     private bool IsPlayerInFront()
@@ -218,20 +206,67 @@ public class RoosterEnemy : MonoBehaviour
             return false;
         }
 
-        // Compare Alice's horizontal position with the Rooster's current direction.
+        // Check whether Alice is in front of the Rooster.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
 
-    private bool HasCrossedAggressionSide()
+    private bool HasLineOfSight()
     {
-        if (player == null || aggressionSide == 0)
+        if (player == null)
         {
             return false;
         }
 
-        float horizontalOffset = player.position.x - rb.position.x;
-        return horizontalOffset * aggressionSide <= 0f;
+        Vector2 start = bodyCollider != null
+            ? bodyCollider.bounds.center
+            : rb.position;
+
+        Vector2 end = playerCollider != null
+            ? playerCollider.bounds.center
+            : (Vector2)player.position;
+
+        RaycastHit2D[] hits = Physics2D.LinecastAll(start, end);
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider == null || hit.collider.isTrigger)
+            {
+                continue;
+            }
+
+            // Ignore this enemy and other enemy bodies.
+            EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
+            if (hitEnemy != null)
+            {
+                continue;
+            }
+
+            if (hit.collider.transform == player ||
+                hit.collider.transform.IsChildOf(player))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void StartAggression()
+    {
+        isAggressive = true;
+    }
+
+    private void StopAggression()
+    {
+        isAggressive = false;
+
+        if (isAttacking || peckRoutine != null)
+        {
+            CancelPeck(true);
+        }
     }
 
     private void StartPeck()
@@ -250,7 +285,7 @@ public class RoosterEnemy : MonoBehaviour
         rb.linearVelocityX = 0f;
         animator.SetTrigger(PeckTrigger);
 
-        // Give the player a short warning before the damaging frames begin.
+        // Brief windup before the hitbox activates.
         if (peckWindup > 0f)
         {
             yield return new WaitForSeconds(peckWindup);
@@ -322,16 +357,17 @@ public class RoosterEnemy : MonoBehaviour
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         player = playerObject != null ? playerObject.transform : null;
+        playerCollider = playerObject != null ? playerObject.GetComponent<Collider2D>() : null;
     }
 
     private void UpdateFacing()
     {
-        // Face the current patrol or committed chase direction.
+        // Face the current direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;
 
-        // Keep the peck hitbox in front of the Rooster when it turns around.
+        // Keep the peck hitbox in front.
         if (peckHitbox != null)
         {
             Vector3 localPosition = peckHitbox.transform.localPosition;
@@ -342,7 +378,7 @@ public class RoosterEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop an active peck when the enemy is disabled.
+        // Stop the peck when disabled.
         if (peckRoutine != null)
         {
             StopCoroutine(peckRoutine);
@@ -362,7 +398,7 @@ public class RoosterEnemy : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Show the aggression, disengage, and peck ranges in the Scene view.
+        // Show the attack ranges.
         Gizmos.DrawWireSphere(transform.position, aggressionRange);
         Gizmos.DrawWireSphere(transform.position, disengageRange);
         Gizmos.DrawWireSphere(transform.position, peckRange);
