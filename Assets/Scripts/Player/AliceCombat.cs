@@ -401,6 +401,20 @@ public class AliceCombat : MonoBehaviour
 
         foreach (Collider2D hit in hitResults)
         {
+            // Check for deflectable rocks first.
+            RaccoonRock rock =
+                hit.GetComponentInParent<RaccoonRock>();
+
+            if (rock != null)
+            {
+                if (damagedThisAttack.Add(rock))
+                {
+                    rock.Deflect(transform);
+                }
+
+                continue;
+            }
+
             // Check for enemies first.
             EnemyHealth enemy =
                 hit.GetComponentInParent<EnemyHealth>();

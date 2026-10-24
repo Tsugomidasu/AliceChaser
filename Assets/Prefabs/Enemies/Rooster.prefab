@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 830000000000000011}
   - component: {fileID: 830000000000000012}
   m_Layer: 9
-  m_Name: Hurtbox
+  m_Name: HurtBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
