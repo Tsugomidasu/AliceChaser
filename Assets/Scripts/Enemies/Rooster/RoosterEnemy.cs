@@ -74,7 +74,7 @@ public class RoosterEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Leave defeat movement to the shared health reaction.
+        // Shared health handles defeat movement.
         if (health.IsDead)
         {
             if (!deathHandled)
@@ -86,7 +86,7 @@ public class RoosterEnemy : MonoBehaviour
             return;
         }
 
-        // Interrupt an attack while the Rooster is reacting to a hit.
+        // Hits interrupt an active peck.
         if (health.IsHitStunned)
         {
             if (!wasHitStunned)
@@ -112,13 +112,13 @@ public class RoosterEnemy : MonoBehaviour
             return;
         }
 
-        float playerDistance = Vector2.Distance(rb.position, player.position);
+        float distanceToAlice = Vector2.Distance(rb.position, player.position);
 
         if (isAggressive)
         {
-            // Stop when Alice passes the Rooster or moves out of range.
+            // Disengage when Alice passes, leaves range, or breaks sight.
             if (!IsEnemyInFrontOfAlice() ||
-                playerDistance >= disengageRange ||
+                distanceToAlice >= disengageRange ||
                 !HasLineOfSight())
             {
                 StopAggression();
@@ -137,7 +137,7 @@ public class RoosterEnemy : MonoBehaviour
 
         if (isAggressive)
         {
-            AggressiveBehavior(playerDistance);
+            AggressiveBehavior(distanceToAlice);
         }
         else
         {
@@ -145,10 +145,10 @@ public class RoosterEnemy : MonoBehaviour
         }
     }
 
-    private void AggressiveBehavior(float playerDistance)
+    private void AggressiveBehavior(float distanceToAlice)
     {
         // Stop and attack once Alice is close enough to the beak.
-        if (playerDistance <= peckRange)
+        if (distanceToAlice <= peckRange)
         {
             rb.linearVelocityX = 0f;
             StartPeck();
@@ -185,11 +185,11 @@ public class RoosterEnemy : MonoBehaviour
             return false;
         }
 
-        float playerDistance = Vector2.Distance(rb.position, player.position);
+        float distanceToAlice = Vector2.Distance(rb.position, player.position);
 
         return IsEnemyInFrontOfAlice() &&
-               IsPlayerInFront() &&
-               playerDistance <= range &&
+               IsAliceInFront() &&
+               distanceToAlice <= range &&
                HasLineOfSight();
     }
 
@@ -199,14 +199,14 @@ public class RoosterEnemy : MonoBehaviour
         return player != null && rb.position.x > player.position.x;
     }
 
-    private bool IsPlayerInFront()
+    private bool IsAliceInFront()
     {
         if (player == null)
         {
             return false;
         }
 
-        // Check whether Alice is in front of the Rooster.
+        // Check whether Alice is in front.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
@@ -235,7 +235,7 @@ public class RoosterEnemy : MonoBehaviour
                 continue;
             }
 
-            // Ignore this enemy and other enemy bodies.
+            // Enemy bodies do not block line of sight.
             EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (hitEnemy != null)
             {
@@ -285,7 +285,7 @@ public class RoosterEnemy : MonoBehaviour
         rb.linearVelocityX = 0f;
         animator.SetTrigger(PeckTrigger);
 
-        // Brief windup before the hitbox activates.
+        // Wind up before enabling the hitbox.
         if (peckWindup > 0f)
         {
             yield return new WaitForSeconds(peckWindup);

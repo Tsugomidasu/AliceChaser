@@ -64,7 +64,7 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Leave defeat movement to the shared health reaction.
+        // Shared health handles defeat movement.
         if (health.IsDead)
         {
             if (!deathHandled)
@@ -76,12 +76,12 @@ public class RaccoonEnemy : MonoBehaviour
             return;
         }
 
-        // Stop a throw while the Raccoon is hit-stunned.
+        // Hit stun cancels an unreleased throw.
         if (health.IsHitStunned)
         {
             if (state == RaccoonState.Windup)
             {
-                CancelThrow(CanSeeAlice());
+                CancelThrow(CanDetectAlice());
             }
 
             rb.linearVelocityX = 0f;
@@ -117,7 +117,7 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void Idle()
     {
-        if (!CanSeeAlice())
+        if (!CanDetectAlice())
         {
             return;
         }
@@ -132,7 +132,7 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void Aggro()
     {
-        if (!CanSeeAlice())
+        if (!CanDetectAlice())
         {
             ReturnToIdle();
             return;
@@ -164,14 +164,14 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void Windup()
     {
-        // Cancel if Alice is no longer a valid target.
-        if (!CanSeeAlice())
+        // Recheck detection during the windup.
+        if (!CanDetectAlice())
         {
             CancelThrow(false);
             return;
         }
 
-        // Stay alert if Alice moves too close to throw.
+        // Stay aggroed inside the minimum throw range.
         if (!IsOutsideMinimumThrowRange())
         {
             CancelThrow(true);
@@ -212,7 +212,7 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void Recover()
     {
-        if (!CanSeeAlice())
+        if (!CanDetectAlice())
         {
             ReturnToIdle();
             return;
@@ -233,24 +233,24 @@ public class RaccoonEnemy : MonoBehaviour
         }
     }
 
-    private bool CanSeeAlice()
+    private bool CanDetectAlice()
     {
         if (player == null)
         {
             return false;
         }
 
-        float playerDistance = Vector2.Distance(rb.position, player.position);
+        float distanceToAlice = Vector2.Distance(rb.position, player.position);
 
         return IsEnemyInFrontOfAlice() &&
-               IsPlayerInFront() &&
-               playerDistance <= detectionRange &&
+               IsAliceInFront() &&
+               distanceToAlice <= detectionRange &&
                HasLineOfSight();
     }
 
     private bool CanThrowAtAlice()
     {
-        return CanSeeAlice() && IsOutsideMinimumThrowRange();
+        return CanDetectAlice() && IsOutsideMinimumThrowRange();
     }
 
     private bool IsOutsideMinimumThrowRange()
@@ -269,14 +269,14 @@ public class RaccoonEnemy : MonoBehaviour
         return player != null && rb.position.x > player.position.x;
     }
 
-    private bool IsPlayerInFront()
+    private bool IsAliceInFront()
     {
         if (player == null)
         {
             return false;
         }
 
-        // Check whether Alice is in front of the Raccoon.
+        // Check whether Alice is in front.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
@@ -305,7 +305,7 @@ public class RaccoonEnemy : MonoBehaviour
                 continue;
             }
 
-            // Ignore enemy bodies.
+            // Enemy bodies do not block line of sight.
             EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (hitEnemy != null)
             {
@@ -397,7 +397,7 @@ public class RaccoonEnemy : MonoBehaviour
             return;
         }
 
-        // Face the set attack direction.
+        // Keep the Raccoon facing its set attack direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;

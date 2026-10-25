@@ -415,7 +415,7 @@ public class AliceCombat : MonoBehaviour
                 continue;
             }
 
-            // Check for enemies first.
+            // Check for enemies.
             EnemyHealth enemy =
                 hit.GetComponentInParent<EnemyHealth>();
 

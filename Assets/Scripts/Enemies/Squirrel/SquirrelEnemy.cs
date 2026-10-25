@@ -60,7 +60,7 @@ public class SquirrelEnemy : MonoBehaviour
         animator = GetComponentInChildren<Animator>(true);
         health = GetComponent<EnemyHealth>();
 
-        // Only use the Jumping parameter when the controller contains it.
+        // Use Jumping only if the controller defines it.
         if (animator != null)
         {
             foreach (AnimatorControllerParameter parameter in animator.parameters)
@@ -89,7 +89,7 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Leave defeat movement to the shared health reaction.
+        // Shared health handles defeat movement.
         if (health.IsDead)
         {
             return;
@@ -97,7 +97,7 @@ public class SquirrelEnemy : MonoBehaviour
 
         bool isGrounded = IsGrounded();
 
-        // Grounded hits interrupt the windup.
+        // Grounded hits cancel the windup.
         if (health.IsHitStunned && state != SquirrelState.Airborne)
         {
             rb.linearVelocityX = 0f;
@@ -137,7 +137,7 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void Patrol(bool isGrounded)
     {
-        // Pounce only when Alice is a valid target.
+        // Detection gates the pounce.
         if (isGrounded && CanDetectAlice(pounceRange))
         {
             StartWindup();
@@ -168,11 +168,11 @@ public class SquirrelEnemy : MonoBehaviour
             return false;
         }
 
-        float playerDistance = Vector2.Distance(rb.position, player.position);
+        float distanceToAlice = Vector2.Distance(rb.position, player.position);
 
         return IsEnemyInFrontOfAlice() &&
-               IsPlayerInFront() &&
-               playerDistance <= range &&
+               IsAliceInFront() &&
+               distanceToAlice <= range &&
                HasLineOfSight();
     }
 
@@ -182,14 +182,14 @@ public class SquirrelEnemy : MonoBehaviour
         return player != null && rb.position.x > player.position.x;
     }
 
-    private bool IsPlayerInFront()
+    private bool IsAliceInFront()
     {
         if (player == null)
         {
             return false;
         }
 
-        // Check whether Alice is in front of the Squirrel.
+        // Check whether Alice is in front.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
@@ -218,7 +218,7 @@ public class SquirrelEnemy : MonoBehaviour
                 continue;
             }
 
-            // Ignore this enemy and other enemy bodies.
+            // Enemy bodies do not block line of sight.
             EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (hitEnemy != null)
             {
@@ -264,7 +264,7 @@ public class SquirrelEnemy : MonoBehaviour
         hasLeftGround = false;
         SetJumping(true);
 
-        // Commit to the pounce direction at takeoff.
+        // The pounce does not home after takeoff.
         rb.linearVelocity = new Vector2(
             pounceDirection * pounceHorizontalSpeed,
             pounceVerticalSpeed

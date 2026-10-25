@@ -36,7 +36,7 @@ public class RaccoonRock : MonoBehaviour
         launched = true;
         ownerColliders = raccoonColliders;
 
-        // Ignore the Raccoon's own colliders while the rock is hostile to Alice.
+        // Ignore the owner while the rock is hostile to Alice.
         SetOwnerCollisionIgnored(true);
 
         Vector2 start = rb.position;
@@ -74,7 +74,7 @@ public class RaccoonRock : MonoBehaviour
 
         deflected = true;
 
-        // Let the reflected rock hit the Raccoon or another enemy.
+        // Reflected rocks can hit the owner or another enemy.
         SetOwnerCollisionIgnored(false);
 
         if (deflector != null && rockCollider != null)

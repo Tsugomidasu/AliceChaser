@@ -45,7 +45,7 @@ public class FoxEnemy : MonoBehaviour
             return;
         }
 
-        // Keep the Fox committed to its run even after normal hits.
+        // Normal hits do not interrupt the Fox's run.
         rb.linearVelocityX = -runSpeed;
 
         // Remove the Fox after it has crossed the encounter and moved offscreen.
