@@ -16,10 +16,6 @@ public class RabbitHoleController : MonoBehaviour
     [SerializeField] private Collider2D floorCollider;
     [SerializeField] private Transform activeObjects;
 
-    [Header("Camera")]
-    [SerializeField] private float leftDeadZone = -3.75f;
-    [SerializeField] private float rightDeadZone = 4.25f;
-
     [Header("Progress")]
     [SerializeField] private float spawnPadding = 1.5f;
     [SerializeField] private float levelLength = 95f;
@@ -28,7 +24,6 @@ public class RabbitHoleController : MonoBehaviour
     [SerializeField] private SpawnEntry[] spawnSequence;
 
     private float levelStartX;
-    private float initialCameraX;
     private float furthestProgress;
     private int nextSpawnIndex;
     private bool completionLogged;
@@ -39,15 +34,11 @@ public class RabbitHoleController : MonoBehaviour
         {
             levelStartX = alice.position.x;
         }
-
-        if (mainCamera != null)
-        {
-            initialCameraX = mainCamera.transform.position.x;
-        }
     }
 
     private void Start()
     {
+        // Check the scene references.
         if (alice == null)
         {
             Debug.LogError(
@@ -77,8 +68,7 @@ public class RabbitHoleController : MonoBehaviour
             return;
         }
 
-        // Track only the furthest point Alice has reached so backtracking
-        // never causes an already-used sequence entry to spawn again.
+        // Track Alice's furthest progress so used entries do not respawn.
         float currentProgress = Mathf.Clamp(
             alice.position.x - levelStartX,
             0f,
@@ -90,10 +80,14 @@ public class RabbitHoleController : MonoBehaviour
             currentProgress
         );
 
-        // Spawn each entry once when Alice first reaches its distance.
+        if (spawnSequence == null)
+        {
+            return;
+        }
+
+        // Spawn each entry once at its progress distance.
         while (nextSpawnIndex < spawnSequence.Length &&
-               furthestProgress >=
-               spawnSequence[nextSpawnIndex].distance)
+               furthestProgress >= spawnSequence[nextSpawnIndex].distance)
         {
             SpawnObject(
                 spawnSequence[nextSpawnIndex]
@@ -111,49 +105,6 @@ public class RabbitHoleController : MonoBehaviour
                 "Rabbit Hole placeholder complete."
             );
         }
-    }
-
-    private void LateUpdate()
-    {
-        if (alice == null || mainCamera == null)
-        {
-            return;
-        }
-
-        Transform cameraTransform = mainCamera.transform;
-        float cameraX = cameraTransform.position.x;
-        float targetX = cameraX;
-
-        // Alice moves freely inside the horizontal dead zone. The camera
-        // follows only after she crosses one of its edges.
-        float leftEdge = cameraX + leftDeadZone;
-        float rightEdge = cameraX + rightDeadZone;
-
-        if (alice.position.x < leftEdge)
-        {
-            targetX = alice.position.x - leftDeadZone;
-        }
-        else if (alice.position.x > rightEdge)
-        {
-            targetX = alice.position.x - rightDeadZone;
-        }
-
-        // Do not scroll before the beginning of the Rabbit Hole or beyond
-        // the playable level length.
-        float maximumCameraX =
-            levelStartX + levelLength - rightDeadZone;
-
-        targetX = Mathf.Clamp(
-            targetX,
-            initialCameraX,
-            maximumCameraX
-        );
-
-        cameraTransform.position = new Vector3(
-            targetX,
-            cameraTransform.position.y,
-            cameraTransform.position.z
-        );
     }
 
     private void SpawnObject(SpawnEntry entry)

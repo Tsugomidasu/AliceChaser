@@ -225,8 +225,6 @@ MonoBehaviour:
   mainCamera: {fileID: 1820637012}
   floorCollider: {fileID: 2034423174}
   activeObjects: {fileID: 1651774950}
-  leftDeadZone: -3.75
-  rightDeadZone: 4.25
   spawnPadding: 1.5
   levelLength: 95
   spawnSequence:
@@ -375,6 +373,7 @@ GameObject:
   - component: {fileID: 1820637012}
   - component: {fileID: 1820637011}
   - component: {fileID: 1820637014}
+  - component: {fileID: 1820637015}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -500,6 +499,28 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1820637015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820637010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788e8d7cabe57495c86ce6e008ae5e7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
+  target: {fileID: 15840806}
+  preferredScreenX: 0.4
+  deadZoneWidth: 0.1
+  softZoneWidth: 0.5
+  horizontalDamping: 0.2
+  lookAheadTime: 0.25
+  maxLookAhead: 1.5
+  lookAheadSmoothing: 0.15
+  minimumCameraX: 0
+  levelEndX: 95
 --- !u!1 &1986867157
 GameObject:
   m_ObjectHideFlags: 0

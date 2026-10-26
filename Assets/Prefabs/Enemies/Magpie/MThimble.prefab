@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7918534234005449675}
   - component: {fileID: 4417624132101633662}
   - component: {fileID: 6228740569593181181}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: MThimble
   m_TagString: Untagged
   m_Icon: {fileID: 0}

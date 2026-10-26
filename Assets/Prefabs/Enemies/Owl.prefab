@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3544564625968369472}
   - component: {fileID: 8777367720201054821}
   - component: {fileID: 6233819446204974301}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3842251581875167151}
   - component: {fileID: 529674108259729044}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: HurtBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 5845412230484142493}
   - component: {fileID: 716244472816940509}
   - component: {fileID: 6496124473600000001}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: ContactDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,8 @@ GameObject:
   - component: {fileID: 7804150301923329231}
   - component: {fileID: 1499118246287097836}
   - component: {fileID: 3583633658845722263}
-  m_Layer: 8
+  - component: {fileID: 6365010014807586615}
+  m_Layer: 9
   m_Name: Owl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -440,3 +441,16 @@ MonoBehaviour:
   swoopDip: 0.45
   swoopHitbox: {fileID: 716244472816940509}
   spriteFacesRight: 1
+--- !u!114 &6365010014807586615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3852814551038770840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9525dc3f40449cc98ecb171e6d22e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCleanup
+  despawnPadding: 3

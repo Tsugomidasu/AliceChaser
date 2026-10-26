@@ -569,7 +569,7 @@ MonoBehaviour:
   heavyDamage: 4
   damageLayers:
     serializedVersion: 2
-    m_Bits: 640
+    m_Bits: 1152
 --- !u!114 &4512389076123456789
 MonoBehaviour:
   m_ObjectHideFlags: 0

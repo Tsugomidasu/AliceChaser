@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 700000000000000002}
   - component: {fileID: 700000000000000003}
   - component: {fileID: 700000000000000004}
-  m_Layer: 8
+  - component: {fileID: 8524151118204901280}
+  m_Layer: 9
   m_Name: Squirrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,6 +158,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   spriteFacesRight: 1
+--- !u!114 &8524151118204901280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803552739363175676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9525dc3f40449cc98ecb171e6d22e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCleanup
+  despawnPadding: 3
 --- !u!1 &6825877681659497441
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +182,7 @@ GameObject:
   - component: {fileID: 5190515683981357673}
   - component: {fileID: 1541942141026307771}
   - component: {fileID: 2865175330277971299}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +297,7 @@ GameObject:
   - component: {fileID: 8625557088697745797}
   - component: {fileID: 1034784650855927780}
   - component: {fileID: 700000000000000005}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: ContactDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4877972594467379810}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -405,7 +419,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6316262821613854094}
   - component: {fileID: 4471991801344226702}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: HurtBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

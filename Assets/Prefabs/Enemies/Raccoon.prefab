@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8565684041869186441}
   - component: {fileID: 3409938989234289404}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: HurtBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 210044609993148321}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 3046616294283054375}
   - component: {fileID: 4525829035539623242}
   - component: {fileID: 800000000000000001}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: ContactDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 7684984785566444755}
   - component: {fileID: 3023854642534756866}
   - component: {fileID: 4915907880634799266}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,8 @@ GameObject:
   - component: {fileID: 2160611091985201540}
   - component: {fileID: 4891628758295755904}
   - component: {fileID: 3643055368603247490}
-  m_Layer: 8
+  - component: {fileID: -3109897157984632091}
+  m_Layer: 9
   m_Name: Raccoon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,3 +468,16 @@ MonoBehaviour:
   throwOffset: {x: 0.3, y: 1}
   startingDirection: -1
   spriteFacesRight: 1
+--- !u!114 &-3109897157984632091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219491942857917369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9525dc3f40449cc98ecb171e6d22e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCleanup
+  despawnPadding: 3
