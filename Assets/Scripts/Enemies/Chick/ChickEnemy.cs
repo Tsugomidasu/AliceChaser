@@ -48,13 +48,13 @@ public class ChickEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Leave defeat movement to the shared health reaction.
+        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
         }
 
-        // Stop movement while the Chick is reacting to a hit.
+        // Stop during hit stun.
         if (health.IsHitStunned)
         {
             rb.linearVelocityX = 0f;
@@ -68,7 +68,7 @@ public class ChickEnemy : MonoBehaviour
                 groundLayer
             ) != null;
 
-        // Start the landing pause only when the Chick touches down.
+        // Start the landing pause.
         if (isGrounded && !wasGrounded)
         {
             nextHopTime = Time.time + landingPause;
@@ -103,7 +103,7 @@ public class ChickEnemy : MonoBehaviour
 
     private void UpdateDirection()
     {
-        // Turn around at either patrol limit before the next hop.
+        // Turn at the patrol limits.
         float leftEdge = startX - patrolDistance;
         float rightEdge = startX + patrolDistance;
 

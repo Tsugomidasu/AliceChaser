@@ -8,13 +8,13 @@ public class ContactDamage : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the health component when this belongs to an enemy.
+        // Cache EnemyHealth.
         enemyHealth = GetComponentInParent<EnemyHealth>();
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        // Do not deal contact damage while the enemy is interrupted or defeated.
+        // Disable damage during reactions.
         if (enemyHealth != null && (enemyHealth.IsHitStunned || enemyHealth.IsDead))
         {
             return;

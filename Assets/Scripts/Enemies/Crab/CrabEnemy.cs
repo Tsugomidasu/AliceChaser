@@ -37,7 +37,7 @@ public class CrabEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Stop movement while the Crab is reacting to a hit.
+        // Stop during hit stun.
         if (health.IsHitStunned || health.IsDead)
         {
             rb.linearVelocityX = 0f;

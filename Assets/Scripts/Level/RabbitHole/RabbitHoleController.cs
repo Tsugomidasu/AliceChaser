@@ -68,7 +68,7 @@ public class RabbitHoleController : MonoBehaviour
             return;
         }
 
-        // Track Alice's furthest progress so used entries do not respawn.
+        // Track Alice's furthest progress.
         float currentProgress = Mathf.Clamp(
             alice.position.x - levelStartX,
             0f,

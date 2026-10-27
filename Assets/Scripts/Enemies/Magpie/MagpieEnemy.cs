@@ -37,7 +37,7 @@ public class MagpieEnemy : MonoBehaviour
         startX = rb.position.x;
         nextDropTime = Time.time + dropCooldown;
 
-        // The source sprites face right, but the Magpie always flies left.
+        // Face left while flying.
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = spriteFacesRight;
@@ -46,18 +46,18 @@ public class MagpieEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Leave defeat movement to the shared health reaction.
+        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
         }
 
-        // Normal hits do not interrupt the Magpie's flight.
+        // Keep flying through normal hits.
         rb.linearVelocity = new Vector2(-flightSpeed, 0f);
 
         TryDropThimble();
 
-        // Remove the Magpie after it has crossed the encounter and moved offscreen.
+        // Remove the Magpie offscreen.
         if (startX - rb.position.x >= despawnDistance)
         {
             Destroy(gameObject);
@@ -66,7 +66,7 @@ public class MagpieEnemy : MonoBehaviour
 
     private void TryDropThimble()
     {
-        // Drops are part of the flight pattern and do not target Alice.
+        // Drop without targeting Alice.
         if (thimblePrefab == null || Time.time < nextDropTime)
         {
             return;

@@ -116,7 +116,7 @@ public class RoosterEnemy : MonoBehaviour
 
         if (isAggressive)
         {
-            // Disengage when Alice passes, leaves range, or breaks sight.
+            // Disengage from Alice.
             if (!IsEnemyInFrontOfAlice() ||
                 distanceToAlice >= disengageRange ||
                 !HasLineOfSight())
@@ -147,7 +147,7 @@ public class RoosterEnemy : MonoBehaviour
 
     private void AggressiveBehavior(float distanceToAlice)
     {
-        // Stop and attack once Alice is close enough to the beak.
+        // Stop and peck.
         if (distanceToAlice <= peckRange)
         {
             rb.linearVelocityX = 0f;

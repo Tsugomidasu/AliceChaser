@@ -30,7 +30,7 @@ public class FoxEnemy : MonoBehaviour
         // Store where the Fox entered the encounter.
         startX = rb.position.x;
 
-        // The source sprites face right, but the Fox always runs left.
+        // Face left while running.
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = spriteFacesRight;
@@ -39,16 +39,16 @@ public class FoxEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Leave defeat movement to the shared health reaction.
+        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
         }
 
-        // Normal hits do not interrupt the Fox's run.
+        // Keep running through normal hits.
         rb.linearVelocityX = -runSpeed;
 
-        // Remove the Fox after it has crossed the encounter and moved offscreen.
+        // Remove the Fox offscreen.
         if (startX - rb.position.x >= despawnDistance)
         {
             Destroy(gameObject);

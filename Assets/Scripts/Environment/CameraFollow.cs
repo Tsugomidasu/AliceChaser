@@ -34,7 +34,7 @@ public class CameraFollow : MonoBehaviour
     {
         cameraComponent = GetComponent<Camera>();
 
-        // Find Alice when the scene reference is missing.
+        // Find Alice.
         if (target == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -45,10 +45,7 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        if (target != null)
-        {
-            previousTargetX = target.position.x;
-        }
+        ResetTracking();
     }
 
     private void Start()
@@ -59,6 +56,20 @@ public class CameraFollow : MonoBehaviour
                 "Camera Follow is missing a target."
             );
         }
+    }
+
+    public void ResetTracking()
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        // Reset follow velocity.
+        previousTargetX = target.position.x;
+        cameraVelocityX = 0f;
+        lookAheadX = 0f;
+        lookAheadVelocityX = 0f;
     }
 
     private void LateUpdate()

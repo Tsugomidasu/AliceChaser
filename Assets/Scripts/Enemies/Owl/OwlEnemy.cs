@@ -78,7 +78,7 @@ public class OwlEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Use the spawn position as one end of the upper flight path.
+        // Set the upper flight path.
         if (startingSide >= 0)
         {
             rightCorner = rb.position;
@@ -154,7 +154,7 @@ public class OwlEnemy : MonoBehaviour
             return;
         }
 
-        // The first valid approach activates the repeating attack cycle.
+        // Start the attack cycle.
         activated = true;
         StartTelegraph();
     }
@@ -175,7 +175,7 @@ public class OwlEnemy : MonoBehaviour
             return false;
         }
 
-        // Before activation, only engage while the encounter is ahead of Alice.
+        // Wait until Alice approaches.
         if (!activated && flightCenter.x <= player.position.x)
         {
             return false;
@@ -193,7 +193,7 @@ public class OwlEnemy : MonoBehaviour
 
     private void Telegraph()
     {
-        // Slow the horizontal flight briefly before committing to the swoop.
+        // Slow before the swoop.
         MoveHorizontally(flightSpeed * telegraphSpeedMultiplier);
 
         if (Time.time >= stateEndTime)
@@ -215,7 +215,7 @@ public class OwlEnemy : MonoBehaviour
         travelDirection = direction;
         swoopStart = rb.position;
 
-        // Lock Alice's position when the Owl commits to the attack.
+        // Lock the swoop target.
         Vector2 targetPosition = playerCollider != null
             ? playerCollider.bounds.center
             : (Vector2)player.position;
@@ -303,7 +303,7 @@ public class OwlEnemy : MonoBehaviour
 
     private void MoveHorizontally(float speed)
     {
-        // Turn around at either end of the upper flight path.
+        // Turn at the flight limits.
         if (rb.position.x <= leftCorner.x)
         {
             direction = 1;

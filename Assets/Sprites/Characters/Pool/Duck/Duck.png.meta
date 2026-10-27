@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: b32e038c9d77c49a0a46506af8e1d80d
+guid: 7fe4c76762fd9419bac7ac09d9c172d3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6834372759277168452
-    second: DodoIdle_0
+      213: -6524517629087480824
+    second: DuckIdle
   - first:
-      213: -4713350631314617330
-    second: DodoIdle_1
+      213: 2786517738581093186
+    second: DuckThoughtful
   - first:
-      213: -1392377562932845677
-    second: DodoIdle_2
+      213: -8587692438311594130
+    second: DuckGesture
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,7 +40,7 @@ TextureImporter:
   cubemapConvolution: 0
   seamlessCubemap: 0
   textureFormat: 1
-  maxTextureSize: 4096
+  maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
     filterMode: 1
@@ -54,7 +54,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 400
@@ -80,7 +80,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -93,7 +93,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -106,7 +106,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: WebGL
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -121,67 +121,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DodoIdle_0
+      name: DuckIdle
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
-        width: 620
-        height: 724
+        x: 18
+        y: 9
+        width: 671
+        height: 673
       alignment: 9
-      pivot: {x: 0.5540, y: 0.0718}
+      pivot: {x: 0.5343, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 447625380d198de50800000000000000
-      internalID: 6834372759277168452
+      spriteID: 8048773e8c14475a0800000000000000
+      internalID: -6524517629087480824
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DodoIdle_1
+      name: DuckThoughtful
       rect:
         serializedVersion: 2
-        x: 744
-        y: 0
-        width: 756
-        height: 724
+        x: 707
+        y: 9
+        width: 546
+        height: 640
       alignment: 9
-      pivot: {x: 0.4566, y: 0.0718}
+      pivot: {x: 0.6163, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0c01aeb290d69eb0800000000000000
-      internalID: -4713350631314617330
+      spriteID: 24b6370ae13bba620800000000000000
+      internalID: 2786517738581093186
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DodoIdle_2
+      name: DuckGesture
       rect:
         serializedVersion: 2
-        x: 1528
-        y: 0
-        width: 644
-        height: 724
+        x: 1312
+        y: 5
+        width: 712
+        height: 677
       alignment: 9
-      pivot: {x: 0.5670, y: 0.0718}
+      pivot: {x: 0.5112, y: 0.02}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 393e920dbf74dace0800000000000000
-      internalID: -1392377562932845677
+      spriteID: e6711261a3362d880800000000000000
+      internalID: -8587692438311594130
       vertices: []
       indices: 
       edges: []
@@ -190,7 +190,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6c6168bf280c34527bfb4e7e3094c9c0
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -200,9 +200,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DodoIdle_0: 6834372759277168452
-      DodoIdle_1: -4713350631314617330
-      DodoIdle_2: -1392377562932845677
+      DuckIdle: -6524517629087480824
+      DuckThoughtful: 2786517738581093186
+      DuckGesture: -8587692438311594130
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
