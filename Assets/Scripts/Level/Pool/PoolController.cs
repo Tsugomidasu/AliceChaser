@@ -11,21 +11,38 @@ public class PoolController : MonoBehaviour
         public float yOffset;
     }
 
+    [System.Serializable]
+    private class Placement
+    {
+        public GameObject prefab;
+        public Sprite sprite;
+        public float x;
+        public float yOffset;
+        [Min(0.1f)] public float scale = 1f;
+        public bool flipX;
+    }
+
     [Header("Scene")]
     [SerializeField] private Transform alice;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Collider2D floorCollider;
     [SerializeField] private Transform activeEnemies;
+    [SerializeField] private Transform rocksParent;
+    [SerializeField] private Transform treesParent;
 
-    [Header("Progress")]
+    [Header("Spawning")]
     [SerializeField] private float spawnPadding = 1.5f;
-    [SerializeField] private float levelLength = 135f;
 
-    [Header("Sequence")]
+    [Header("Enemy Sequence")]
     [SerializeField] private SpawnEntry[] spawnSequence;
 
+    [Header("Gameplay Rocks")]
+    [SerializeField] private Placement[] rockPlacements;
+
+    [Header("Decorative Trees")]
+    [SerializeField] private Placement[] treePlacements;
+
     private float levelStartX;
-    private float furthestProgress;
     private int nextSpawnIndex;
 
     private void Awake()
@@ -34,6 +51,8 @@ public class PoolController : MonoBehaviour
         {
             levelStartX = alice.position.x;
         }
+
+        SortSpawnSequence();
     }
 
     private void Start()
@@ -58,48 +77,22 @@ public class PoolController : MonoBehaviour
             Debug.LogError(
                 "Pool Controller is missing the Floor collider."
             );
+            return;
         }
+
+        SpawnPlacements(rockPlacements, rocksParent);
+        SpawnPlacements(treePlacements, treesParent);
+        SpawnVisibleEnemies();
     }
 
     private void Update()
     {
-        if (alice == null)
-        {
-            return;
-        }
-
-        // Track Alice's furthest progress.
-        float currentProgress = Mathf.Clamp(
-            alice.position.x - levelStartX,
-            0f,
-            levelLength
-        );
-
-        furthestProgress = Mathf.Max(
-            furthestProgress,
-            currentProgress
-        );
-
-        if (spawnSequence == null)
-        {
-            return;
-        }
-
-        // Spawn each entry once at its progress distance.
-        while (nextSpawnIndex < spawnSequence.Length &&
-               furthestProgress >= spawnSequence[nextSpawnIndex].distance)
-        {
-            SpawnEnemy(
-                spawnSequence[nextSpawnIndex]
-            );
-
-            nextSpawnIndex++;
-        }
+        SpawnVisibleEnemies();
     }
 
-    private void SpawnEnemy(SpawnEntry entry)
+    private void SpawnVisibleEnemies()
     {
-        if (entry.prefab == null ||
+        if (spawnSequence == null ||
             mainCamera == null ||
             floorCollider == null)
         {
@@ -118,12 +111,35 @@ public class PoolController : MonoBehaviour
                 )
             ).x;
 
+        // Spawn enemies shortly before they enter the camera.
+        while (nextSpawnIndex < spawnSequence.Length)
+        {
+            SpawnEntry entry = spawnSequence[nextSpawnIndex];
+            float spawnX = GetSpawnX(entry);
+
+            if (spawnX > rightEdge + spawnPadding)
+            {
+                break;
+            }
+
+            SpawnEnemy(entry, spawnX);
+            nextSpawnIndex++;
+        }
+    }
+
+    private void SpawnEnemy(SpawnEntry entry, float spawnX)
+    {
+        if (entry.prefab == null || floorCollider == null)
+        {
+            return;
+        }
+
         float floorTop =
             floorCollider.bounds.max.y;
 
         Vector3 spawnPosition =
             new Vector3(
-                rightEdge + spawnPadding + entry.xOffset,
+                spawnX,
                 floorTop + entry.yOffset,
                 0f
             );
@@ -135,4 +151,77 @@ public class PoolController : MonoBehaviour
             activeEnemies
         );
     }
+
+    private void SpawnPlacements(Placement[] placements, Transform parent)
+    {
+        if (placements == null || floorCollider == null)
+        {
+            return;
+        }
+
+        float floorTop = floorCollider.bounds.max.y;
+
+        foreach (Placement entry in placements)
+        {
+            if (entry.prefab == null)
+            {
+                continue;
+            }
+
+            GameObject spawned = Instantiate(
+                entry.prefab,
+                new Vector3(
+                    entry.x,
+                    floorTop + entry.yOffset,
+                    0f
+                ),
+                Quaternion.identity,
+                parent
+            );
+
+            spawned.transform.localScale =
+                Vector3.one * entry.scale;
+
+            SpriteRenderer sprite =
+                spawned.GetComponentInChildren<SpriteRenderer>();
+
+            if (sprite != null)
+            {
+                if (entry.sprite != null)
+                {
+                    sprite.sprite = entry.sprite;
+                }
+
+                sprite.flipX = entry.flipX;
+            }
+        }
+    }
+    private float GetSpawnX(SpawnEntry entry)
+    {
+        return levelStartX +
+            entry.distance +
+            entry.xOffset;
+    }
+
+    private void SortSpawnSequence()
+    {
+        if (spawnSequence == null)
+        {
+            return;
+        }
+
+        System.Array.Sort(
+            spawnSequence,
+            (a, b) =>
+                (a.distance + a.xOffset).CompareTo(
+                    b.distance + b.xOffset
+                )
+        );
+    }
+
+    private void OnValidate()
+    {
+        SortSpawnSequence();
+    }
+
 }

@@ -603,9 +603,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AliceHealth
   maxHealth: 5
-  invulnerabilityTime: 1
+  invulnerabilityTime: 0.75
   controlLockTime: 0.2
   knockback: {x: 3.5, y: 4}
+  spriteRenderer: {fileID: 5396154060443932108}
+  flashInterval: 0.075
+  flashAlpha: 0.35
   animator: {fileID: 8325375331153171299}
 --- !u!1 &8510643672204160093
 GameObject:

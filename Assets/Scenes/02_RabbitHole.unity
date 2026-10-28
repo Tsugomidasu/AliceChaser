@@ -142,9 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AliceHealth
   maxHealth: 5
-  invulnerabilityTime: 1
+  invulnerabilityTime: 0.75
   controlLockTime: 0.2
   knockback: {x: 3.5, y: 4}
+  spriteRenderer: {fileID: 0}
+  flashInterval: 0.075
+  flashAlpha: 0.35
   animator: {fileID: 0}
 --- !u!1 &352767935
 GameObject:
@@ -443,18 +446,18 @@ MonoBehaviour:
     yOffset: 3.9
     rotation: -4
     size: 0
-  - prefab: {fileID: 4075668784645146082, guid: c8603acce47224af2a3f3f3906a11eb4, type: 3}
-    distance: 17.3
-    xOffset: 0
-    yOffset: 0
-    rotation: 0
-    size: 2
   - prefab: {fileID: 2251590602363749943, guid: 120834432e7ba4f4a945c89aa54332c1, type: 3}
     distance: 16.6
     xOffset: 0
     yOffset: 5.1
     rotation: 6
     size: 0
+  - prefab: {fileID: 4075668784645146082, guid: c8603acce47224af2a3f3f3906a11eb4, type: 3}
+    distance: 17.3
+    xOffset: 0
+    yOffset: 0
+    rotation: 0
+    size: 2
   - prefab: {fileID: 7890212621625793292, guid: 72bc5e2e96e8d429b86cb8c0450da263, type: 3}
     distance: 18.3
     xOffset: 0
@@ -473,18 +476,18 @@ MonoBehaviour:
     yOffset: 6.8
     rotation: -1
     size: 2
-  - prefab: {fileID: 2251590602363749943, guid: 58c475ce4a42b4b729af9544940292cf, type: 3}
-    distance: 21.5
-    xOffset: 0
-    yOffset: 7.65
-    rotation: 4
-    size: 0
   - prefab: {fileID: 1516715232991895303, guid: c30558e94c68d400c973f1bf76139fd2, type: 3}
     distance: 21.05
     xOffset: 0
     yOffset: 3.4
     rotation: 4
     size: 1
+  - prefab: {fileID: 2251590602363749943, guid: 58c475ce4a42b4b729af9544940292cf, type: 3}
+    distance: 21.5
+    xOffset: 0
+    yOffset: 7.65
+    rotation: 4
+    size: 0
   - prefab: {fileID: 2251590602363749943, guid: dad016a7c91f44c3c9ccc4ef94703db5, type: 3}
     distance: 22.45
     xOffset: 0
@@ -533,18 +536,18 @@ MonoBehaviour:
     yOffset: 5.9
     rotation: 1
     size: 2
-  - prefab: {fileID: 2251590602363749943, guid: 120834432e7ba4f4a945c89aa54332c1, type: 3}
-    distance: 29.85
-    xOffset: 0
-    yOffset: 4.95
-    rotation: -4
-    size: 0
   - prefab: {fileID: 7918996668676843890, guid: f8674f8e1b7024a3e88c93a9351178f4, type: 3}
     distance: 29.3
     xOffset: 0
     yOffset: 3.25
     rotation: -3
     size: 1
+  - prefab: {fileID: 2251590602363749943, guid: 120834432e7ba4f4a945c89aa54332c1, type: 3}
+    distance: 29.85
+    xOffset: 0
+    yOffset: 4.95
+    rotation: -4
+    size: 0
   - prefab: {fileID: 2251590602363749943, guid: cca3f9c532e0849139f30b38ec0eefae, type: 3}
     distance: 30.65
     xOffset: 0
@@ -1007,6 +1010,12 @@ MonoBehaviour:
     yOffset: 2.55
     rotation: 6
     size: 0
+  - prefab: {fileID: 2251590602363749943, guid: 120834432e7ba4f4a945c89aa54332c1, type: 3}
+    distance: 92.25
+    xOffset: 0
+    yOffset: 4.15
+    rotation: -5
+    size: 0
   - prefab: {fileID: 4159752685363169658, guid: 884f6f4737d4746eba0dd926b7dc761e, type: 3}
     distance: 92.55
     xOffset: 0
@@ -1018,12 +1027,6 @@ MonoBehaviour:
     xOffset: 0
     yOffset: 0
     rotation: 0
-    size: 0
-  - prefab: {fileID: 2251590602363749943, guid: 120834432e7ba4f4a945c89aa54332c1, type: 3}
-    distance: 92.25
-    xOffset: 0
-    yOffset: 4.15
-    rotation: -5
     size: 0
   - prefab: {fileID: 2251590602363749943, guid: 758609d95738c4ba587aa727981e04b2, type: 3}
     distance: 94
@@ -1990,11 +1993,68 @@ Transform:
   - {fileID: 1155570492}
   m_Father: {fileID: 2111405183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8000000000000010001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8000000000000010002}
+  - component: {fileID: 8000000000000010003}
+  m_Layer: 0
+  m_Name: GameUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8000000000000010002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8000000000000010001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8000000000000010003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8000000000000010001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 945f88cb46a6241e0bb78936798110c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameUIController
+  uiFont: {fileID: 12800000, guid: e54247a678dcc45f384cbd86a8008f00, type: 3}
+  heartFullSprite: {fileID: 4606908045521496030, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
+  heartHalfSprite: {fileID: -4031094179166907523, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
+  heartEmptySprite: {fileID: 1131954639711315709, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
+  chargeDuration: 0.25
+  chargeOffset: {x: 0, y: 85}
+  gameOverDelay: 0.8
+  gameOverFadeTime: 1.1
+  gameOverOptionsDelay: 0.45
+  gameOverOptionsFadeTime: 0.3
+  levelSelectScene: 01_Levels
+  titleScene: 00_Title
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1820637013}
+  - {fileID: 8000000000000010002}
   - {fileID: 2111405183}
   - {fileID: 3259742480545547132}
   - {fileID: 2034423176}

@@ -7,11 +7,17 @@ public class AliceHealth : MonoBehaviour
 {
     [Header("Health")]
     [SerializeField] private int maxHealth = 5;
-    [SerializeField] private float invulnerabilityTime = 1f;
+    [SerializeField] private float invulnerabilityTime = 0.75f;
 
     [Header("Hit Reaction")]
     [SerializeField] private float controlLockTime = 0.2f;
     [SerializeField] private Vector2 knockback = new Vector2(3.5f, 4f);
+
+    [Header("Damage Flash")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private float flashInterval = 0.075f;
+    [Range(0f, 1f)]
+    [SerializeField] private float flashAlpha = 0.35f;
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
@@ -20,10 +26,15 @@ public class AliceHealth : MonoBehaviour
     private AliceMovement movement;
     private AliceCombat combat;
     private float invulnerableUntil;
+    private Color normalSpriteColor = Color.white;
     private Coroutine recoveryRoutine;
+    private Coroutine flashRoutine;
 
+    public int MaxHealth => maxHealth;
     public int CurrentHealth { get; private set; }
     public bool IsDefeated { get; private set; }
+    public bool IsInvulnerable =>
+        !IsDefeated && Time.time < invulnerableUntil;
 
     private static readonly int AliceIdleState =
         Animator.StringToHash("Base Layer.AliceIdle");
@@ -47,7 +58,22 @@ public class AliceHealth : MonoBehaviour
         movement = GetComponent<AliceMovement>();
         combat = GetComponent<AliceCombat>();
 
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        if (spriteRenderer != null)
+        {
+            normalSpriteColor = spriteRenderer.color;
+        }
+
         CurrentHealth = maxHealth;
+    }
+
+    private void OnDisable()
+    {
+        RestoreSpriteVisibility();
     }
 
     public void TakeDamage(int damage, Vector2 sourcePosition)
@@ -55,7 +81,7 @@ public class AliceHealth : MonoBehaviour
         // Ignore damage when unavailable.
         if (damage <= 0 ||
             IsDefeated ||
-            Time.time < invulnerableUntil)
+            IsInvulnerable)
         {
             return;
         }
@@ -79,6 +105,8 @@ public class AliceHealth : MonoBehaviour
         // Start invulnerability.
         invulnerableUntil =
             Time.time + invulnerabilityTime;
+
+        StartDamageFlash();
 
         // Lock controls during the hit reaction.
         movement.LockControls(controlLockTime);
@@ -113,6 +141,63 @@ public class AliceHealth : MonoBehaviour
 
         recoveryRoutine =
             StartCoroutine(RecoverFromHit());
+    }
+
+    private void StartDamageFlash()
+    {
+        if (spriteRenderer == null ||
+            invulnerabilityTime <= 0f)
+        {
+            return;
+        }
+
+        if (flashRoutine != null)
+        {
+            StopCoroutine(flashRoutine);
+        }
+
+        flashRoutine = StartCoroutine(FlashDuringInvulnerability());
+    }
+
+    private IEnumerator FlashDuringInvulnerability()
+    {
+        bool faded = false;
+        float interval = Mathf.Max(0.01f, flashInterval);
+
+        while (IsInvulnerable)
+        {
+            faded = !faded;
+            SetSpriteAlpha(
+                faded
+                ? normalSpriteColor.a * flashAlpha
+                : normalSpriteColor.a
+            );
+
+            yield return new WaitForSeconds(interval);
+        }
+
+        RestoreSpriteVisibility();
+        flashRoutine = null;
+    }
+
+    private void SetSpriteAlpha(float alpha)
+    {
+        if (spriteRenderer == null)
+        {
+            return;
+        }
+
+        Color color = normalSpriteColor;
+        color.a = Mathf.Clamp01(alpha);
+        spriteRenderer.color = color;
+    }
+
+    private void RestoreSpriteVisibility()
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = normalSpriteColor;
+        }
     }
 
     private IEnumerator RecoverFromHit()
@@ -161,6 +246,15 @@ public class AliceHealth : MonoBehaviour
     private void Defeat()
     {
         IsDefeated = true;
+        invulnerableUntil = 0f;
+
+        if (flashRoutine != null)
+        {
+            StopCoroutine(flashRoutine);
+            flashRoutine = null;
+        }
+
+        RestoreSpriteVisibility();
 
         // Stop movement and combat.
         movement.LockControls(
