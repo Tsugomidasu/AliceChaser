@@ -14,6 +14,9 @@ public class GameUIController : MonoBehaviour
         GameOver
     }
 
+    [Header("Input")]
+    [SerializeField] private InputActionAsset inputActions;
+
     [Header("Typography")]
     [SerializeField] private Font uiFont;
 
@@ -77,9 +80,18 @@ public class GameUIController : MonoBehaviour
     private bool movementWasEnabled;
     private bool combatWasEnabled;
 
+    private InputAction pauseAction;
+    private InputAction navigateAction;
+    private InputAction submitAction;
+    private InputAction cancelAction;
+
+    public Font UIFont => font;
+
     private void Awake()
     {
         Time.timeScale = 1f;
+
+        FindInputActions();
 
         font = uiFont != null
             ? uiFont
@@ -123,25 +135,50 @@ public class GameUIController : MonoBehaviour
             return;
         }
 
-        Keyboard keyboard = Keyboard.current;
-
-        if (keyboard != null &&
-            keyboard.escapeKey.wasPressedThisFrame)
+        if (menuMode == MenuMode.None &&
+            pauseAction != null &&
+            pauseAction.WasPressedThisFrame())
         {
-            if (menuMode == MenuMode.Pause)
-            {
-                ClosePause();
-            }
-            else
-            {
-                OpenPause();
-            }
+            OpenPause();
+            return;
         }
 
         if (menuMode == MenuMode.Pause)
         {
             ReadMenuInput();
         }
+    }
+
+    private void OnEnable()
+    {
+        pauseAction?.Enable();
+        navigateAction?.Enable();
+        submitAction?.Enable();
+        cancelAction?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        pauseAction?.Disable();
+        navigateAction?.Disable();
+        submitAction?.Disable();
+        cancelAction?.Disable();
+    }
+
+    private void FindInputActions()
+    {
+        if (inputActions == null)
+        {
+            Debug.LogError(
+                "Game UI is missing the Input Actions asset."
+            );
+            return;
+        }
+
+        pauseAction = inputActions.FindAction("Player/Pause");
+        navigateAction = inputActions.FindAction("UI/Navigate");
+        submitAction = inputActions.FindAction("UI/Submit");
+        cancelAction = inputActions.FindAction("UI/Cancel");
     }
 
     private void OnDestroy()
@@ -182,7 +219,7 @@ public class GameUIController : MonoBehaviour
 
     private void FindAlice()
     {
-        health = FindFirstObjectByType<AliceHealth>();
+        health = FindAnyObjectByType<AliceHealth>();
 
         if (health != null)
         {
@@ -295,12 +332,6 @@ public class GameUIController : MonoBehaviour
             new Vector2(720f, 90f)
         );
 
-        CreateDivider(
-            pauseRoot.transform,
-            new Vector2(0.5f, 0.575f),
-            240f
-        );
-
         pauseOptions.Add(CreateMenuText(
             pauseRoot.transform,
             "RESUME",
@@ -355,12 +386,6 @@ public class GameUIController : MonoBehaviour
             darkCrimson,
             new Vector2(0.5f, 0.62f),
             new Vector2(900f, 110f)
-        );
-
-        CreateDivider(
-            gameOverRoot.transform,
-            new Vector2(0.5f, 0.545f),
-            260f
         );
 
         RectTransform gameOverOptionsRect = CreateRect(
@@ -630,10 +655,11 @@ public class GameUIController : MonoBehaviour
 
     private void ReadMenuInput()
     {
-        Keyboard keyboard = Keyboard.current;
-
-        if (keyboard == null)
+        if (menuMode == MenuMode.Pause &&
+            cancelAction != null &&
+            cancelAction.WasPressedThisFrame())
         {
+            ClosePause();
             return;
         }
 
@@ -641,31 +667,33 @@ public class GameUIController : MonoBehaviour
             ? pauseOptions
             : gameOverOptions;
 
-        if (keyboard.upArrowKey.wasPressedThisFrame ||
-            keyboard.wKey.wasPressedThisFrame)
+        if (navigateAction != null &&
+            navigateAction.WasPerformedThisFrame())
         {
-            selectedIndex = WrapIndex(
-                selectedIndex - 1,
-                options.Count
-            );
+            float vertical = navigateAction.ReadValue<Vector2>().y;
 
-            RefreshMenuSelection();
+            if (vertical > 0.5f)
+            {
+                selectedIndex = WrapIndex(
+                    selectedIndex - 1,
+                    options.Count
+                );
+
+                RefreshMenuSelection();
+            }
+            else if (vertical < -0.5f)
+            {
+                selectedIndex = WrapIndex(
+                    selectedIndex + 1,
+                    options.Count
+                );
+
+                RefreshMenuSelection();
+            }
         }
-        else if (keyboard.downArrowKey.wasPressedThisFrame ||
-                 keyboard.sKey.wasPressedThisFrame)
-        {
-            selectedIndex = WrapIndex(
-                selectedIndex + 1,
-                options.Count
-            );
 
-            RefreshMenuSelection();
-        }
-
-        if (keyboard.enterKey.wasPressedThisFrame ||
-            keyboard.numpadEnterKey.wasPressedThisFrame ||
-            keyboard.spaceKey.wasPressedThisFrame ||
-            keyboard.xKey.wasPressedThisFrame)
+        if (submitAction != null &&
+            submitAction.WasPressedThisFrame())
         {
             ActivateSelection();
         }
@@ -865,24 +893,4 @@ public class GameUIController : MonoBehaviour
         );
     }
 
-    private void CreateDivider(
-        Transform parent,
-        Vector2 anchor,
-        float width)
-    {
-        RectTransform rect = CreateRect(
-            "Divider",
-            parent,
-            anchor,
-            anchor,
-            new Vector2(0.5f, 0.5f),
-            Vector2.zero,
-            new Vector2(width, 2f)
-        );
-
-        Image line = rect.gameObject.AddComponent<Image>();
-        line.sprite = whiteSprite;
-        line.color = new Color(1f, 1f, 1f, 0.42f);
-        line.raycastTarget = false;
-    }
 }

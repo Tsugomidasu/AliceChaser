@@ -33,6 +33,12 @@ public class PoolController : MonoBehaviour
     [Header("Spawning")]
     [SerializeField] private float spawnPadding = 1.5f;
 
+    [Header("Progression")]
+    [SerializeField] private float levelLength = 135f;
+    [SerializeField] private string nextScene = "00_Title";
+    [SerializeField] private string completionLabel = "CHAPTER II COMPLETE";
+    [SerializeField] private string completionSubtitle = "THE POOL OF TEARS";
+
     [Header("Enemy Sequence")]
     [SerializeField] private SpawnEntry[] spawnSequence;
 
@@ -43,7 +49,9 @@ public class PoolController : MonoBehaviour
     [SerializeField] private Placement[] treePlacements;
 
     private float levelStartX;
+    private float furthestProgress;
     private int nextSpawnIndex;
+    private bool completionStarted;
 
     private void Awake()
     {
@@ -88,6 +96,38 @@ public class PoolController : MonoBehaviour
     private void Update()
     {
         SpawnVisibleEnemies();
+
+        if (alice == null)
+        {
+            return;
+        }
+
+        float currentProgress = Mathf.Clamp(
+            alice.position.x - levelStartX,
+            0f,
+            levelLength
+        );
+
+        furthestProgress = Mathf.Max(
+            furthestProgress,
+            currentProgress
+        );
+
+        AliceHealth health = alice.GetComponent<AliceHealth>();
+
+        if (!completionStarted &&
+            furthestProgress >= levelLength &&
+            (health == null || !health.IsDefeated))
+        {
+            completionStarted = true;
+            ChapterProgress.UnlockChapter(3);
+
+            LevelTransition.Play(
+                completionLabel,
+                completionSubtitle,
+                nextScene
+            );
+        }
     }
 
     private void SpawnVisibleEnemies()

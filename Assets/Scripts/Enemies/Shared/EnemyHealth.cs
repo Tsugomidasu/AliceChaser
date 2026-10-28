@@ -8,6 +8,8 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("Hit Reaction")]
     [SerializeField] private float hitStunDuration = 0.18f;
+    [SerializeField] private bool receivesHitKnockback;
+    [SerializeField] private float hitKnockbackMultiplier = 1f;
 
     [Header("Defeat")]
     [SerializeField] private float defeatPauseDuration = 0.08f;
@@ -49,6 +51,15 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 damageSource)
     {
+        TakeDamage(damage, damageSource, 0f);
+    }
+
+    public void TakeDamage(
+        int damage,
+        Vector2 damageSource,
+        float knockbackSpeed
+    )
+    {
         // Ignore invalid damage.
         if (IsDead || damage <= 0)
         {
@@ -70,8 +81,22 @@ public class EnemyHealth : MonoBehaviour
             return;
         }
 
+        // Apply normal hit recoil before the stun.
+        ApplyHitKnockback(knockbackSpeed);
+
         // Start hit stun.
         StartHitStun();
+    }
+
+    private void ApplyHitKnockback(float knockbackSpeed)
+    {
+        if (!receivesHitKnockback || rb == null || knockbackSpeed <= 0f)
+        {
+            return;
+        }
+
+        rb.linearVelocityX =
+            defeatDirection * knockbackSpeed * hitKnockbackMultiplier;
     }
 
     private void StartHitStun()

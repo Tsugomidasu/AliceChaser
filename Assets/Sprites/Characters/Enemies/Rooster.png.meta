@@ -126,8 +126,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 704
-        height: 724
+        width: 880
+        height: 905
       alignment: 9
       pivot: {x: 0.610115, y: 0.112903}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,10 +146,10 @@ TextureImporter:
       name: Rooster_1
       rect:
         serializedVersion: 2
-        x: 704
+        x: 880
         y: 0
-        width: 646
-        height: 724
+        width: 808
+        height: 905
       alignment: 9
       pivot: {x: 0.650432, y: 0.112903}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,10 @@ TextureImporter:
       name: Rooster_2
       rect:
         serializedVersion: 2
-        x: 1350
+        x: 1688
         y: 0
-        width: 822
-        height: 724
+        width: 1028
+        height: 905
       alignment: 9
       pivot: {x: 0.563911, y: 0.112903}
       border: {x: 0, y: 0, z: 0, w: 0}

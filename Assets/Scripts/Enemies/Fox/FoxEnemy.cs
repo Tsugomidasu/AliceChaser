@@ -48,7 +48,7 @@ public class FoxEnemy : MonoBehaviour
         // Keep running through normal hits.
         rb.linearVelocityX = -runSpeed;
 
-        // Remove the Fox offscreen.
+        // Remove the Fox after it leaves the screen.
         if (startX - rb.position.x >= despawnDistance)
         {
             Destroy(gameObject);

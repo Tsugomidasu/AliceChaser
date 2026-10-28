@@ -100,8 +100,6 @@ public class SquirrelEnemy : MonoBehaviour
         // Grounded hits cancel the windup.
         if (health.IsHitStunned && state != SquirrelState.Airborne)
         {
-            rb.linearVelocityX = 0f;
-
             if (state == SquirrelState.Windup)
             {
                 state = SquirrelState.Patrol;

@@ -34,6 +34,10 @@ public class AliceCombat : MonoBehaviour
     [Header("Damage")]
     [SerializeField] private LayerMask damageLayers;
 
+    [Header("Enemy Knockback")]
+    [SerializeField] private float lightKnockbackSpeed = 2f;
+    [SerializeField] private float heavyKnockbackSpeed = 5f;
+
     private AliceMovement movement;
     private InputAction attackAction;
 
@@ -424,9 +428,14 @@ public class AliceCombat : MonoBehaviour
                 // Prevent duplicate damage during the same attack.
                 if (damagedThisAttack.Add(enemy))
                 {
+                    float knockbackSpeed = isHeavyAttack
+                        ? heavyKnockbackSpeed
+                        : lightKnockbackSpeed;
+
                     enemy.TakeDamage(
                         damage,
-                        transform.position
+                        transform.position,
+                        knockbackSpeed
                     );
                 }
 

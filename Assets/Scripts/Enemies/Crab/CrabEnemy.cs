@@ -40,7 +40,6 @@ public class CrabEnemy : MonoBehaviour
         // Stop during hit stun.
         if (health.IsHitStunned || health.IsDead)
         {
-            rb.linearVelocityX = 0f;
             return;
         }
 

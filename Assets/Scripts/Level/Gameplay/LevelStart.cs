@@ -57,7 +57,7 @@ public class LevelStart : MonoBehaviour
     {
         if (cameraFollow == null)
         {
-            cameraFollow = FindFirstObjectByType<CameraFollow>();
+            cameraFollow = FindAnyObjectByType<CameraFollow>();
         }
 
         cameraFollow?.ResetTracking();

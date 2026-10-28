@@ -121,10 +121,10 @@ TextureImporter:
       name: Fox_0
       rect:
         serializedVersion: 2
-        x: 7
+        x: 0
         y: 0
-        width: 865
-        height: 887
+        width: 1003
+        height: 1029
       alignment: 9
       pivot: {x: 0.581503, y: 0.430665}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,10 +143,10 @@ TextureImporter:
       name: Fox_1
       rect:
         serializedVersion: 2
-        x: 912
+        x: 1003
         y: 0
-        width: 847
-        height: 887
+        width: 983
+        height: 1029
       alignment: 9
       pivot: {x: 0.493506, y: 0.425028}
       border: {x: 0, y: 0, z: 0, w: 0}

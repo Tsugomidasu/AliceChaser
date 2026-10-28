@@ -57,7 +57,6 @@ public class ChickEnemy : MonoBehaviour
         // Stop during hit stun.
         if (health.IsHitStunned)
         {
-            rb.linearVelocityX = 0f;
             return;
         }
 

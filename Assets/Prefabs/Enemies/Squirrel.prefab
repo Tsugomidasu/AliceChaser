@@ -127,6 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 3
   hitStunDuration: 0.18
+  receivesHitKnockback: 1
+  hitKnockbackMultiplier: 0.7
   defeatPauseDuration: 0.08
   defeatKnockbackSpeed: 2
   defeatFadeDuration: 0.3

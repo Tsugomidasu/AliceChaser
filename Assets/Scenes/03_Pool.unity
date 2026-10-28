@@ -316,6 +316,10 @@ MonoBehaviour:
   rocksParent: {fileID: 8500000000000030012}
   treesParent: {fileID: 8500000000000030022}
   spawnPadding: 1.5
+  levelLength: 135
+  nextScene: 00_Title
+  completionLabel: CHAPTER II COMPLETE
+  completionSubtitle: THE POOL OF TEARS
   spawnSequence:
   - prefab: {fileID: 8100000000000000100, guid: d206ba0a9ebd14a8da461046f58020f8, type: 3}
     distance: 15
@@ -1292,7 +1296,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 4a73d94c0edb4fa1a2caf784f55e6891, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1523,6 +1527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945f88cb46a6241e0bb78936798110c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameUIController
+  inputActions: {fileID: -944628639613478452, guid: 37bf1a4ca8dcf44f7b69edd1c543137e, type: 3}
   uiFont: {fileID: 12800000, guid: e54247a678dcc45f384cbd86a8008f00, type: 3}
   heartFullSprite: {fileID: 4606908045521496030, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
   heartHalfSprite: {fileID: -4031094179166907523, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}

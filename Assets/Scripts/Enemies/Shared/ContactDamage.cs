@@ -8,7 +8,7 @@ public class ContactDamage : MonoBehaviour
 
     private void Awake()
     {
-        // Cache EnemyHealth.
+        // Cache the health component.
         enemyHealth = GetComponentInParent<EnemyHealth>();
     }
 
@@ -23,7 +23,7 @@ public class ContactDamage : MonoBehaviour
         // Find Alice on the collider hierarchy.
         AliceHealth alice = other.GetComponentInParent<AliceHealth>();
 
-        // Alice Health handles invulnerability between hits.
+        // Let AliceHealth handle invulnerability.
         if (alice != null)
         {
             alice.TakeDamage(damage, transform.position);

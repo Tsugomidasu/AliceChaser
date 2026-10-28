@@ -30,6 +30,11 @@ public class RabbitHoleController : MonoBehaviour
     [SerializeField] private float spawnPadding = 1.5f;
     [SerializeField] private float levelLength = 95f;
 
+    [Header("Progression")]
+    [SerializeField] private string nextScene = "03_Pool";
+    [SerializeField] private string completionLabel = "CHAPTER I COMPLETE";
+    [SerializeField] private string completionSubtitle = "DOWN THE RABBIT-HOLE";
+
     [Header("Furniture Size Tiers")]
     [SerializeField, Min(0.1f)] private float smallScale = 1f;
     [SerializeField, Min(0.1f)] private float mediumScale = 1.45f;
@@ -41,7 +46,7 @@ public class RabbitHoleController : MonoBehaviour
     private float levelStartX;
     private float furthestProgress;
     private int nextSpawnIndex;
-    private bool completionLogged;
+    private bool completionStarted;
 
     private void Awake()
     {
@@ -101,13 +106,19 @@ public class RabbitHoleController : MonoBehaviour
 
         SpawnVisibleEntries();
 
-        if (!completionLogged &&
-            furthestProgress >= levelLength)
-        {
-            completionLogged = true;
+        AliceHealth health = alice.GetComponent<AliceHealth>();
 
-            Debug.Log(
-                "Rabbit Hole complete."
+        if (!completionStarted &&
+            furthestProgress >= levelLength &&
+            (health == null || !health.IsDefeated))
+        {
+            completionStarted = true;
+            ChapterProgress.UnlockChapter(2);
+
+            LevelTransition.Play(
+                completionLabel,
+                completionSubtitle,
+                nextScene
             );
         }
     }

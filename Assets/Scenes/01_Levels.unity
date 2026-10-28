@@ -119,6 +119,73 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &500000101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 500000102}
+  - component: {fileID: 500000103}
+  m_Layer: 0
+  m_Name: ChapterSelect
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &500000102
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500000101}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &500000103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b2df9f9334c43ae8087e61b6cb4987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChapterSelect
+  inputActions: {fileID: -944628639613478452, guid: 37bf1a4ca8dcf44f7b69edd1c543137e, type: 3}
+  uiFont: {fileID: 12800000, guid: e54247a678dcc45f384cbd86a8008f00, type: 3}
+  chapterIcons:
+  - {fileID: 5459405093672771503, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 2689695969278396754, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 6245004414367642004, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 2319880497002076844, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 8512961539726528838, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 1751244649686329503, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 8126887632361560797, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  - {fileID: 6946487429736027938, guid: f3250531d52e97753a6b316367d939d1, type: 3}
+  lockedChapterIcons:
+  - {fileID: 6966672787330922967, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 8803257518747867008, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 5973402535218772534, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 819746713786283825, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 4795494836829134506, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 7832419043272667109, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 8927110508537819739, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  - {fileID: 3887267826237424416, guid: 877f8dafbb014128de7d9251ca6519d0, type: 3}
+  titleScene: 00_Title
+  chapterOneScene: 02_RabbitHole
+  chapterTwoScene: 03_Pool
 --- !u!1 &1862634714
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,8 +221,8 @@ Camera:
   m_GameObject: {fileID: 1862634714}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.02, g: 0.015, b: 0.025, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -215,4 +282,5 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 500000102}
   - {fileID: 1862634717}

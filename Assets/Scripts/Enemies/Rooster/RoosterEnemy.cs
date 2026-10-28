@@ -95,7 +95,6 @@ public class RoosterEnemy : MonoBehaviour
             }
 
             wasHitStunned = true;
-            rb.linearVelocityX = 0f;
             return;
         }
 
