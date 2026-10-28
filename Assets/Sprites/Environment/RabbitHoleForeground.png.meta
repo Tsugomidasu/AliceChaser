@@ -4,7 +4,10 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 4511763601420676275
-    second: RabbitHoleForeground
+    second: RabbitHoleForeground_Left
+  - first:
+      213: 4511763601420676276
+    second: RabbitHoleForeground_Right
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,12 +118,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RabbitHoleForeground
+      name: RabbitHoleForeground_Left
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1672
+        width: 930
         height: 941
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -136,11 +139,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: RabbitHoleForeground_Right
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 0
+        width: 742
+        height: 941
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bc673557110d9e30800000000000000
+      internalID: 4511763601420676276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f8b1e5ecdb17246e6af95c1457146627
     internalID: 0
     vertices: []
     indices: 
@@ -150,7 +175,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RabbitHoleForeground: 4511763601420676275
+      RabbitHoleForeground_Left: 4511763601420676275
+      RabbitHoleForeground_Right: 4511763601420676276
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

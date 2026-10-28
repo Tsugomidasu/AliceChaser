@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class RabbitHoleController : MonoBehaviour
 {
+    private enum FurnitureSize
+    {
+        Small,
+        Medium,
+        Large
+    }
+
     [System.Serializable]
     private class SpawnEntry
     {
@@ -10,6 +17,7 @@ public class RabbitHoleController : MonoBehaviour
         public float xOffset;
         public float yOffset;
         public float rotation;
+        public FurnitureSize size = FurnitureSize.Small;
     }
 
     [Header("Scene")]
@@ -21,6 +29,11 @@ public class RabbitHoleController : MonoBehaviour
     [Header("Progress")]
     [SerializeField] private float spawnPadding = 1.5f;
     [SerializeField] private float levelLength = 95f;
+
+    [Header("Furniture Size Tiers")]
+    [SerializeField, Min(0.1f)] private float smallScale = 1f;
+    [SerializeField, Min(0.1f)] private float mediumScale = 1.45f;
+    [SerializeField, Min(0.1f)] private float largeScale = 2f;
 
     [Header("Sequence")]
     [SerializeField] private SpawnEntry[] spawnSequence;
@@ -120,7 +133,7 @@ public class RabbitHoleController : MonoBehaviour
                 )
             ).x;
 
-        // Spawn everything just before it enters the camera.
+        // Spawn objects just before they enter the camera.
         while (nextSpawnIndex < spawnSequence.Length)
         {
             SpawnEntry entry = spawnSequence[nextSpawnIndex];
@@ -153,12 +166,30 @@ public class RabbitHoleController : MonoBehaviour
                 0f
             );
 
-        Instantiate(
+        GameObject spawnedObject = Instantiate(
             entry.prefab,
             spawnPosition,
             Quaternion.Euler(0f, 0f, entry.rotation),
             activeObjects
         );
+
+        // Apply the selected furniture size tier.
+        spawnedObject.transform.localScale *= GetFurnitureScale(entry.size);
+    }
+
+    private float GetFurnitureScale(FurnitureSize size)
+    {
+        switch (size)
+        {
+            case FurnitureSize.Medium:
+                return mediumScale;
+
+            case FurnitureSize.Large:
+                return largeScale;
+
+            default:
+                return smallScale;
+        }
     }
 
     private float GetSpawnX(SpawnEntry entry)

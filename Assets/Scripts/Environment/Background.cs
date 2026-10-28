@@ -11,14 +11,16 @@ public class Background : MonoBehaviour
 
     [Header("Parallax")]
     [SerializeField] private bool lockToCamera;
-    [SerializeField] private float horizontalStrength = 0.12f;
-    [SerializeField] private float verticalStrength = 0.1f;
-    [SerializeField] private Vector2 maxOffset = new Vector2(0.5f, 0.35f);
-    [SerializeField] private float smoothing = 8f;
+    [Range(0f, 0.15f)]
+    [SerializeField] private float horizontalStrength = 0.03f;
+
+    [SerializeField] private float verticalStrength = 0.14f;
+    [SerializeField] private Vector2 maxOffset = new Vector2(2.6f, 0.45f);
+    [SerializeField] private float smoothing = 7f;
 
     private Vector2 currentOffset;
     private float targetStartY;
-    private float previousCameraX;
+    private float cameraStartX;
     private float fixedZ;
 
     private void Start()
@@ -36,22 +38,28 @@ public class Background : MonoBehaviour
         }
 
         fixedZ = transform.position.z;
-        previousCameraX = targetCamera.transform.position.x;
+        cameraStartX = targetCamera.transform.position.x;
         targetStartY = target != null
             ? target.position.y
             : targetCamera.transform.position.y;
 
         FitToCamera();
-        FollowCamera(Vector2.zero);
+
+        currentOffset = Vector2.zero;
+        FollowCamera(currentOffset);
     }
 
     private void LateUpdate()
     {
+        if (targetCamera == null)
+        {
+            return;
+        }
+
         if (lockToCamera)
         {
             currentOffset = Vector2.zero;
-            FollowCamera(Vector2.zero);
-            previousCameraX = targetCamera.transform.position.x;
+            FollowCamera(currentOffset);
             return;
         }
 
@@ -62,23 +70,16 @@ public class Background : MonoBehaviour
             return;
         }
 
-        float cameraX = targetCamera.transform.position.x;
-        float cameraVelocityX =
-            (cameraX - previousCameraX) / deltaTime;
-
-        previousCameraX = cameraX;
-
-        float targetRelativeX = target != null
-            ? target.position.x - cameraX
-            : 0f;
+        float cameraTravelX =
+            targetCamera.transform.position.x - cameraStartX;
 
         float targetRelativeY = target != null
             ? target.position.y - targetStartY
             : 0f;
 
+        // Offset the background from the camera travel.
         Vector2 desiredOffset = new Vector2(
-            -cameraVelocityX * horizontalStrength +
-                targetRelativeX * horizontalStrength * 0.25f,
+            -cameraTravelX * horizontalStrength,
             targetRelativeY * verticalStrength
         );
 
@@ -149,6 +150,7 @@ public class Background : MonoBehaviour
         float viewHeight = targetCamera.orthographicSize * 2f;
         float viewWidth = viewHeight * targetCamera.aspect;
 
+        // Keep the sprite large enough to cover the parallax range.
         float requiredWidth = viewWidth + maxOffset.x * 2f;
         float requiredHeight = viewHeight + maxOffset.y * 2f;
 
