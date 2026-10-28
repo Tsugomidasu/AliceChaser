@@ -7,7 +7,9 @@ public class RabbitHoleController : MonoBehaviour
     {
         public GameObject prefab;
         public float distance;
+        public float xOffset;
         public float yOffset;
+        public float rotation;
     }
 
     [Header("Scene")]
@@ -34,6 +36,8 @@ public class RabbitHoleController : MonoBehaviour
         {
             levelStartX = alice.position.x;
         }
+
+        SortSpawnSequence();
     }
 
     private void Start()
@@ -59,6 +63,8 @@ public class RabbitHoleController : MonoBehaviour
                 "Rabbit Hole Controller is missing the Floor collider."
             );
         }
+
+        SpawnVisibleEntries();
     }
 
     private void Update()
@@ -80,21 +86,7 @@ public class RabbitHoleController : MonoBehaviour
             currentProgress
         );
 
-        if (spawnSequence == null)
-        {
-            return;
-        }
-
-        // Spawn each entry once at its progress distance.
-        while (nextSpawnIndex < spawnSequence.Length &&
-               furthestProgress >= spawnSequence[nextSpawnIndex].distance)
-        {
-            SpawnObject(
-                spawnSequence[nextSpawnIndex]
-            );
-
-            nextSpawnIndex++;
-        }
+        SpawnVisibleEntries();
 
         if (!completionLogged &&
             furthestProgress >= levelLength)
@@ -102,14 +94,14 @@ public class RabbitHoleController : MonoBehaviour
             completionLogged = true;
 
             Debug.Log(
-                "Rabbit Hole placeholder complete."
+                "Rabbit Hole complete."
             );
         }
     }
 
-    private void SpawnObject(SpawnEntry entry)
+    private void SpawnVisibleEntries()
     {
-        if (entry.prefab == null ||
+        if (spawnSequence == null ||
             mainCamera == null ||
             floorCollider == null)
         {
@@ -128,12 +120,35 @@ public class RabbitHoleController : MonoBehaviour
                 )
             ).x;
 
+        // Spawn everything just before it enters the camera.
+        while (nextSpawnIndex < spawnSequence.Length)
+        {
+            SpawnEntry entry = spawnSequence[nextSpawnIndex];
+            float spawnX = GetSpawnX(entry);
+
+            if (spawnX > rightEdge + spawnPadding)
+            {
+                break;
+            }
+
+            SpawnObject(entry, spawnX);
+            nextSpawnIndex++;
+        }
+    }
+
+    private void SpawnObject(SpawnEntry entry, float spawnX)
+    {
+        if (entry.prefab == null || floorCollider == null)
+        {
+            return;
+        }
+
         float floorTop =
             floorCollider.bounds.max.y;
 
         Vector3 spawnPosition =
             new Vector3(
-                rightEdge + spawnPadding,
+                spawnX,
                 floorTop + entry.yOffset,
                 0f
             );
@@ -141,8 +156,36 @@ public class RabbitHoleController : MonoBehaviour
         Instantiate(
             entry.prefab,
             spawnPosition,
-            Quaternion.identity,
+            Quaternion.Euler(0f, 0f, entry.rotation),
             activeObjects
         );
+    }
+
+    private float GetSpawnX(SpawnEntry entry)
+    {
+        return levelStartX +
+            entry.distance +
+            entry.xOffset;
+    }
+
+    private void SortSpawnSequence()
+    {
+        if (spawnSequence == null)
+        {
+            return;
+        }
+
+        System.Array.Sort(
+            spawnSequence,
+            (a, b) =>
+                (a.distance + a.xOffset).CompareTo(
+                    b.distance + b.xOffset
+                )
+        );
+    }
+
+    private void OnValidate()
+    {
+        SortSpawnSequence();
     }
 }

@@ -1,0 +1,808 @@
+fileFormatVersion: 2
+guid: a639cf57b77d24f7086f2b56e6b535cd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4640382804563459830
+    second: Door_Red
+  - first:
+      213: -2745909874535047468
+    second: Door_Brown
+  - first:
+      213: 348254762922520633
+    second: Door_Blue
+  - first:
+      213: -5141993441301833305
+    second: Door_Green
+  - first:
+      213: -4206070857997266668
+    second: Door_White
+  - first:
+      213: -6293851575495220975
+    second: Mirror
+  - first:
+      213: 11701954718376367
+    second: PictureFrame_01
+  - first:
+      213: 9164021607963849033
+    second: PictureFrame_02
+  - first:
+      213: -7696248741757200339
+    second: PictureFrame_03
+  - first:
+      213: 3435060877109256170
+    second: Portrait_Rabbit
+  - first:
+      213: 3406183473530967745
+    second: Portrait_PocketWatch
+  - first:
+      213: 6927371522886978227
+    second: Portrait_TopHat
+  - first:
+      213: -2668338115107258566
+    second: Portrait_Teapot
+  - first:
+      213: -3399048061702785211
+    second: Portrait_Mushroom
+  - first:
+      213: -6342452850114312852
+    second: Portrait_Rose
+  - first:
+      213: -8231852406859213276
+    second: HangingLamp_01
+  - first:
+      213: -7225395656874598870
+    second: HangingLamp_02
+  - first:
+      213: 6432602510194974207
+    second: HangingLamp_03
+  - first:
+      213: 6504509212220255695
+    second: HangingLamp_04
+  - first:
+      213: 4777501242720025807
+    second: TableLamp_White
+  - first:
+      213: -8558751246353792762
+    second: TableLamp_Red
+  - first:
+      213: 2407973618641737745
+    second: Teapot
+  - first:
+      213: 6273892019617944490
+    second: Teacup_01
+  - first:
+      213: 2411346644322098888
+    second: Teacup_02
+  - first:
+      213: -7395027856036707827
+    second: Teacup_03
+  - first:
+      213: -4859367614114084337
+    second: Teacup_04
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 400
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Door_Red
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 577
+        width: 205
+        height: 402
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fef5df2393f56040800000000000000
+      internalID: 4640382804563459830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_Brown
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 577
+        width: 212
+        height: 406
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ded91f748194e9d0800000000000000
+      internalID: -2745909874535047468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_Blue
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 579
+        width: 214
+        height: 403
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 930b55b9cdf35d400800000000000000
+      internalID: 348254762922520633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_Green
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 579
+        width: 210
+        height: 402
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a9d0d56538f3a8b0800000000000000
+      internalID: -5141993441301833305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Door_White
+      rect:
+        serializedVersion: 2
+        x: 1034
+        y: 577
+        width: 213
+        height: 410
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41153f0e6d801a5c0800000000000000
+      internalID: -4206070857997266668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mirror
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 560
+        width: 211
+        height: 408
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 111239d965fb7a8a0800000000000000
+      internalID: -6293851575495220975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PictureFrame_01
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 329
+        width: 181
+        height: 214
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa1aa26add2992000800000000000000
+      internalID: 11701954718376367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PictureFrame_02
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 325
+        width: 167
+        height: 218
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94170b079152d2f70800000000000000
+      internalID: 9164021607963849033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PictureFrame_03
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 328
+        width: 170
+        height: 215
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d28d38cbb8e613590800000000000000
+      internalID: -7696248741757200339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portrait_Rabbit
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 319
+        width: 133
+        height: 208
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef50f10ba9cbaf20800000000000000
+      internalID: 3435060877109256170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portrait_PocketWatch
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 319
+        width: 129
+        height: 205
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c69e9b82d1354f20800000000000000
+      internalID: 3406183473530967745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portrait_TopHat
+      rect:
+        serializedVersion: 2
+        x: 925
+        y: 318
+        width: 133
+        height: 208
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bac5d082b7f22060800000000000000
+      internalID: 6927371522886978227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portrait_Teapot
+      rect:
+        serializedVersion: 2
+        x: 1073
+        y: 318
+        width: 134
+        height: 208
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3f756c2f9828fad0800000000000000
+      internalID: -2668338115107258566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portrait_Mushroom
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 318
+        width: 134
+        height: 209
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 547b9bbfbc724d0d0800000000000000
+      internalID: -3399048061702785211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Portrait_Rose
+      rect:
+        serializedVersion: 2
+        x: 1365
+        y: 317
+        width: 139
+        height: 210
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c65c5409cb41bf7a0800000000000000
+      internalID: -6342452850114312852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HangingLamp_01
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 42
+        width: 114
+        height: 251
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42656b5a9d592cd80800000000000000
+      internalID: -8231852406859213276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HangingLamp_02
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 42
+        width: 115
+        height: 252
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2ed65e8eec3abb90800000000000000
+      internalID: -7225395656874598870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HangingLamp_03
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 42
+        width: 115
+        height: 252
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffd1571d6e1354950800000000000000
+      internalID: 6432602510194974207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HangingLamp_04
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 41
+        width: 115
+        height: 253
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcde4a88aa8a44a50800000000000000
+      internalID: 6504509212220255695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TableLamp_White
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 31
+        width: 126
+        height: 247
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcc705661181d4240800000000000000
+      internalID: 4777501242720025807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TableLamp_Red
+      rect:
+        serializedVersion: 2
+        x: 744
+        y: 31
+        width: 123
+        height: 246
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60186207615393980800000000000000
+      internalID: -8558751246353792762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Teapot
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 41
+        width: 283
+        height: 184
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11817a78f37da6120800000000000000
+      internalID: 2407973618641737745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Teacup_01
+      rect:
+        serializedVersion: 2
+        x: 1234
+        y: 146
+        width: 124
+        height: 82
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa35c742d87511750800000000000000
+      internalID: 6273892019617944490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Teacup_02
+      rect:
+        serializedVersion: 2
+        x: 1374
+        y: 145
+        width: 123
+        height: 82
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ce16254ff2d67120800000000000000
+      internalID: 2411346644322098888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Teacup_03
+      rect:
+        serializedVersion: 2
+        x: 1226
+        y: 46
+        width: 130
+        height: 86
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0240d078559f5990800000000000000
+      internalID: -7395027856036707827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Teacup_04
+      rect:
+        serializedVersion: 2
+        x: 1374
+        y: 46
+        width: 127
+        height: 85
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0a41b7a6ee009cb0800000000000000
+      internalID: -4859367614114084337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Door_Red: 4640382804563459830
+      Door_Brown: -2745909874535047468
+      Door_Blue: 348254762922520633
+      Door_Green: -5141993441301833305
+      Door_White: -4206070857997266668
+      Mirror: -6293851575495220975
+      PictureFrame_01: 11701954718376367
+      PictureFrame_02: 9164021607963849033
+      PictureFrame_03: -7696248741757200339
+      Portrait_Rabbit: 3435060877109256170
+      Portrait_PocketWatch: 3406183473530967745
+      Portrait_TopHat: 6927371522886978227
+      Portrait_Teapot: -2668338115107258566
+      Portrait_Mushroom: -3399048061702785211
+      Portrait_Rose: -6342452850114312852
+      HangingLamp_01: -8231852406859213276
+      HangingLamp_02: -7225395656874598870
+      HangingLamp_03: 6432602510194974207
+      HangingLamp_04: 6504509212220255695
+      TableLamp_White: 4777501242720025807
+      TableLamp_Red: -8558751246353792762
+      Teapot: 2407973618641737745
+      Teacup_01: 6273892019617944490
+      Teacup_02: 2411346644322098888
+      Teacup_03: -7395027856036707827
+      Teacup_04: -4859367614114084337
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

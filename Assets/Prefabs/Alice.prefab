@@ -542,7 +542,7 @@ MonoBehaviour:
   groundCheckRadius: 0.08
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   animator: {fileID: 8325375331153171299}
 --- !u!114 &674560891528403909
 MonoBehaviour:
@@ -569,7 +569,7 @@ MonoBehaviour:
   heavyDamage: 4
   damageLayers:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 1280
 --- !u!114 &4512389076123456789
 MonoBehaviour:
   m_ObjectHideFlags: 0

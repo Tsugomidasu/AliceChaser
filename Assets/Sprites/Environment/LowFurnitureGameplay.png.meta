@@ -1,0 +1,444 @@
+fileFormatVersion: 2
+guid: 592d84a89b79d4f0db825bf04a755ea0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7259634404942320202
+    second: Chair_Blue
+  - first:
+      213: 2501929932363321538
+    second: Chair_Red
+  - first:
+      213: -2532923661890595757
+    second: Chair_Green
+  - first:
+      213: -1417704145846508734
+    second: Chair_White
+  - first:
+      213: 6206602634523262155
+    second: Armchair_Purple
+  - first:
+      213: -2416374443720851275
+    second: Armchair_Blue
+  - first:
+      213: -1111219868866850271
+    second: Armchair_Red
+  - first:
+      213: -7505087953641240095
+    second: Armchair_Green
+  - first:
+      213: 3521842397629421773
+    second: PedestalTable_Red
+  - first:
+      213: -7362814732602320898
+    second: PedestalTable_Brown
+  - first:
+      213: 3288502987167052818
+    second: PedestalTable_Black
+  - first:
+      213: 2446773816448558616
+    second: PedestalTable_White
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 400
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Chair_Blue
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 573
+        width: 223
+        height: 308
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a429ac137076fb460800000000000000
+      internalID: 7259634404942320202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chair_Red
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 573
+        width: 232
+        height: 308
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c0de678404a8b220800000000000000
+      internalID: 2501929932363321538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chair_Green
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 573
+        width: 234
+        height: 308
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35454d9795f39dcd0800000000000000
+      internalID: -2532923661890595757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chair_White
+      rect:
+        serializedVersion: 2
+        x: 1367
+        y: 573
+        width: 231
+        height: 308
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2436836379d435ce0800000000000000
+      internalID: -1417704145846508734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Armchair_Purple
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 242
+        width: 322
+        height: 327
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcc33cc4638422650800000000000000
+      internalID: 6206602634523262155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Armchair_Blue
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 242
+        width: 328
+        height: 327
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b0cfa5fe30577ed0800000000000000
+      internalID: -2416374443720851275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Armchair_Red
+      rect:
+        serializedVersion: 2
+        x: 922
+        y: 242
+        width: 328
+        height: 327
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 122d5d0ba672490f0800000000000000
+      internalID: -1111219868866850271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Armchair_Green
+      rect:
+        serializedVersion: 2
+        x: 1339
+        y: 242
+        width: 329
+        height: 327
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e98623154298d790800000000000000
+      internalID: -7505087953641240095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PedestalTable_Red
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 18
+        width: 319
+        height: 214
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc89c99400910e030800000000000000
+      internalID: 3521842397629421773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PedestalTable_Brown
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 18
+        width: 322
+        height: 214
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef7d934b20702d990800000000000000
+      internalID: -7362814732602320898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PedestalTable_Black
+      rect:
+        serializedVersion: 2
+        x: 928
+        y: 18
+        width: 332
+        height: 214
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21437e82b0c13ad20800000000000000
+      internalID: 3288502987167052818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PedestalTable_White
+      rect:
+        serializedVersion: 2
+        x: 1339
+        y: 18
+        width: 340
+        height: 214
+      alignment: 9
+      pivot: {x: 0.5, y: 0.0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 816a42f82dfa4f120800000000000000
+      internalID: 2446773816448558616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Chair_Blue: 7259634404942320202
+      Chair_Red: 2501929932363321538
+      Chair_Green: -2532923661890595757
+      Chair_White: -1417704145846508734
+      Armchair_Purple: 6206602634523262155
+      Armchair_Blue: -2416374443720851275
+      Armchair_Red: -1111219868866850271
+      Armchair_Green: -7505087953641240095
+      PedestalTable_Red: 3521842397629421773
+      PedestalTable_Brown: -7362814732602320898
+      PedestalTable_Black: 3288502987167052818
+      PedestalTable_White: 2446773816448558616
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

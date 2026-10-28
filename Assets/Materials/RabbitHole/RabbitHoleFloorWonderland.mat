@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RabbitHoleFloorWonderland
+  m_Shader: {fileID: 4800000, guid: 59d3cf64dea045999896626b3ebbf7ef, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlockHeight: 0.58
+    - _BlockSeamWidth: 0.03
+    - _BlockWidth: 1.75
+    - _CreamChance: 0.12
+    - _DiamondScaleX: 1.15
+    - _DiamondScaleY: 0.48
+    - _Opacity: 1
+    - _TopBandStart: 0.78
+    - _TopSeamWidth: 0.025
+    - _TopWarp: 0.035
+    - _TrimWidth: 0.026
+    - _UnderVariation: 0.16
+    - _UnderWarp: 0.022
+    - _WorldTiling: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _TileRed: {r: 0.43, g: 0.055, b: 0.065, a: 1}
+    - _TileRedDark: {r: 0.21, g: 0.02, b: 0.033, a: 1}
+    - _TileOchre: {r: 0.55, g: 0.315, b: 0.075, a: 1}
+    - _TileCream: {r: 0.57, g: 0.45, b: 0.29, a: 1}
+    - _TopSeam: {r: 0.055, g: 0.02, b: 0.024, a: 1}
+    - _TrimDark: {r: 0.075, g: 0.02, b: 0.028, a: 1}
+    - _TrimBrass: {r: 0.5, g: 0.29, b: 0.075, a: 1}
+    - _UnderDark: {r: 0.03, g: 0.018, b: 0.026, a: 1}
+    - _UnderMid: {r: 0.105, g: 0.03, b: 0.04, a: 1}
+    - _UnderLight: {r: 0.165, g: 0.05, b: 0.055, a: 1}
+    - _UnderSeam: {r: 0.012, g: 0.01, b: 0.015, a: 1}
+  m_BuildTextureStacks: []
