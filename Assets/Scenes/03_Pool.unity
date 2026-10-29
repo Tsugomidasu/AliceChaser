@@ -1532,7 +1532,6 @@ MonoBehaviour:
   heartFullSprite: {fileID: 4606908045521496030, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
   heartHalfSprite: {fileID: -4031094179166907523, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
   heartEmptySprite: {fileID: 1131954639711315709, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
-  chargeDuration: 0.25
   chargeOffset: {x: 0, y: 85}
   gameOverDelay: 0.8
   gameOverFadeTime: 1.1

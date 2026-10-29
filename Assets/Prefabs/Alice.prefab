@@ -564,9 +564,10 @@ MonoBehaviour:
   attack2Damage: 1
   attack3Hitbox: {fileID: 8852913555551947234}
   attack3Damage: 2
-  comboInputWindow: 0.25
+  comboInputWindow: 0.5
   heavyHitbox: {fileID: 8852913555551947234}
-  heavyDamage: 4
+  heavyChargeDuration: 0.6
+  heavyDamage: 6
   damageLayers:
     serializedVersion: 2
     m_Bits: 1280

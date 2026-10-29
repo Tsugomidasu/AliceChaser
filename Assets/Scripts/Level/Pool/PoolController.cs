@@ -55,6 +55,7 @@ public class PoolController : MonoBehaviour
 
     private void Awake()
     {
+        // Store the level start and order the enemy sequence.
         if (alice != null)
         {
             levelStartX = alice.position.x;
@@ -95,6 +96,7 @@ public class PoolController : MonoBehaviour
 
     private void Update()
     {
+        // Track progress, spawn encounters, and check level completion.
         SpawnVisibleEnemies();
 
         if (alice == null)
@@ -132,6 +134,7 @@ public class PoolController : MonoBehaviour
 
     private void SpawnVisibleEnemies()
     {
+        // Spawn enemies as Alice approaches their encounter positions.
         if (spawnSequence == null ||
             mainCamera == null ||
             floorCollider == null)
@@ -169,6 +172,7 @@ public class PoolController : MonoBehaviour
 
     private void SpawnEnemy(SpawnEntry entry, float spawnX)
     {
+        // Place an enemy under the active encounter parent.
         if (entry.prefab == null || floorCollider == null)
         {
             return;
@@ -194,6 +198,7 @@ public class PoolController : MonoBehaviour
 
     private void SpawnPlacements(Placement[] placements, Transform parent)
     {
+        // Place explicit rock and tree variants for the Pool layout.
         if (placements == null || floorCollider == null)
         {
             return;
@@ -245,6 +250,7 @@ public class PoolController : MonoBehaviour
 
     private void SortSpawnSequence()
     {
+        // Keep enemy spawns ordered by level distance.
         if (spawnSequence == null)
         {
             return;
@@ -261,6 +267,7 @@ public class PoolController : MonoBehaviour
 
     private void OnValidate()
     {
+        // Keep Inspector edits in spawn order.
         SortSpawnSequence();
     }
 

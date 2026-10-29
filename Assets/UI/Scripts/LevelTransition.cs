@@ -26,11 +26,13 @@ public class LevelTransition : MonoBehaviour
         string subtitle,
         string nextScene)
     {
+        // Prevent overlapping completion transitions.
         if (isRunning)
         {
             return;
         }
 
+        // Keep the fade object alive across the scene load.
         GameObject transitionObject = new GameObject(
             "LevelTransition"
         );
@@ -58,6 +60,7 @@ public class LevelTransition : MonoBehaviour
 
     private IEnumerator RunTransition()
     {
+        // Fade out, load while black, then fade into the next scene.
         isRunning = true;
         Time.timeScale = 1f;
 
@@ -71,6 +74,7 @@ public class LevelTransition : MonoBehaviour
 
         if (!string.IsNullOrWhiteSpace(nextScene))
         {
+            // Load the next scene while the screen remains black.
             AsyncOperation load = SceneManager.LoadSceneAsync(nextScene);
 
             while (load != null && !load.isDone)
@@ -88,6 +92,7 @@ public class LevelTransition : MonoBehaviour
 
     private void DisablePlayerControl()
     {
+        // Freeze Alice before the completion card appears.
         AliceHealth health = FindAnyObjectByType<AliceHealth>();
 
         if (health == null)
@@ -117,6 +122,7 @@ public class LevelTransition : MonoBehaviour
 
     private void BuildUI()
     {
+        // Build the transition overlay above the outgoing scene.
         if (font == null)
         {
             font = Resources.GetBuiltinResource<Font>(

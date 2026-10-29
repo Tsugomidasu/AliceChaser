@@ -260,9 +260,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RaccoonRock
   damage: 1
-  horizontalSpeed: 7
-  minimumFlightTime: 0.25
-  maximumFlightTime: 1
+  horizontalSpeed: 4.9
+  arcLift: 3.5
   lifetime: 4
   spinSpeed: 360
   deflectSpeed: 8

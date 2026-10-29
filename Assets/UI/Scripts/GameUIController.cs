@@ -26,7 +26,6 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private Sprite heartEmptySprite;
 
     [Header("Heavy Charge")]
-    [SerializeField] private float chargeDuration = 0.25f;
     [SerializeField] private Vector2 chargeOffset = new Vector2(0f, 85f);
 
     [Header("Game Over")]
@@ -64,6 +63,10 @@ public class GameUIController : MonoBehaviour
     private bool wasCharging;
     private float chargeStartedAt;
 
+    private GameObject tutorialRoot;
+    private Text tutorialText;
+    private string tutorialMessage;
+
     private GameObject pauseRoot;
     private GameObject gameOverRoot;
     private CanvasGroup gameOverCanvasGroup;
@@ -89,6 +92,7 @@ public class GameUIController : MonoBehaviour
 
     private void Awake()
     {
+        // Find references and build the runtime gameplay UI.
         Time.timeScale = 1f;
 
         FindInputActions();
@@ -110,6 +114,7 @@ public class GameUIController : MonoBehaviour
 
     private void Update()
     {
+        // Refresh the HUD and route pause or Game Over input.
         if (health == null)
         {
             FindAlice();
@@ -167,6 +172,7 @@ public class GameUIController : MonoBehaviour
 
     private void FindInputActions()
     {
+        // Find the gameplay and menu actions.
         if (inputActions == null)
         {
             Debug.LogError(
@@ -219,6 +225,7 @@ public class GameUIController : MonoBehaviour
 
     private void FindAlice()
     {
+        // Cache Alice's health, movement, and combat components.
         health = FindAnyObjectByType<AliceHealth>();
 
         if (health != null)
@@ -230,6 +237,7 @@ public class GameUIController : MonoBehaviour
 
     private void BuildUI()
     {
+        // Build the HUD, tutorial, Pause, and Game Over screens.
         GameObject canvasObject = new GameObject(
             "Canvas",
             typeof(RectTransform)
@@ -250,12 +258,14 @@ public class GameUIController : MonoBehaviour
 
         BuildHealth();
         BuildCharge();
+        BuildTutorial();
         BuildPause();
         BuildGameOver();
     }
 
     private void BuildHealth()
     {
+        // Create the heart container in the upper-left corner.
         healthRoot = CreateRect(
             "Health",
             canvas.transform,
@@ -271,6 +281,7 @@ public class GameUIController : MonoBehaviour
 
     private void BuildCharge()
     {
+        // Create the Heavy charge bar above Alice.
         chargeRoot = CreateRect(
             "HeavyCharge",
             canvas.transform,
@@ -306,8 +317,72 @@ public class GameUIController : MonoBehaviour
         chargeRoot.gameObject.SetActive(false);
     }
 
+
+    private void BuildTutorial()
+    {
+        // Create the reusable tutorial prompt.
+        RectTransform tutorialRect = CreateRect(
+            "TutorialPrompt",
+            canvas.transform,
+            new Vector2(0.5f, 0.17f),
+            new Vector2(0.5f, 0.17f),
+            new Vector2(0.5f, 0.5f),
+            Vector2.zero,
+            new Vector2(640f, 110f)
+        );
+
+        tutorialRoot = tutorialRect.gameObject;
+        tutorialText = CreateText(
+            "TutorialText",
+            tutorialRoot.transform,
+            string.Empty,
+            34,
+            menuWhite,
+            new Vector2(0.5f, 0.5f),
+            new Vector2(640f, 110f)
+        );
+
+        tutorialRoot.SetActive(false);
+    }
+
+    public void ShowTutorialPrompt(string message)
+    {
+        // Show a tutorial message only during normal gameplay.
+        tutorialMessage = message ?? string.Empty;
+
+        if (tutorialText != null)
+        {
+            tutorialText.text = tutorialMessage;
+        }
+
+        if (tutorialRoot != null &&
+            menuMode == MenuMode.None &&
+            !gameOverStarted &&
+            !string.IsNullOrEmpty(tutorialMessage))
+        {
+            tutorialRoot.SetActive(true);
+        }
+    }
+
+    public void HideTutorialPrompt()
+    {
+        // Clear and hide the current tutorial message.
+        tutorialMessage = string.Empty;
+
+        if (tutorialText != null)
+        {
+            tutorialText.text = string.Empty;
+        }
+
+        if (tutorialRoot != null)
+        {
+            tutorialRoot.SetActive(false);
+        }
+    }
+
     private void BuildPause()
     {
+        // Create the Pause menu and its options.
         RectTransform pauseRect = CreateRect(
             "PauseMenu",
             canvas.transform,
@@ -361,6 +436,7 @@ public class GameUIController : MonoBehaviour
 
     private void BuildGameOver()
     {
+        // Create the delayed Game Over overlay and options.
         RectTransform gameOverRect = CreateRect(
             "GameOver",
             canvas.transform,
@@ -444,6 +520,7 @@ public class GameUIController : MonoBehaviour
 
     private void RefreshHealth()
     {
+        // Rebuild heart slots when needed and update their states.
         if (health == null ||
             heartFullSprite == null ||
             heartHalfSprite == null ||
@@ -511,6 +588,7 @@ public class GameUIController : MonoBehaviour
 
     private void UpdateCharge()
     {
+        // Follow Alice and fill the bar over the Heavy charge time.
         if (combat == null ||
             health == null ||
             health.IsDefeated ||
@@ -551,7 +629,7 @@ public class GameUIController : MonoBehaviour
                 new Vector3(chargeOffset.x, chargeOffset.y, 0f);
         }
 
-        float duration = Mathf.Max(0.01f, chargeDuration);
+        float duration = Mathf.Max(0.01f, combat.HeavyChargeDuration);
         chargeFill.fillAmount = Mathf.Clamp01(
             (Time.unscaledTime - chargeStartedAt) / duration
         );
@@ -561,6 +639,7 @@ public class GameUIController : MonoBehaviour
 
     private void OpenPause()
     {
+        // Freeze gameplay and remember Alice's enabled state.
         previousTimeScale = Time.timeScale;
         movementWasEnabled = movement != null && movement.enabled;
         combatWasEnabled = combat != null && combat.enabled;
@@ -582,11 +661,17 @@ public class GameUIController : MonoBehaviour
         pauseRoot.SetActive(true);
         chargeRoot.gameObject.SetActive(false);
 
+        if (tutorialRoot != null)
+        {
+            tutorialRoot.SetActive(false);
+        }
+
         RefreshMenuSelection();
     }
 
     private void ClosePause()
     {
+        // Restore gameplay state and any active tutorial prompt.
         pauseRoot.SetActive(false);
         menuMode = MenuMode.None;
         Time.timeScale = previousTimeScale;
@@ -600,10 +685,17 @@ public class GameUIController : MonoBehaviour
         {
             combat.enabled = combatWasEnabled;
         }
+
+        if (tutorialRoot != null &&
+            !string.IsNullOrEmpty(tutorialMessage))
+        {
+            tutorialRoot.SetActive(true);
+        }
     }
 
     private IEnumerator GameOverSequence()
     {
+        // Fade in Game Over before revealing its options.
         gameOverStarted = true;
         pauseRoot.SetActive(false);
         menuMode = MenuMode.None;
@@ -612,6 +704,12 @@ public class GameUIController : MonoBehaviour
 
         Time.timeScale = 0f;
         chargeRoot.gameObject.SetActive(false);
+
+        if (tutorialRoot != null)
+        {
+            tutorialRoot.SetActive(false);
+        }
+
         gameOverRoot.SetActive(true);
         gameOverOptionsRoot.SetActive(false);
 
@@ -655,6 +753,7 @@ public class GameUIController : MonoBehaviour
 
     private void ReadMenuInput()
     {
+        // Read Pause or Game Over menu navigation.
         if (menuMode == MenuMode.Pause &&
             cancelAction != null &&
             cancelAction.WasPressedThisFrame())
@@ -701,6 +800,7 @@ public class GameUIController : MonoBehaviour
 
     private void ActivateSelection()
     {
+        // Run the selected Pause or Game Over command.
         if (menuMode == MenuMode.Pause)
         {
             switch (selectedIndex)
@@ -746,6 +846,7 @@ public class GameUIController : MonoBehaviour
 
     private void RefreshMenuSelection()
     {
+        // Update the active menu selector and text color.
         List<Text> options = menuMode == MenuMode.Pause
             ? pauseOptions
             : gameOverOptions;

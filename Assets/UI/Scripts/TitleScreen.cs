@@ -31,6 +31,7 @@ public class TitleScreen : MonoBehaviour
 
     private void Awake()
     {
+        // Build the runtime title menu.
         Time.timeScale = 1f;
 
         FindInputActions();
@@ -58,6 +59,7 @@ public class TitleScreen : MonoBehaviour
 
     private void Update()
     {
+        // Read menu navigation and confirmation.
         if (navigateAction != null &&
             navigateAction.WasPerformedThisFrame())
         {
@@ -84,6 +86,7 @@ public class TitleScreen : MonoBehaviour
 
     private void FindInputActions()
     {
+        // Find the shared UI actions.
         if (inputActions == null)
         {
             Debug.LogError(
@@ -111,6 +114,7 @@ public class TitleScreen : MonoBehaviour
 
     private void BuildUI()
     {
+        // Create the title screen entirely at runtime.
         GameObject canvasObject = new GameObject("Canvas", typeof(RectTransform));
         canvasObject.transform.SetParent(transform, false);
 
@@ -159,6 +163,7 @@ public class TitleScreen : MonoBehaviour
 
     private void ActivateSelection()
     {
+        // Open the selected destination.
         switch (selectedIndex)
         {
             case 0:
@@ -177,6 +182,7 @@ public class TitleScreen : MonoBehaviour
 
     private void RefreshSelection()
     {
+        // Update the selector and selected text color.
         for (int i = 0; i < options.Count; i++)
         {
             bool selected = i == selectedIndex;
@@ -194,6 +200,7 @@ public class TitleScreen : MonoBehaviour
 
     private void QuitGame()
     {
+        // Stop Play Mode in the Editor or quit the build.
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

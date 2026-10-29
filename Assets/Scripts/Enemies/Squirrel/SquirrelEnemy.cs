@@ -89,7 +89,7 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Shared health handles defeat movement.
+        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;

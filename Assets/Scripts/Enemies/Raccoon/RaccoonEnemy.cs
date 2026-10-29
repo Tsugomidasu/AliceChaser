@@ -188,12 +188,8 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void ReleaseRock()
     {
-        if (rockPrefab != null && player != null)
+        if (rockPrefab != null)
         {
-            Vector2 targetPosition = playerCollider != null
-                ? playerCollider.bounds.center
-                : (Vector2)player.position;
-
             RaccoonRock rock = Instantiate(
                 rockPrefab,
                 GetThrowPosition(),
@@ -201,7 +197,7 @@ public class RaccoonEnemy : MonoBehaviour
             );
 
             rock.Launch(
-                targetPosition,
+                direction,
                 GetComponentsInChildren<Collider2D>(true)
             );
         }

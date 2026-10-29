@@ -57,7 +57,7 @@ public class MagpieEnemy : MonoBehaviour
 
         TryDropThimble();
 
-        // Remove the Magpie offscreen.
+        // Remove the Magpie after it leaves the screen.
         if (startX - rb.position.x >= despawnDistance)
         {
             Destroy(gameObject);

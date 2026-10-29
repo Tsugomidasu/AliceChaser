@@ -5,9 +5,8 @@ using UnityEngine;
 public class RaccoonRock : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
-    [SerializeField] private float horizontalSpeed = 7f;
-    [SerializeField] private float minimumFlightTime = 0.25f;
-    [SerializeField] private float maximumFlightTime = 1f;
+    [SerializeField] private float horizontalSpeed = 4.9f;
+    [SerializeField] private float arcLift = 3.5f;
     [SerializeField] private float lifetime = 4f;
     [SerializeField] private float spinSpeed = 360f;
     [SerializeField] private float deflectSpeed = 8f;
@@ -26,7 +25,7 @@ public class RaccoonRock : MonoBehaviour
         rockCollider = GetComponent<Collider2D>();
     }
 
-    public void Launch(Vector2 targetPosition, Collider2D[] raccoonColliders)
+    public void Launch(int direction, Collider2D[] raccoonColliders)
     {
         if (launched)
         {
@@ -39,28 +38,15 @@ public class RaccoonRock : MonoBehaviour
         // Ignore the owner before deflection.
         SetOwnerCollisionIgnored(true);
 
-        Vector2 start = rb.position;
-        Vector2 difference = targetPosition - start;
-        float direction = difference.x >= 0f ? 1f : -1f;
+        float launchDirection = direction >= 0 ? 1f : -1f;
 
-        float flightTime = Mathf.Abs(difference.x) / horizontalSpeed;
-        flightTime = Mathf.Clamp(
-            flightTime,
-            minimumFlightTime,
-            maximumFlightTime
-        );
-
-        float gravity = Physics2D.gravity.y * rb.gravityScale;
-        float verticalSpeed =
-            (difference.y - 0.5f * gravity * flightTime * flightTime) /
-            flightTime;
-
+        // Use a fixed arc instead of aiming at Alice.
         rb.linearVelocity = new Vector2(
-            direction * horizontalSpeed,
-            verticalSpeed
+            launchDirection * horizontalSpeed,
+            arcLift
         );
 
-        rb.angularVelocity = -direction * spinSpeed;
+        rb.angularVelocity = -launchDirection * spinSpeed;
 
         Destroy(gameObject, lifetime);
     }

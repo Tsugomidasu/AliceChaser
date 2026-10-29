@@ -282,6 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1425588058}
   - component: {fileID: 1425588059}
+  - component: {fileID: 1425588060}
   m_Layer: 0
   m_Name: LevelController
   m_TagString: Untagged
@@ -455,7 +456,7 @@ MonoBehaviour:
     yOffset: 5.1
     rotation: 6
     size: 0
-  - prefab: {fileID: 4075668784645146082, guid: c8603acce47224af2a3f3f3906a11eb4, type: 3}
+  - prefab: {fileID: 7081892023758990714, guid: f96c7bfbebf2549a6a879921ec32a960, type: 3}
     distance: 17.3
     xOffset: 0
     yOffset: 0
@@ -713,7 +714,7 @@ MonoBehaviour:
     yOffset: 3.55
     rotation: 5
     size: 0
-  - prefab: {fileID: 7081892023758990714, guid: f96c7bfbebf2549a6a879921ec32a960, type: 3}
+  - prefab: {fileID: 4075668784645146082, guid: c8603acce47224af2a3f3f3906a11eb4, type: 3}
     distance: 52
     xOffset: 0
     yOffset: 0
@@ -1037,6 +1038,32 @@ MonoBehaviour:
     yOffset: 6.2
     rotation: 2
     size: 2
+--- !u!114 &1425588060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425588057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5bf373d3aedd4243b19323e4fed35fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialController
+  alice: {fileID: 15840806}
+  gameUI: {fileID: 8000000000000010003}
+  inputActions: {fileID: -944628639613478452, guid: 37bf1a4ca8dcf44f7b69edd1c543137e, type: 3}
+  movePromptDistance: 0
+  moveDismissDistance: 5
+  jumpPromptDistance: 7.4
+  jumpDismissDistance: 12.5
+  attackPromptDistance: 15.2
+  attackDismissDistance: 20.5
+  heavyPromptDistance: 49.5
+  heavyDismissDistance: 55.5
+  movePromptDelay: 0.1
+  hintDelay: 0.75
+  heavyPromptDelay: 0.1
 --- !u!1 &1550834581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,7 +2072,6 @@ MonoBehaviour:
   heartFullSprite: {fileID: 4606908045521496030, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
   heartHalfSprite: {fileID: -4031094179166907523, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
   heartEmptySprite: {fileID: 1131954639711315709, guid: 71daec4bcf88e41a496498335b3488c6, type: 3}
-  chargeDuration: 0.25
   chargeOffset: {x: 0, y: 85}
   gameOverDelay: 0.8
   gameOverFadeTime: 1.1

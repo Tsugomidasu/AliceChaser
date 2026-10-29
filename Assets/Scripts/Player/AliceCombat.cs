@@ -25,11 +25,12 @@ public class AliceCombat : MonoBehaviour
     [SerializeField] private int attack3Damage = 2;
 
     [Header("Combo")]
-    [SerializeField] private float comboInputWindow = 0.25f;
+    [SerializeField] private float comboInputWindow = 0.50f;
 
     [Header("Heavy Attack")]
     [SerializeField] private Transform heavyHitbox;
-    [SerializeField] private int heavyDamage = 4;
+    [SerializeField] private float heavyChargeDuration = 0.6f;
+    [SerializeField] private int heavyDamage = 6;
 
     [Header("Damage")]
     [SerializeField] private LayerMask damageLayers;
@@ -61,6 +62,7 @@ public class AliceCombat : MonoBehaviour
     public bool IsAttacking { get; private set; }
     public bool IsCharging { get; private set; }
     public bool IsHeavyAttack => isHeavyAttack;
+    public float HeavyChargeDuration => heavyChargeDuration;
 
     public bool IsHoldingAttack =>
         attackAction != null &&

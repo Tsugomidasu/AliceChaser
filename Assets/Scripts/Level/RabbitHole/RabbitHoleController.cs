@@ -50,6 +50,7 @@ public class RabbitHoleController : MonoBehaviour
 
     private void Awake()
     {
+        // Store the level start and order the furniture sequence.
         if (alice != null)
         {
             levelStartX = alice.position.x;
@@ -87,6 +88,7 @@ public class RabbitHoleController : MonoBehaviour
 
     private void Update()
     {
+        // Track progress, spawn furniture, and check level completion.
         if (alice == null)
         {
             return;
@@ -125,6 +127,7 @@ public class RabbitHoleController : MonoBehaviour
 
     private void SpawnVisibleEntries()
     {
+        // Spawn furniture as Alice approaches each placement.
         if (spawnSequence == null ||
             mainCamera == null ||
             floorCollider == null)
@@ -162,6 +165,7 @@ public class RabbitHoleController : MonoBehaviour
 
     private void SpawnObject(SpawnEntry entry, float spawnX)
     {
+        // Place the selected furniture variant at its level position.
         if (entry.prefab == null || floorCollider == null)
         {
             return;
@@ -212,6 +216,7 @@ public class RabbitHoleController : MonoBehaviour
 
     private void SortSpawnSequence()
     {
+        // Keep furniture spawns ordered by level distance.
         if (spawnSequence == null)
         {
             return;
@@ -228,6 +233,7 @@ public class RabbitHoleController : MonoBehaviour
 
     private void OnValidate()
     {
+        // Keep Inspector edits in spawn order.
         SortSpawnSequence();
     }
 }

@@ -73,6 +73,7 @@ public class ChapterSelect : MonoBehaviour
 
     private void Awake()
     {
+        // Build the chapter menu and select the first available row.
         Time.timeScale = 1f;
 
         FindInputActions();
@@ -103,6 +104,7 @@ public class ChapterSelect : MonoBehaviour
 
     private void Update()
     {
+        // Read cancel, navigation, and confirmation.
         if (cancelAction != null &&
             cancelAction.WasPressedThisFrame())
         {
@@ -136,6 +138,7 @@ public class ChapterSelect : MonoBehaviour
 
     private void FindInputActions()
     {
+        // Find the shared UI actions.
         if (inputActions == null)
         {
             Debug.LogError(
@@ -164,6 +167,7 @@ public class ChapterSelect : MonoBehaviour
 
     private void BuildUI()
     {
+        // Build all chapter rows and apply saved unlock progress.
         GameObject canvasObject = new GameObject("Canvas", typeof(RectTransform));
         canvasObject.transform.SetParent(transform, false);
 
@@ -321,6 +325,7 @@ public class ChapterSelect : MonoBehaviour
 
     private Sprite GetChapterIcon(int index, bool playable)
     {
+        // Use separate artwork for playable and locked chapters.
         Sprite[] source = playable
             ? chapterIcons
             : lockedChapterIcons;
@@ -345,6 +350,7 @@ public class ChapterSelect : MonoBehaviour
 
     private void ActivateSelection()
     {
+        // Load playable chapters or return to the title screen.
         if (selectedItem == chapters.Count)
         {
             SceneManager.LoadScene(titleScene);
@@ -361,6 +367,7 @@ public class ChapterSelect : MonoBehaviour
 
     private void RefreshSelection()
     {
+        // Update selectors, icons, and lock colors.
         for (int i = 0; i < chapters.Count; i++)
         {
             ChapterRow row = chapters[i];
@@ -400,6 +407,7 @@ public class ChapterSelect : MonoBehaviour
 
     private int NextSelectable(int current)
     {
+        // Skip locked or unimplemented chapters.
         for (int i = current + 1; i < chapters.Count; i++)
         {
             if (chapters[i].Playable)
@@ -418,6 +426,7 @@ public class ChapterSelect : MonoBehaviour
 
     private int PreviousSelectable(int current)
     {
+        // Skip locked or unimplemented chapters.
         int start = current == chapters.Count
             ? chapters.Count - 1
             : current - 1;
