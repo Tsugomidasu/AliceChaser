@@ -15,6 +15,7 @@ public class LevelTransition : MonoBehaviour
     private string heading;
     private string subtitle;
     private string nextScene;
+    private AudioClip chapterCompleteClip;
     private Font font;
     private Image background;
     private CanvasGroup textGroup;
@@ -24,7 +25,8 @@ public class LevelTransition : MonoBehaviour
     public static void Play(
         string heading,
         string subtitle,
-        string nextScene)
+        string nextScene,
+        AudioClip chapterCompleteClip)
     {
         // Prevent overlapping completion transitions.
         if (isRunning)
@@ -45,6 +47,7 @@ public class LevelTransition : MonoBehaviour
         transition.heading = heading;
         transition.subtitle = subtitle;
         transition.nextScene = nextScene;
+        transition.chapterCompleteClip = chapterCompleteClip;
 
         GameUIController gameUI =
             FindAnyObjectByType<GameUIController>();
@@ -68,6 +71,7 @@ public class LevelTransition : MonoBehaviour
         BuildUI();
 
         yield return FadeBackground(0f, 1f, FadeToBlackTime);
+        GameAudio.Play(chapterCompleteClip);
         yield return FadeText(0f, 1f, TextFadeTime);
         yield return new WaitForSecondsRealtime(HoldTime);
         yield return FadeText(1f, 0f, TextFadeTime);

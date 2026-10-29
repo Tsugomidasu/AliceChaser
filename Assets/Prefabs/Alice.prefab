@@ -159,6 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f877f55442df49b7b800bed61fd46c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AliceAnimationEvents
+  footstep01Clip: {fileID: 8300000, guid: 58db52d9699be43c2a0196103d906ec8, type: 3}
+  footstep02Clip: {fileID: 8300000, guid: 374497aa2c0df4c419d98bf61864255b, type: 3}
 --- !u!1 &5416725204714644955
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,6 +546,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   animator: {fileID: 8325375331153171299}
+  jumpClip: {fileID: 8300000, guid: 3c63cf9166a0b4cff9eae1812318b237, type: 3}
+  landClip: {fileID: 8300000, guid: 7d33ed37e7f8046a8ba9f81e3ea4c2a1, type: 3}
 --- !u!114 &674560891528403909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,6 +575,12 @@ MonoBehaviour:
   damageLayers:
     serializedVersion: 2
     m_Bits: 1280
+  attack01Clip: {fileID: 8300000, guid: 41409b4b99f1c404da4eb25377f9d875, type: 3}
+  attack02Clip: {fileID: 8300000, guid: 1a44273cf6e8341308bb401b95b15111, type: 3}
+  attack03Clip: {fileID: 8300000, guid: b4bace82f7854479196df4ac34e62bae, type: 3}
+  heavyChargeClip: {fileID: 8300000, guid: dcc91c89104f041169c766e59dbe6c91, type: 3}
+  heavySwingClip: {fileID: 8300000, guid: 4d35b64743cef4991aa18c0854de5992, type: 3}
+  heavyImpactClip: {fileID: 8300000, guid: 324aef53950d84c7195dc52bce4fbc79, type: 3}
 --- !u!114 &4512389076123456789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,6 +621,8 @@ MonoBehaviour:
   flashInterval: 0.075
   flashAlpha: 0.35
   animator: {fileID: 8325375331153171299}
+  hurtClip: {fileID: 8300000, guid: a4eafe262583c4bb9bebd28e551294b8, type: 3}
+  defeatClip: {fileID: 8300000, guid: c5ff1bc2793cf401c8a480e224cc1b1d, type: 3}
 --- !u!1 &8510643672204160093
 GameObject:
   m_ObjectHideFlags: 0

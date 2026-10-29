@@ -31,6 +31,11 @@ public class ChapterSelect : MonoBehaviour
     [SerializeField] private string chapterOneScene = "02_RabbitHole";
     [SerializeField] private string chapterTwoScene = "03_Pool";
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip navigateClip;
+    [SerializeField] private AudioClip confirmClip;
+    [SerializeField] private AudioClip cancelClip;
+
     private readonly Color menuWhite = Color.white;
     private readonly Color selectedColor = new Color32(229, 138, 122, 255);
     private readonly Color lockedColor = new Color32(102, 102, 102, 255);
@@ -108,6 +113,7 @@ public class ChapterSelect : MonoBehaviour
         if (cancelAction != null &&
             cancelAction.WasPressedThisFrame())
         {
+            GameAudio.Play(cancelClip);
             SceneManager.LoadScene(titleScene);
             return;
         }
@@ -120,11 +126,13 @@ public class ChapterSelect : MonoBehaviour
             if (vertical > 0.5f)
             {
                 selectedItem = PreviousSelectable(selectedItem);
+                GameAudio.Play(navigateClip);
                 RefreshSelection();
             }
             else if (vertical < -0.5f)
             {
                 selectedItem = NextSelectable(selectedItem);
+                GameAudio.Play(navigateClip);
                 RefreshSelection();
             }
         }
@@ -351,6 +359,7 @@ public class ChapterSelect : MonoBehaviour
     private void ActivateSelection()
     {
         // Load playable chapters or return to the title screen.
+        GameAudio.Play(confirmClip);
         if (selectedItem == chapters.Count)
         {
             SceneManager.LoadScene(titleScene);

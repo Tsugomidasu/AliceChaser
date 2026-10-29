@@ -22,6 +22,10 @@ public class AliceHealth : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip hurtClip;
+    [SerializeField] private AudioClip defeatClip;
+
     private Rigidbody2D rb;
     private AliceMovement movement;
     private AliceCombat combat;
@@ -101,6 +105,8 @@ public class AliceHealth : MonoBehaviour
             Defeat();
             return;
         }
+
+        GameAudio.Play(hurtClip);
 
         // Start invulnerability.
         invulnerableUntil =
@@ -246,6 +252,7 @@ public class AliceHealth : MonoBehaviour
     private void Defeat()
     {
         IsDefeated = true;
+        GameAudio.Play(defeatClip);
         invulnerableUntil = 0f;
 
         if (flashRoutine != null)

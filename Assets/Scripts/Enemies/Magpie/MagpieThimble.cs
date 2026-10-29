@@ -8,6 +8,9 @@ public class MagpieThimble : MonoBehaviour
     [SerializeField] private float lifetime = 4f;
     [SerializeField] private float spinSpeed = 240f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip impactClip;
+
     private Rigidbody2D rb;
     private Collider2D thimbleCollider;
     private Collider2D[] ownerColliders;
@@ -61,6 +64,8 @@ public class MagpieThimble : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        GameAudio.Play(impactClip);
+
         AliceHealth alice = collision.collider.GetComponentInParent<AliceHealth>();
 
         if (alice != null)

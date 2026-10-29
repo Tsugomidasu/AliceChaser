@@ -372,6 +372,8 @@ MonoBehaviour:
   defeatFadeDuration: 0.3
   fallOnDefeat: 1
   defeatUpwardSpeed: 2
+  hitClip: {fileID: 8300000, guid: 01a3ebec844dc4dc3b277214888ca31a, type: 3}
+  defeatClip: {fileID: 8300000, guid: fe514167e3ce245d39f3ca781de6166a, type: 3}
 --- !u!114 &2004717240916629878
 MonoBehaviour:
   m_ObjectHideFlags: 0

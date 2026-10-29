@@ -16,6 +16,10 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private string startScene = "02_RabbitHole";
     [SerializeField] private string levelSelectScene = "01_Levels";
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip navigateClip;
+    [SerializeField] private AudioClip confirmClip;
+
     private readonly Color menuWhite = Color.white;
     private readonly Color selectedColor = new Color32(229, 138, 122, 255);
     private readonly Color backgroundColor = new Color32(10, 8, 11, 255);
@@ -68,11 +72,13 @@ public class TitleScreen : MonoBehaviour
             if (vertical > 0.5f)
             {
                 selectedIndex = WrapIndex(selectedIndex - 1, options.Count);
+                GameAudio.Play(navigateClip);
                 RefreshSelection();
             }
             else if (vertical < -0.5f)
             {
                 selectedIndex = WrapIndex(selectedIndex + 1, options.Count);
+                GameAudio.Play(navigateClip);
                 RefreshSelection();
             }
         }
@@ -80,6 +86,7 @@ public class TitleScreen : MonoBehaviour
         if (submitAction != null &&
             submitAction.WasPressedThisFrame())
         {
+            GameAudio.Play(confirmClip);
             ActivateSelection();
         }
     }

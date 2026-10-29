@@ -209,6 +209,8 @@ MonoBehaviour:
   defeatFadeDuration: 0.3
   fallOnDefeat: 0
   defeatUpwardSpeed: 2
+  hitClip: {fileID: 8300000, guid: 01a3ebec844dc4dc3b277214888ca31a, type: 3}
+  defeatClip: {fileID: 8300000, guid: fe514167e3ce245d39f3ca781de6166a, type: 3}
 --- !u!114 &895771678906727795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +226,7 @@ MonoBehaviour:
   runSpeed: 6
   despawnDistance: 24
   spriteFacesRight: 1
+  spawnClip: {fileID: 8300000, guid: 48f299bb270e242819f9235e3ca9f6f2, type: 3}
 --- !u!1 &4223325730042529440
 GameObject:
   m_ObjectHideFlags: 0

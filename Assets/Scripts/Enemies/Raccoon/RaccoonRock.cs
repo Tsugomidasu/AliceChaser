@@ -12,6 +12,10 @@ public class RaccoonRock : MonoBehaviour
     [SerializeField] private float deflectSpeed = 8f;
     [SerializeField] private float deflectLift = 2.5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip reflectClip;
+    [SerializeField] private AudioClip impactClip;
+
     private Rigidbody2D rb;
     private Collider2D rockCollider;
     private Collider2D[] ownerColliders;
@@ -59,6 +63,7 @@ public class RaccoonRock : MonoBehaviour
         }
 
         deflected = true;
+        GameAudio.Play(reflectClip);
 
         // Allow reflected enemy hits.
         SetOwnerCollisionIgnored(false);
@@ -116,6 +121,8 @@ public class RaccoonRock : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        GameAudio.Play(impactClip);
+
         AliceHealth alice = collision.collider.GetComponentInParent<AliceHealth>();
 
         if (!deflected && alice != null)

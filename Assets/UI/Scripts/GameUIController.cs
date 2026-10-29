@@ -38,6 +38,11 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private string levelSelectScene = "01_Levels";
     [SerializeField] private string titleScene = "00_Title";
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip navigateClip;
+    [SerializeField] private AudioClip confirmClip;
+    [SerializeField] private AudioClip cancelClip;
+
     private readonly Color menuWhite = Color.white;
     private readonly Color selectedColor = new Color32(229, 138, 122, 255);
     private readonly Color chargeCrimson = new Color32(158, 18, 15, 255);
@@ -758,6 +763,7 @@ public class GameUIController : MonoBehaviour
             cancelAction != null &&
             cancelAction.WasPressedThisFrame())
         {
+            GameAudio.Play(cancelClip);
             ClosePause();
             return;
         }
@@ -778,6 +784,7 @@ public class GameUIController : MonoBehaviour
                     options.Count
                 );
 
+                GameAudio.Play(navigateClip);
                 RefreshMenuSelection();
             }
             else if (vertical < -0.5f)
@@ -787,6 +794,7 @@ public class GameUIController : MonoBehaviour
                     options.Count
                 );
 
+                GameAudio.Play(navigateClip);
                 RefreshMenuSelection();
             }
         }
@@ -794,6 +802,7 @@ public class GameUIController : MonoBehaviour
         if (submitAction != null &&
             submitAction.WasPressedThisFrame())
         {
+            GameAudio.Play(confirmClip);
             ActivateSelection();
         }
     }

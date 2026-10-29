@@ -34,6 +34,7 @@ public class RabbitHoleController : MonoBehaviour
     [SerializeField] private string nextScene = "03_Pool";
     [SerializeField] private string completionLabel = "CHAPTER I COMPLETE";
     [SerializeField] private string completionSubtitle = "DOWN THE RABBIT-HOLE";
+    [SerializeField] private AudioClip chapterCompleteClip;
 
     [Header("Furniture Size Tiers")]
     [SerializeField, Min(0.1f)] private float smallScale = 1f;
@@ -120,7 +121,8 @@ public class RabbitHoleController : MonoBehaviour
             LevelTransition.Play(
                 completionLabel,
                 completionSubtitle,
-                nextScene
+                nextScene,
+                chapterCompleteClip
             );
         }
     }

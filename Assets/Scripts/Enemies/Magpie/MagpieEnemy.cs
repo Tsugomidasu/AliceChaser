@@ -16,6 +16,9 @@ public class MagpieEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip dropClip;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private EnemyHealth health;
@@ -78,6 +81,8 @@ public class MagpieEnemy : MonoBehaviour
 
     private void DropThimble()
     {
+        GameAudio.Play(dropClip);
+
         Vector2 spawnPosition = rb.position + dropOffset;
 
         MagpieThimble thimble = Instantiate(

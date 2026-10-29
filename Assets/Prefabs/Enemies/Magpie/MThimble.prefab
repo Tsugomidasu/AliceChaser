@@ -183,3 +183,4 @@ MonoBehaviour:
   damage: 1
   lifetime: 4
   spinSpeed: 240
+  impactClip: {fileID: 8300000, guid: b8c3488cba54f40bd8b8f9c7cb033247, type: 3}

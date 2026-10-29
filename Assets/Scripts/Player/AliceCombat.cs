@@ -39,6 +39,14 @@ public class AliceCombat : MonoBehaviour
     [SerializeField] private float lightKnockbackSpeed = 2f;
     [SerializeField] private float heavyKnockbackSpeed = 5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip attack01Clip;
+    [SerializeField] private AudioClip attack02Clip;
+    [SerializeField] private AudioClip attack03Clip;
+    [SerializeField] private AudioClip heavyChargeClip;
+    [SerializeField] private AudioClip heavySwingClip;
+    [SerializeField] private AudioClip heavyImpactClip;
+
     private AliceMovement movement;
     private InputAction attackAction;
 
@@ -51,6 +59,7 @@ public class AliceCombat : MonoBehaviour
     private bool isHeavyAttack;
     private bool isAirAttack;
     private bool hasUsedAirAttack;
+    private bool heavyImpactPlayed;
 
     // Track objects already damaged by the current attack.
     private readonly HashSet<UnityEngine.Object> damagedThisAttack = new();
@@ -188,6 +197,7 @@ public class AliceCombat : MonoBehaviour
             movement.CanAct)
         {
             IsCharging = true;
+            GameAudio.Play(heavyChargeClip);
         }
     }
 
@@ -287,14 +297,17 @@ public class AliceCombat : MonoBehaviour
         {
             case 1:
                 animator.Play(AliceAttack1State, 0, 0f);
+                GameAudio.Play(attack01Clip);
                 break;
 
             case 2:
                 animator.Play(AliceAttack2State, 0, 0f);
+                GameAudio.Play(attack02Clip);
                 break;
 
             case 3:
                 animator.Play(AliceAttack3State, 0, 0f);
+                GameAudio.Play(attack03Clip);
                 break;
         }
     }
@@ -315,6 +328,7 @@ public class AliceCombat : MonoBehaviour
 
         // Air attack uses Attack 1.
         animator.Play(AliceAttack1State, 0, 0f);
+        GameAudio.Play(attack01Clip);
     }
 
     private void StartHeavyAttack()
@@ -331,9 +345,11 @@ public class AliceCombat : MonoBehaviour
         queuedAttacks = 0;
 
         waitingForComboInput = false;
+        heavyImpactPlayed = false;
 
         // Heavy attack uses Attack 3.
         animator.Play(AliceAttack3State, 0, 0f);
+        GameAudio.Play(heavySwingClip);
     }
 
     public void AttackHit()
@@ -439,6 +455,8 @@ public class AliceCombat : MonoBehaviour
                         transform.position,
                         knockbackSpeed
                     );
+
+                    PlayHeavyImpactOnce();
                 }
 
                 continue;
@@ -453,8 +471,20 @@ public class AliceCombat : MonoBehaviour
                 damagedThisAttack.Add(destructible))
             {
                 destructible.TakeDamage(damage);
+                PlayHeavyImpactOnce();
             }
         }
+    }
+
+    private void PlayHeavyImpactOnce()
+    {
+        if (!isHeavyAttack || heavyImpactPlayed)
+        {
+            return;
+        }
+
+        heavyImpactPlayed = true;
+        GameAudio.Play(heavyImpactClip);
     }
 
     public void AttackFinished()
@@ -504,6 +534,7 @@ public class AliceCombat : MonoBehaviour
         waitingForComboInput = false;
         isHeavyAttack = false;
         isAirAttack = false;
+        heavyImpactPlayed = false;
 
         damagedThisAttack.Clear();
     }

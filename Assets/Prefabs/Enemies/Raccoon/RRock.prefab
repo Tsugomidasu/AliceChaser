@@ -266,3 +266,5 @@ MonoBehaviour:
   spinSpeed: 360
   deflectSpeed: 8
   deflectLift: 2.5
+  reflectClip: {fileID: 8300000, guid: 9290b0f04176149398f4401e3dc51435, type: 3}
+  impactClip: {fileID: 8300000, guid: 411d9152970d549478d525936987fd3d, type: 3}

@@ -448,6 +448,8 @@ MonoBehaviour:
   defeatFadeDuration: 0.3
   fallOnDefeat: 0
   defeatUpwardSpeed: 2
+  hitClip: {fileID: 8300000, guid: 01a3ebec844dc4dc3b277214888ca31a, type: 3}
+  defeatClip: {fileID: 8300000, guid: fe514167e3ce245d39f3ca781de6166a, type: 3}
 --- !u!114 &3643055368603247490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +470,7 @@ MonoBehaviour:
   throwOffset: {x: 0.3, y: 1}
   startingDirection: -1
   spriteFacesRight: 1
+  throwClip: {fileID: 8300000, guid: 83e238de5763146ef944895ad0dd0aed, type: 3}
 --- !u!114 &-3109897157984632091
 MonoBehaviour:
   m_ObjectHideFlags: 0

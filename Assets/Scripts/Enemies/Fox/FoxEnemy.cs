@@ -11,6 +11,9 @@ public class FoxEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip spawnClip;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private EnemyHealth health;
@@ -29,6 +32,7 @@ public class FoxEnemy : MonoBehaviour
     {
         // Store where the Fox entered the encounter.
         startX = rb.position.x;
+        GameAudio.Play(spawnClip);
 
         // Face left while running.
         if (spriteRenderer != null)

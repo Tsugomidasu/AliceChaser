@@ -24,6 +24,9 @@ public class RaccoonEnemy : MonoBehaviour
     [SerializeField] private int startingDirection = -1;
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip throwClip;
+
     private static readonly int AggroBool = Animator.StringToHash("Aggro");
     private static readonly int ThrowTrigger = Animator.StringToHash("Throw");
     private static readonly int IdleState = Animator.StringToHash("Base Layer.RaccoonIdle");
@@ -190,6 +193,8 @@ public class RaccoonEnemy : MonoBehaviour
     {
         if (rockPrefab != null)
         {
+            GameAudio.Play(throwClip);
+
             RaccoonRock rock = Instantiate(
                 rockPrefab,
                 GetThrowPosition(),

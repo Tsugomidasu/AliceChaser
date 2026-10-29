@@ -31,6 +31,9 @@ public class OwlEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip swoopCueClip;
+
     private static readonly int FlyState =
         Animator.StringToHash("Base Layer.OwlFly");
     private static readonly int SwoopState =
@@ -187,6 +190,7 @@ public class OwlEnemy : MonoBehaviour
     private void StartTelegraph()
     {
         state = OwlState.Telegraph;
+        GameAudio.Play(swoopCueClip);
         stateEndTime = Time.time + telegraphDuration;
         PlayState(FlyState);
     }

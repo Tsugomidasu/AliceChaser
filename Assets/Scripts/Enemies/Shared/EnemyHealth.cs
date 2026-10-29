@@ -18,6 +18,10 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private bool fallOnDefeat;
     [SerializeField] private float defeatUpwardSpeed = 2f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip hitClip;
+    [SerializeField] private AudioClip defeatClip;
+
     public int CurrentHealth { get; private set; }
     public bool IsDead { get; private set; }
     public bool IsHitStunned { get; private set; }
@@ -65,6 +69,8 @@ public class EnemyHealth : MonoBehaviour
         {
             return;
         }
+
+        GameAudio.Play(hitClip);
 
         // Store the hit direction.
         defeatDirection = transform.position.x >= damageSource.x
@@ -127,6 +133,7 @@ public class EnemyHealth : MonoBehaviour
     private void StartDefeat()
     {
         IsDead = true;
+        GameAudio.Play(defeatClip);
         IsHitStunned = false;
 
         // Stop the hit reaction.

@@ -368,6 +368,8 @@ MonoBehaviour:
   defeatFadeDuration: 0.3
   fallOnDefeat: 0
   defeatUpwardSpeed: 2
+  hitClip: {fileID: 8300000, guid: 01a3ebec844dc4dc3b277214888ca31a, type: 3}
+  defeatClip: {fileID: 8300000, guid: fe514167e3ce245d39f3ca781de6166a, type: 3}
 --- !u!114 &5468596945823897761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,3 +388,4 @@ MonoBehaviour:
   thimblePrefab: {fileID: 6228740569593181181, guid: d1c39afadb5b141159b4a6ffdb00af19, type: 3}
   dropOffset: {x: 0, y: -0.45}
   spriteFacesRight: 1
+  dropClip: {fileID: 8300000, guid: 73fbed1b03d9044dda79a440549d9738, type: 3}

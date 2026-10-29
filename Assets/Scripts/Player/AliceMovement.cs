@@ -19,6 +19,10 @@ public class AliceMovement : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip jumpClip;
+    [SerializeField] private AudioClip landClip;
+
     private Rigidbody2D rb;
     private AliceCombat combat;
 
@@ -28,6 +32,8 @@ public class AliceMovement : MonoBehaviour
     private float moveInput;
     private bool jumpRequested;
     private bool isGrounded;
+    private bool wasGrounded;
+    private bool groundStateInitialized;
     private float controlsLockedUntil;
 
     public bool IsGrounded => isGrounded;
@@ -94,6 +100,14 @@ public class AliceMovement : MonoBehaviour
             groundLayer
         ) != null;
 
+        if (groundStateInitialized && isGrounded && !wasGrounded)
+        {
+            GameAudio.Play(landClip);
+        }
+
+        wasGrounded = isGrounded;
+        groundStateInitialized = true;
+
         // Stop input while controls are locked.
         if (!CanAct)
         {
@@ -135,6 +149,7 @@ public class AliceMovement : MonoBehaviour
         if (jumpRequested)
         {
             rb.linearVelocityY = jumpSpeed;
+            GameAudio.Play(jumpClip);
             jumpRequested = false;
         }
     }

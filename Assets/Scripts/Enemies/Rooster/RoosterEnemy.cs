@@ -25,6 +25,9 @@ public class RoosterEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip aggroClip;
+
     private static readonly int PeckTrigger = Animator.StringToHash("Peck");
     private static readonly int WalkState = Animator.StringToHash("RoosterWalk");
 
@@ -256,6 +259,7 @@ public class RoosterEnemy : MonoBehaviour
     private void StartAggression()
     {
         isAggressive = true;
+        GameAudio.Play(aggroClip);
     }
 
     private void StopAggression()

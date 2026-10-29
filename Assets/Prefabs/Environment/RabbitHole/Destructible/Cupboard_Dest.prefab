@@ -230,3 +230,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestructibleObject
   health: 3
+  hitClip: {fileID: 8300000, guid: f1f67d0e1254346bcabb6848c36edcaf, type: 3}
+  breakClip: {fileID: 8300000, guid: 247a3132197f94239a61f98b56b3f0c1, type: 3}

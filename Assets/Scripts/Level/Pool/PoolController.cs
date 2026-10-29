@@ -38,6 +38,7 @@ public class PoolController : MonoBehaviour
     [SerializeField] private string nextScene = "00_Title";
     [SerializeField] private string completionLabel = "CHAPTER II COMPLETE";
     [SerializeField] private string completionSubtitle = "THE POOL OF TEARS";
+    [SerializeField] private AudioClip chapterCompleteClip;
 
     [Header("Enemy Sequence")]
     [SerializeField] private SpawnEntry[] spawnSequence;
@@ -127,7 +128,8 @@ public class PoolController : MonoBehaviour
             LevelTransition.Play(
                 completionLabel,
                 completionSubtitle,
-                nextScene
+                nextScene,
+                chapterCompleteClip
             );
         }
     }
