@@ -162,6 +162,9 @@ MonoBehaviour:
   despawnPadding: 2
   fallbackDistance: 24
   animator: {fileID: 1111369484143446055}
+  footstep01Clip: {fileID: 8300000, guid: 58db52d9699be43c2a0196103d906ec8, type: 3}
+  footstep02Clip: {fileID: 8300000, guid: 374497aa2c0df4c419d98bf61864255b, type: 3}
+  footstepInterval: 0.15
 --- !u!1 &5566819951552597410
 GameObject:
   m_ObjectHideFlags: 0

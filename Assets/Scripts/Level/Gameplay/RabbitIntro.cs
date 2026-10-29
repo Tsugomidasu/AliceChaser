@@ -20,6 +20,11 @@ public class RabbitIntro : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip footstep01Clip;
+    [SerializeField] private AudioClip footstep02Clip;
+    [SerializeField] private float footstepInterval = 0.15f;
+
     private static readonly int IdleState =
         Animator.StringToHash("Base Layer.RabbitIdle");
     private static readonly int RunState =
@@ -30,7 +35,9 @@ public class RabbitIntro : MonoBehaviour
 
     private float startX;
     private float runStartTime;
+    private float nextFootstepTime;
     private bool isRunning;
+    private bool useSecondFootstep;
 
     public float StartDelay => startDelay;
 
@@ -84,6 +91,12 @@ public class RabbitIntro : MonoBehaviour
             return;
         }
 
+        if (Time.time >= nextFootstepTime)
+        {
+            PlayFootstep();
+            nextFootstepTime = Time.time + footstepInterval;
+        }
+
         // Remove the Rabbit offscreen.
         if (mainCamera != null && mainCamera.orthographic)
         {
@@ -108,11 +121,23 @@ public class RabbitIntro : MonoBehaviour
     private void StartRun()
     {
         isRunning = true;
+        nextFootstepTime = Time.time + (footstepInterval * 0.5f);
 
         if (animator != null)
         {
             animator.Play(RunState, 0, 0f);
         }
+    }
+
+    private void PlayFootstep()
+    {
+        GameAudio.Play(
+            useSecondFootstep
+                ? footstep02Clip
+                : footstep01Clip
+        );
+
+        useSecondFootstep = !useSecondFootstep;
     }
 
     private bool IsGrounded()

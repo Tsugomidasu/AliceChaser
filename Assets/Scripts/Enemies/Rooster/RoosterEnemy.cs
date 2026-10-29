@@ -27,6 +27,7 @@ public class RoosterEnemy : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip aggroClip;
+    [SerializeField] private AudioClip peckClip;
 
     private static readonly int PeckTrigger = Animator.StringToHash("Peck");
     private static readonly int WalkState = Animator.StringToHash("RoosterWalk");
@@ -299,6 +300,8 @@ public class RoosterEnemy : MonoBehaviour
             FinishPeck();
             yield break;
         }
+
+        GameAudio.Play(peckClip);
 
         if (peckHitbox != null)
         {

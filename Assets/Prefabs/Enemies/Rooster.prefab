@@ -569,7 +569,8 @@ MonoBehaviour:
   peckActiveTime: 0.15
   peckRecovery: 0.35
   spriteFacesRight: 1
-  aggroClip: {fileID: 8300000, guid: 09619974e7c2f4547853d4ef55825977, type: 3}
+  aggroClip: {fileID: 8300000, guid: 1c5698ef24c9d4e90b77186b0704abbd, type: 3}
+  peckClip: {fileID: 8300000, guid: 09619974e7c2f4547853d4ef55825977, type: 3}
 --- !u!114 &2416495653690004021
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -397,6 +397,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   spriteFacesRight: 1
+  chirpClip: {fileID: 8300000, guid: 2775d0e21b326476aa8cc93aea6b23a7, type: 3}
+  minChirpInterval: 3
+  maxChirpInterval: 8
 --- !u!114 &-4916431342166103437
 MonoBehaviour:
   m_ObjectHideFlags: 0

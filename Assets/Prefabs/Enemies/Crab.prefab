@@ -468,6 +468,7 @@ MonoBehaviour:
   patrolDistance: 2.5
   startingDirection: -1
   spriteFacesRight: 1
+  turnClip: {fileID: 8300000, guid: c92418f96c8e64e33aa5723aeafd4a9b, type: 3}
 --- !u!114 &-8205818419987218363
 MonoBehaviour:
   m_ObjectHideFlags: 0

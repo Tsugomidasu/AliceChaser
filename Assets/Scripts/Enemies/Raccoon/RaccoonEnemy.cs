@@ -26,6 +26,9 @@ public class RaccoonEnemy : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip throwClip;
+    [SerializeField] private AudioClip intervalClip;
+    [SerializeField] private float minimumAudioInterval = 3f;
+    [SerializeField] private float maximumAudioInterval = 8f;
 
     private static readonly int AggroBool = Animator.StringToHash("Aggro");
     private static readonly int ThrowTrigger = Animator.StringToHash("Throw");
@@ -42,6 +45,7 @@ public class RaccoonEnemy : MonoBehaviour
 
     private RaccoonState state;
     private float stateEndTime;
+    private float nextAudioTime;
     private int direction;
     private bool deathHandled;
 
@@ -63,6 +67,7 @@ public class RaccoonEnemy : MonoBehaviour
         FindPlayer();
         UpdateFacing();
         SetAggro(false);
+        ScheduleNextIntervalAudio();
     }
 
     private void FixedUpdate()
@@ -96,6 +101,7 @@ public class RaccoonEnemy : MonoBehaviour
             FindPlayer();
         }
 
+        UpdateIntervalAudio();
         rb.linearVelocityX = 0f;
 
         switch (state)
@@ -116,6 +122,27 @@ public class RaccoonEnemy : MonoBehaviour
                 Recover();
                 break;
         }
+    }
+
+    private void UpdateIntervalAudio()
+    {
+        // Keep interval chatter out of the throw windup.
+        if (intervalClip == null ||
+            state == RaccoonState.Windup ||
+            Time.time < nextAudioTime)
+        {
+            return;
+        }
+
+        GameAudio.Play(intervalClip);
+        ScheduleNextIntervalAudio();
+    }
+
+    private void ScheduleNextIntervalAudio()
+    {
+        float minimum = Mathf.Max(0f, minimumAudioInterval);
+        float maximum = Mathf.Max(minimum, maximumAudioInterval);
+        nextAudioTime = Time.time + Random.Range(minimum, maximum);
     }
 
     private void Idle()

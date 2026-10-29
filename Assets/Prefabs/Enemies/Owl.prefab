@@ -411,6 +411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 4
   hitStunDuration: 0.18
+  receivesHitKnockback: 0
+  hitKnockbackMultiplier: 1
   defeatPauseDuration: 0.08
   defeatKnockbackSpeed: 2
   defeatFadeDuration: 0.3
@@ -444,6 +446,9 @@ MonoBehaviour:
   swoopHitbox: {fileID: 716244472816940509}
   spriteFacesRight: 1
   swoopCueClip: {fileID: 8300000, guid: 6a76e291fb5b64608a2a004c26777e2e, type: 3}
+  intervalClip: {fileID: 8300000, guid: e944456a5daf943b0af5bc34e2f7f300, type: 3}
+  minimumAudioInterval: 3
+  maximumAudioInterval: 8
 --- !u!114 &6365010014807586615
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,6 +33,9 @@ public class OwlEnemy : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip swoopCueClip;
+    [SerializeField] private AudioClip intervalClip;
+    [SerializeField] private float minimumAudioInterval = 3f;
+    [SerializeField] private float maximumAudioInterval = 8f;
 
     private static readonly int FlyState =
         Animator.StringToHash("Base Layer.OwlFly");
@@ -59,6 +62,7 @@ public class OwlEnemy : MonoBehaviour
     private float flightY;
     private float stateEndTime;
     private float nextAttackTime;
+    private float nextAudioTime;
     private float swoopElapsed;
     private int direction;
     private int travelDirection;
@@ -103,6 +107,7 @@ public class OwlEnemy : MonoBehaviour
         FindPlayer();
         UpdateFacing(direction);
         PlayState(FlyState);
+        ScheduleNextIntervalAudio();
     }
 
     private void FixedUpdate()
@@ -126,6 +131,7 @@ public class OwlEnemy : MonoBehaviour
             FindPlayer();
         }
 
+        UpdateIntervalAudio();
         rb.linearVelocity = Vector2.zero;
 
         switch (state)
@@ -146,6 +152,28 @@ public class OwlEnemy : MonoBehaviour
                 Recover();
                 break;
         }
+    }
+
+    private void UpdateIntervalAudio()
+    {
+        // Do not overlap ambient calls with the swoop telegraph or attack.
+        if (intervalClip == null ||
+            state == OwlState.Telegraph ||
+            state == OwlState.Swooping ||
+            Time.time < nextAudioTime)
+        {
+            return;
+        }
+
+        GameAudio.Play(intervalClip);
+        ScheduleNextIntervalAudio();
+    }
+
+    private void ScheduleNextIntervalAudio()
+    {
+        float minimum = Mathf.Max(0f, minimumAudioInterval);
+        float maximum = Mathf.Max(minimum, maximumAudioInterval);
+        nextAudioTime = Time.time + Random.Range(minimum, maximum);
     }
 
     private void Fly()

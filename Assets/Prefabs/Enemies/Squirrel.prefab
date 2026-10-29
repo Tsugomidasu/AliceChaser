@@ -162,6 +162,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   spriteFacesRight: 1
+  aggroClip: {fileID: 8300000, guid: 03c61ed20b73b4d24a690f42ae7c1c40, type: 3}
+  pounceClip: {fileID: 8300000, guid: e39bd519b35f8488a8590d44b9a39b53, type: 3}
 --- !u!114 &8524151118204901280
 MonoBehaviour:
   m_ObjectHideFlags: 0

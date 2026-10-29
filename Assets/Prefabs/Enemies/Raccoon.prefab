@@ -443,6 +443,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 4
   hitStunDuration: 0.18
+  receivesHitKnockback: 0
+  hitKnockbackMultiplier: 1
   defeatPauseDuration: 0.08
   defeatKnockbackSpeed: 2
   defeatFadeDuration: 0.3
@@ -471,6 +473,9 @@ MonoBehaviour:
   startingDirection: -1
   spriteFacesRight: 1
   throwClip: {fileID: 8300000, guid: 83e238de5763146ef944895ad0dd0aed, type: 3}
+  intervalClip: {fileID: 8300000, guid: 7e18fad6c4f6f40088f4943973f82cd1, type: 3}
+  minimumAudioInterval: 3
+  maximumAudioInterval: 8
 --- !u!114 &-3109897157984632091
 MonoBehaviour:
   m_ObjectHideFlags: 0

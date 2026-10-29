@@ -19,12 +19,18 @@ public class ChickEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip chirpClip;
+    [SerializeField] private float minChirpInterval = 3f;
+    [SerializeField] private float maxChirpInterval = 8f;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private EnemyHealth health;
 
     private float startX;
     private float nextHopTime;
+    private float nextChirpTime;
     private int direction;
     private bool wasGrounded;
 
@@ -42,8 +48,23 @@ public class ChickEnemy : MonoBehaviour
         startX = rb.position.x;
         direction = startingDirection >= 0 ? 1 : -1;
         nextHopTime = Time.time + landingPause;
+        ScheduleNextChirp();
 
         UpdateFacing();
+    }
+
+    private void Update()
+    {
+        if (health == null || health.IsDead)
+        {
+            return;
+        }
+
+        if (Time.time >= nextChirpTime)
+        {
+            GameAudio.Play(chirpClip);
+            ScheduleNextChirp();
+        }
     }
 
     private void FixedUpdate()
@@ -98,6 +119,14 @@ public class ChickEnemy : MonoBehaviour
 
         wasGrounded = isGrounded;
         UpdateFacing();
+    }
+
+
+    private void ScheduleNextChirp()
+    {
+        float minimum = Mathf.Max(0.1f, minChirpInterval);
+        float maximum = Mathf.Max(minimum, maxChirpInterval);
+        nextChirpTime = Time.time + Random.Range(minimum, maximum);
     }
 
     private void UpdateDirection()

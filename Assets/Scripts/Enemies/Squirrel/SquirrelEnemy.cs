@@ -32,6 +32,10 @@ public class SquirrelEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip aggroClip;
+    [SerializeField] private AudioClip pounceClip;
+
     private static readonly int JumpingParameter =
         Animator.StringToHash("Jumping");
 
@@ -241,6 +245,7 @@ public class SquirrelEnemy : MonoBehaviour
         stateEndTime = Time.time + pounceWindup;
         pounceDirection = direction;
         rb.linearVelocityX = 0f;
+        GameAudio.Play(aggroClip);
     }
 
     private void Windup()
@@ -261,6 +266,7 @@ public class SquirrelEnemy : MonoBehaviour
         state = SquirrelState.Airborne;
         hasLeftGround = false;
         SetJumping(true);
+        GameAudio.Play(pounceClip);
 
         // The pounce does not home after takeoff.
         rb.linearVelocity = new Vector2(

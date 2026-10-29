@@ -12,6 +12,9 @@ public class CrabEnemy : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private bool spriteFacesRight = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip turnClip;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private EnemyHealth health;
@@ -48,13 +51,21 @@ public class CrabEnemy : MonoBehaviour
         float rightEdge = startX + patrolDistance;
 
         // Turn around at either patrol limit.
+        int nextDirection = direction;
+
         if (rb.position.x <= leftEdge)
         {
-            direction = 1;
+            nextDirection = 1;
         }
         else if (rb.position.x >= rightEdge)
         {
-            direction = -1;
+            nextDirection = -1;
+        }
+
+        if (nextDirection != direction)
+        {
+            direction = nextDirection;
+            GameAudio.Play(turnClip);
         }
 
         // Move horizontally.
