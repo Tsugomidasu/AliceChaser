@@ -182,7 +182,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1219116408}
   - component: {fileID: 1219116407}
-  - component: {fileID: 1219116406}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -190,26 +189,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1219116406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219116405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b352e5a37cd0a4e8f9e20791e08aecbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Background
-  targetCamera: {fileID: 1775813047}
-  target: {fileID: 0}
-  spriteRenderer: {fileID: 1219116407}
-  lockToCamera: 0
-  horizontalStrength: 0.03
-  verticalStrength: 0.14
-  maxOffset: {x: 2.6, y: 0.45}
-  smoothing: 7
 --- !u!212 &1219116407
 SpriteRenderer:
   serializedVersion: 3
@@ -259,15 +238,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -5409511936285504530, guid: 0067f1ed8175049109c1c93194940a70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 16.72, y: 9.41}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!4 &1219116408
