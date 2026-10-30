@@ -2083,9 +2083,9 @@ MonoBehaviour:
   gameOverOptionsFadeTime: 0.3
   levelSelectScene: 01_Levels
   titleScene: 00_Title
-  navigateClip: {fileID: 0}
-  confirmClip: {fileID: 0}
-  cancelClip: {fileID: 0}
+  navigateClip: {fileID: 8300000, guid: 5b6475e782bad4b359661f4c29c98f69, type: 3}
+  confirmClip: {fileID: 8300000, guid: c2a324b2eaa2545fcb7035681c9e9dfa, type: 3}
+  cancelClip: {fileID: 8300000, guid: 9d33e4436fb774d72b4936a0dad3cc6f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

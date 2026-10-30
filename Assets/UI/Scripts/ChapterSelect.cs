@@ -212,7 +212,6 @@ public class ChapterSelect : MonoBehaviour
             TextAnchor.MiddleCenter
         );
 
-        // Build all chapter rows, including locked future chapters.
         for (int i = 0; i < ChapterTitles.Length; i++)
         {
             string sceneName = GetSceneName(i);
@@ -354,7 +353,6 @@ public class ChapterSelect : MonoBehaviour
 
     private void ActivateSelection()
     {
-        // Only playable chapters can load a scene.
         GameAudio.Play(confirmClip);
         if (selectedItem == chapters.Count)
         {
@@ -366,13 +364,14 @@ public class ChapterSelect : MonoBehaviour
 
         if (row.Playable && !string.IsNullOrEmpty(row.SceneName))
         {
+            // Stop menu music when gameplay begins.
+            GameAudio.StopMusic();
             SceneManager.LoadScene(row.SceneName);
         }
     }
 
     private void RefreshSelection()
     {
-        // Keep locked chapters visible without allowing selection.
         for (int i = 0; i < chapters.Count; i++)
         {
             ChapterRow row = chapters[i];
@@ -399,7 +398,6 @@ public class ChapterSelect : MonoBehaviour
 
     private int FirstSelectable()
     {
-        // Skip locked and unimplemented chapters.
         for (int i = 0; i < chapters.Count; i++)
         {
             if (chapters[i].Playable)

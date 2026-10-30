@@ -5,3 +5,6 @@ Alice Chaser - Design Changes
 - Custom visual effects were added to Alice's attacks to provide clearer combat feedback.
 - Alice can perform a basic attack while airborne, allowing her to fight jumping and flying enemies.
 - Enemy projectiles can be struck by Alice's attacks and reflected toward enemies, allowing reflected projectiles to damage them.
+- The Pool of Tears exceeds the original five enemy/obstacle type limit.
+- The title screen can start the Rabbit-Hole directly instead of requiring Level Select.
+- Pause, settings, sound controls, and key rebinding were added.

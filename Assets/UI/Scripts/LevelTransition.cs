@@ -67,6 +67,11 @@ public class LevelTransition : MonoBehaviour
 
         // Freeze gameplay before the completion presentation begins.
         DisablePlayerControl();
+
+        // Stop level audio so the completion bell plays by itself.
+        GameAudio.StopMusic();
+        GameAudio.StopAmbience();
+
         BuildUI();
 
         // Fade out, load while black, then fade into the next scene.
@@ -78,9 +83,6 @@ public class LevelTransition : MonoBehaviour
 
         if (!string.IsNullOrWhiteSpace(nextScene))
         {
-            GameAudio.StopMusic();
-            GameAudio.StopAmbience();
-
             AsyncOperation load = SceneManager.LoadSceneAsync(nextScene);
 
             while (load != null && !load.isDone)

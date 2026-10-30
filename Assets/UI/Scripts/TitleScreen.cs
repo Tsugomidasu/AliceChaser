@@ -10,6 +10,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private InputActionAsset inputActions;
 
     [Header("Typography")]
+    [SerializeField] private Font titleFont;
     [SerializeField] private Font uiFont;
 
     [Header("Scenes")]
@@ -19,20 +20,21 @@ public class TitleScreen : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip navigateClip;
     [SerializeField] private AudioClip confirmClip;
+    [SerializeField] private AudioClip titleBgm;
+    [SerializeField, Range(0f, 1f)] private float titleBgmVolume = 1f;
 
     private readonly Color menuWhite = Color.white;
     private readonly Color selectedColor = new Color32(229, 138, 122, 255);
-    private readonly Color backgroundColor = new Color32(10, 8, 11, 255);
-
     private readonly List<Text> options = new();
     private Font font;
     private Canvas canvas;
-    private Texture2D whiteTexture;
-    private Sprite whiteSprite;
     private InputAction navigateAction;
     private InputAction submitAction;
     private SettingsMenu settingsMenu;
     private int selectedIndex;
+    private string secretInput = string.Empty;
+
+    private const string SecretBgmCode = "ecila";
 
     private void Awake()
     {
@@ -44,7 +46,6 @@ public class TitleScreen : MonoBehaviour
             ? uiFont
             : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
 
-        CreateWhiteSprite();
         BuildUI();
         BuildSettingsMenu();
         RefreshSelection();
@@ -54,12 +55,22 @@ public class TitleScreen : MonoBehaviour
     {
         navigateAction?.Enable();
         submitAction?.Enable();
+
+        if (Keyboard.current != null)
+        {
+            Keyboard.current.onTextInput += HandleTextInput;
+        }
     }
 
     private void OnDisable()
     {
         navigateAction?.Disable();
         submitAction?.Disable();
+
+        if (Keyboard.current != null)
+        {
+            Keyboard.current.onTextInput -= HandleTextInput;
+        }
     }
 
     private void Update()
@@ -96,6 +107,39 @@ public class TitleScreen : MonoBehaviour
         }
     }
 
+    private void HandleTextInput(char character)
+    {
+        if (settingsMenu != null && settingsMenu.IsOpen)
+        {
+            return;
+        }
+
+        char letter = char.ToLowerInvariant(character);
+
+        if (letter < 'a' || letter > 'z')
+        {
+            return;
+        }
+
+        // Keep only the letters needed to match the hidden title code.
+        secretInput += letter;
+
+        if (secretInput.Length > SecretBgmCode.Length)
+        {
+            secretInput = secretInput.Substring(
+                secretInput.Length - SecretBgmCode.Length
+            );
+        }
+
+        if (secretInput != SecretBgmCode)
+        {
+            return;
+        }
+
+        GameAudio.PlayMusic(titleBgm, titleBgmVolume);
+        secretInput = string.Empty;
+    }
+
     private void FindInputActions()
     {
         if (inputActions == null)
@@ -109,19 +153,6 @@ public class TitleScreen : MonoBehaviour
         SettingsMenu.ApplySavedBindings(inputActions);
         navigateAction = inputActions.FindAction("UI/Navigate");
         submitAction = inputActions.FindAction("UI/Submit");
-    }
-
-    private void OnDestroy()
-    {
-        if (whiteSprite != null)
-        {
-            Destroy(whiteSprite);
-        }
-
-        if (whiteTexture != null)
-        {
-            Destroy(whiteTexture);
-        }
     }
 
     private void BuildUI()
@@ -141,32 +172,17 @@ public class TitleScreen : MonoBehaviour
 
         canvasObject.AddComponent<GraphicRaycaster>();
 
-        RectTransform background = CreateRect(
-            "Background",
-            canvas.transform,
-            Vector2.zero,
-            Vector2.one,
-            new Vector2(0.5f, 0.5f),
-            Vector2.zero,
-            Vector2.zero
-        );
-
-        Image backgroundImage = background.gameObject.AddComponent<Image>();
-        backgroundImage.sprite = whiteSprite;
-        backgroundImage.color = backgroundColor;
-        backgroundImage.raycastTarget = false;
-
         Text title = CreateText(
             "Title",
             canvas.transform,
-            "ALICE\nCHASER",
+            "ALICE CHASER",
             104,
             menuWhite,
             new Vector2(0.5f, 0.70f),
-            new Vector2(1000f, 250f),
+            new Vector2(1400f, 140f),
             TextAnchor.MiddleCenter
         );
-        title.lineSpacing = 0.78f;
+        title.font = titleFont != null ? titleFont : font;
 
         options.Add(CreateMenuText("START", 0.45f));
         options.Add(CreateMenuText("LEVEL SELECT", 0.38f));
@@ -193,6 +209,7 @@ public class TitleScreen : MonoBehaviour
         switch (selectedIndex)
         {
             case 0:
+                GameAudio.StopMusic();
                 SceneManager.LoadScene(startScene);
                 break;
 
@@ -310,20 +327,6 @@ public class TitleScreen : MonoBehaviour
         rect.anchoredPosition = anchoredPosition;
         rect.sizeDelta = sizeDelta;
         return rect;
-    }
-
-    private void CreateWhiteSprite()
-    {
-        whiteTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
-        whiteTexture.SetPixel(0, 0, Color.white);
-        whiteTexture.Apply();
-
-        whiteSprite = Sprite.Create(
-            whiteTexture,
-            new Rect(0f, 0f, 1f, 1f),
-            new Vector2(0.5f, 0.5f),
-            1f
-        );
     }
 
     private int WrapIndex(int index, int count)
