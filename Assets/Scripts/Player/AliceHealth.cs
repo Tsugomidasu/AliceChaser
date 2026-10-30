@@ -57,7 +57,6 @@ public class AliceHealth : MonoBehaviour
 
     private void Awake()
     {
-        // Get the required components.
         rb = GetComponent<Rigidbody2D>();
         movement = GetComponent<AliceMovement>();
         combat = GetComponent<AliceCombat>();
@@ -82,7 +81,6 @@ public class AliceHealth : MonoBehaviour
 
     public void TakeDamage(int damage, Vector2 sourcePosition)
     {
-        // Ignore damage when unavailable.
         if (damage <= 0 ||
             IsDefeated ||
             IsInvulnerable)
@@ -90,16 +88,14 @@ public class AliceHealth : MonoBehaviour
             return;
         }
 
-        // Remove health.
         CurrentHealth = Mathf.Max(
             0,
             CurrentHealth - damage
         );
 
-        // Stop the current attack.
+        // Damage cancels any attack or charge in progress.
         combat?.InterruptAttack();
 
-        // Defeat Alice at zero health.
         if (CurrentHealth <= 0)
         {
             Defeat();
@@ -108,16 +104,14 @@ public class AliceHealth : MonoBehaviour
 
         GameAudio.Play(hurtClip);
 
-        // Start invulnerability.
+        // Start post-hit invulnerability before applying knockback.
         invulnerableUntil =
             Time.time + invulnerabilityTime;
 
         StartDamageFlash();
 
-        // Lock controls during the hit reaction.
         movement.LockControls(controlLockTime);
 
-        // Knock Alice away from the damage source.
         float knockbackDirection =
             transform.position.x >= sourcePosition.x
             ? 1f
@@ -128,7 +122,6 @@ public class AliceHealth : MonoBehaviour
             knockback.y
         );
 
-        // Play the hurt animation.
         if (animator != null &&
             animator.HasState(0, AliceHurtState))
         {
@@ -139,7 +132,6 @@ public class AliceHealth : MonoBehaviour
             );
         }
 
-        // Restart the recovery timer.
         if (recoveryRoutine != null)
         {
             StopCoroutine(recoveryRoutine);
@@ -208,7 +200,6 @@ public class AliceHealth : MonoBehaviour
 
     private IEnumerator RecoverFromHit()
     {
-        // Wait for the hit reaction to finish.
         yield return new WaitForSeconds(
             controlLockTime
         );
@@ -220,7 +211,7 @@ public class AliceHealth : MonoBehaviour
             yield break;
         }
 
-        // Return to the correct movement animation.
+        // Return to the correct locomotion state after hit stun.
         if (!movement.IsGrounded &&
             animator.HasState(0, AliceJumpState))
         {
@@ -251,6 +242,7 @@ public class AliceHealth : MonoBehaviour
 
     private void Defeat()
     {
+        // Disable normal control and hand the scene over to Game Over.
         IsDefeated = true;
         GameAudio.Play(defeatClip);
         invulnerableUntil = 0f;
@@ -263,7 +255,6 @@ public class AliceHealth : MonoBehaviour
 
         RestoreSpriteVisibility();
 
-        // Stop movement and combat.
         movement.LockControls(
             float.PositiveInfinity
         );
@@ -275,7 +266,6 @@ public class AliceHealth : MonoBehaviour
             combat.enabled = false;
         }
 
-        // Play the defeat animation.
         if (animator != null &&
             animator.HasState(0, AliceDefeatState))
         {

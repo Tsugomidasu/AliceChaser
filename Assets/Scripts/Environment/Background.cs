@@ -56,6 +56,7 @@ public class Background : MonoBehaviour
             return;
         }
 
+        // Camera-locked layers behave as fixed screen-space scenery.
         if (lockToCamera)
         {
             currentOffset = Vector2.zero;
@@ -77,7 +78,7 @@ public class Background : MonoBehaviour
             ? target.position.y - targetStartY
             : 0f;
 
-        // Offset the background from the camera travel.
+        // Counter camera travel for parallax.
         Vector2 desiredOffset = new Vector2(
             -cameraTravelX * horizontalStrength,
             targetRelativeY * verticalStrength
@@ -131,6 +132,7 @@ public class Background : MonoBehaviour
 
     private void FitToCamera()
     {
+        // Scale the sprite to cover the camera plus its allowed parallax travel.
         if (!targetCamera.orthographic || spriteRenderer.sprite == null)
         {
             return;
@@ -150,7 +152,6 @@ public class Background : MonoBehaviour
         float viewHeight = targetCamera.orthographicSize * 2f;
         float viewWidth = viewHeight * targetCamera.aspect;
 
-        // Keep the sprite large enough to cover the parallax range.
         float requiredWidth = viewWidth + maxOffset.x * 2f;
         float requiredHeight = viewHeight + maxOffset.y * 2f;
 

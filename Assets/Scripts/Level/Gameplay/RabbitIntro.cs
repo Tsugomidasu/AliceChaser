@@ -43,7 +43,6 @@ public class RabbitIntro : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Rabbit components.
         rb = GetComponent<Rigidbody2D>();
 
         if (animator == null)
@@ -58,7 +57,6 @@ public class RabbitIntro : MonoBehaviour
         runStartTime = Time.time + startDelay;
         mainCamera = Camera.main;
 
-        // Start with the Rabbit's opening poses.
         if (animator != null)
         {
             animator.Play(IdleState, 0, 0f);
@@ -71,7 +69,7 @@ public class RabbitIntro : MonoBehaviour
         {
             rb.linearVelocityX = 0f;
 
-            // Start running.
+            // Wait for both the intro delay and a valid ground contact.
             if (Time.time >= runStartTime && IsGrounded())
             {
                 StartRun();
@@ -80,7 +78,6 @@ public class RabbitIntro : MonoBehaviour
             return;
         }
 
-        // Move the Rabbit.
         rb.linearVelocityX = runSpeed;
     }
 
@@ -97,7 +94,7 @@ public class RabbitIntro : MonoBehaviour
             nextFootstepTime = Time.time + footstepInterval;
         }
 
-        // Remove the Rabbit offscreen.
+        // Despawn relative to the camera when available.
         if (mainCamera != null && mainCamera.orthographic)
         {
             float halfWidth = mainCamera.orthographicSize * mainCamera.aspect;
@@ -111,7 +108,7 @@ public class RabbitIntro : MonoBehaviour
             return;
         }
 
-        // Use the fallback distance.
+        // Use distance-based despawn as fallback.
         if (transform.position.x - startX >= fallbackDistance)
         {
             Destroy(gameObject);
@@ -169,7 +166,6 @@ public class RabbitIntro : MonoBehaviour
             return;
         }
 
-        // Show the ground check.
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }

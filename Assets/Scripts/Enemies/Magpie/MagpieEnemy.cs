@@ -28,7 +28,6 @@ public class MagpieEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Magpie components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         health = GetComponent<EnemyHealth>();
@@ -36,11 +35,9 @@ public class MagpieEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Store where the Magpie entered the encounter.
         startX = rb.position.x;
         nextDropTime = Time.time + dropCooldown;
 
-        // Face left while flying.
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = spriteFacesRight;
@@ -49,18 +46,17 @@ public class MagpieEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
         }
 
-        // Keep flying through normal hits.
+        // Normal hits do not interrupt the flight.
         rb.linearVelocity = new Vector2(-flightSpeed, 0f);
 
         TryDropThimble();
 
-        // Remove the Magpie after it leaves the screen.
+        // Remove the Magpie after it clears the encounter.
         if (startX - rb.position.x >= despawnDistance)
         {
             Destroy(gameObject);
@@ -69,7 +65,7 @@ public class MagpieEnemy : MonoBehaviour
 
     private void TryDropThimble()
     {
-        // Drop without targeting Alice.
+        // Drop straight down instead of targeting Alice.
         if (thimblePrefab == null || Time.time < nextDropTime)
         {
             return;
@@ -96,7 +92,6 @@ public class MagpieEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop normal movement when the Magpie is disabled.
         if (rb != null && (health == null || !health.IsDead))
         {
             rb.linearVelocity = Vector2.zero;

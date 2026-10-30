@@ -70,13 +70,12 @@ public class OwlEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Owl components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         animator = GetComponentInChildren<Animator>(true);
         health = GetComponent<EnemyHealth>();
 
-        // Keep contact damage inactive outside the swoop.
+        // Disable the swoop hitbox outside the attack.
         if (swoopHitbox != null)
         {
             swoopHitbox.enabled = false;
@@ -85,7 +84,6 @@ public class OwlEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Set the upper flight path.
         if (startingSide >= 0)
         {
             rightCorner = rb.position;
@@ -112,14 +110,12 @@ public class OwlEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             DisableSwoopHitbox();
             return;
         }
 
-        // Hits briefly interrupt the current movement.
         if (health.IsHitStunned)
         {
             rb.linearVelocity = Vector2.zero;
@@ -156,7 +152,7 @@ public class OwlEnemy : MonoBehaviour
 
     private void UpdateIntervalAudio()
     {
-        // Do not overlap ambient calls with the swoop telegraph or attack.
+        // Suppress idle calls during the swoop.
         if (intervalClip == null ||
             state == OwlState.Telegraph ||
             state == OwlState.Swooping ||
@@ -178,6 +174,7 @@ public class OwlEnemy : MonoBehaviour
 
     private void Fly()
     {
+        // Patrol until Alice enters the next swoop window.
         MoveHorizontally(flightSpeed);
 
         if (Time.time < nextAttackTime || !CanAttackAlice())
@@ -185,7 +182,6 @@ public class OwlEnemy : MonoBehaviour
             return;
         }
 
-        // Start the attack cycle.
         activated = true;
         StartTelegraph();
     }
@@ -206,7 +202,6 @@ public class OwlEnemy : MonoBehaviour
             return false;
         }
 
-        // Wait until Alice approaches.
         if (!activated && flightCenter.x <= player.position.x)
         {
             return false;
@@ -225,7 +220,6 @@ public class OwlEnemy : MonoBehaviour
 
     private void Telegraph()
     {
-        // Slow before the swoop.
         MoveHorizontally(flightSpeed * telegraphSpeedMultiplier);
 
         if (Time.time >= stateEndTime)
@@ -247,7 +241,7 @@ public class OwlEnemy : MonoBehaviour
         travelDirection = direction;
         swoopStart = rb.position;
 
-        // Lock the swoop target.
+        // Build the swoop path through Alice's current position.
         Vector2 targetPosition = playerCollider != null
             ? playerCollider.bounds.center
             : (Vector2)player.position;
@@ -292,6 +286,7 @@ public class OwlEnemy : MonoBehaviour
 
     private void StartRecovery()
     {
+        // Recover to the far corner before resuming normal flight.
         state = OwlState.Recovering;
         recoveryTarget = travelDirection > 0
             ? rightCorner
@@ -317,7 +312,6 @@ public class OwlEnemy : MonoBehaviour
             return;
         }
 
-        // Resume horizontal flight toward the opposite side.
         rb.position = recoveryTarget;
         direction = travelDirection > 0 ? -1 : 1;
         ReturnToFlight();
@@ -335,7 +329,6 @@ public class OwlEnemy : MonoBehaviour
 
     private void MoveHorizontally(float speed)
     {
-        // Turn at the flight limits.
         if (rb.position.x <= leftCorner.x)
         {
             direction = 1;
@@ -409,7 +402,6 @@ public class OwlEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop the swoop when disabled.
         DisableSwoopHitbox();
 
         if (rb != null && (health == null || !health.IsDead))
@@ -420,7 +412,6 @@ public class OwlEnemy : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Show the Owl's upper horizontal flight path.
         Vector3 left = transform.position;
         Vector3 right = transform.position;
 

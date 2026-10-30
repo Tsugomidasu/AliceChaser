@@ -57,14 +57,12 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Squirrel components.
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         animator = GetComponentInChildren<Animator>(true);
         health = GetComponent<EnemyHealth>();
 
-        // Use Jumping only if the controller defines it.
         if (animator != null)
         {
             foreach (AnimatorControllerParameter parameter in animator.parameters)
@@ -81,7 +79,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Store the center of the normal patrol area.
         startX = rb.position.x;
         direction = startingDirection >= 0 ? 1 : -1;
         state = SquirrelState.Patrol;
@@ -93,7 +90,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
@@ -101,7 +97,7 @@ public class SquirrelEnemy : MonoBehaviour
 
         bool isGrounded = IsGrounded();
 
-        // Grounded hits cancel the windup.
+        // Grounded hit stun cancels the windup.
         if (health.IsHitStunned && state != SquirrelState.Airborne)
         {
             if (state == SquirrelState.Windup)
@@ -139,7 +135,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void Patrol(bool isGrounded)
     {
-        // Detection gates the pounce.
         if (isGrounded && CanDetectAlice(pounceRange))
         {
             StartWindup();
@@ -149,7 +144,6 @@ public class SquirrelEnemy : MonoBehaviour
         float leftEdge = startX - patrolDistance;
         float rightEdge = startX + patrolDistance;
 
-        // Turn around at either patrol limit.
         if (rb.position.x <= leftEdge)
         {
             direction = 1;
@@ -180,7 +174,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private bool IsEnemyInFrontOfAlice()
     {
-        // Alice always faces right in gameplay.
         return player != null && rb.position.x > player.position.x;
     }
 
@@ -191,7 +184,6 @@ public class SquirrelEnemy : MonoBehaviour
             return false;
         }
 
-        // Check whether Alice is in front.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
@@ -220,7 +212,7 @@ public class SquirrelEnemy : MonoBehaviour
                 continue;
             }
 
-            // Enemy bodies do not block line of sight.
+            // Enemy colliders do not block line of sight.
             EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (hitEnemy != null)
             {
@@ -241,6 +233,7 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void StartWindup()
     {
+        // Telegraph the pounce before movement is committed.
         state = SquirrelState.Windup;
         stateEndTime = Time.time + pounceWindup;
         pounceDirection = direction;
@@ -250,7 +243,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void Windup()
     {
-        // Hold still briefly before the pounce.
         rb.linearVelocityX = 0f;
 
         if (Time.time < stateEndTime)
@@ -268,7 +260,7 @@ public class SquirrelEnemy : MonoBehaviour
         SetJumping(true);
         GameAudio.Play(pounceClip);
 
-        // The pounce does not home after takeoff.
+        // Lock the pounce direction at takeoff.
         rb.linearVelocity = new Vector2(
             pounceDirection * pounceHorizontalSpeed,
             pounceVerticalSpeed
@@ -282,14 +274,12 @@ public class SquirrelEnemy : MonoBehaviour
             hasLeftGround = true;
         }
 
-        // Keep the committed horizontal speed.
         if (hasLeftGround)
         {
             rb.linearVelocityX =
                 pounceDirection * pounceHorizontalSpeed;
         }
 
-        // Wait until the Squirrel lands.
         if (hasLeftGround &&
             isGrounded &&
             rb.linearVelocityY <= 0.1f)
@@ -300,6 +290,7 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void StartRecovery()
     {
+        // Pause after landing before patrol can resume.
         state = SquirrelState.Recovery;
         stateEndTime = Time.time + landingRecovery;
         rb.linearVelocityX = 0f;
@@ -308,7 +299,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void Recover()
     {
-        // Pause briefly after landing.
         rb.linearVelocityX = 0f;
 
         if (Time.time >= stateEndTime)
@@ -348,7 +338,6 @@ public class SquirrelEnemy : MonoBehaviour
             return;
         }
 
-        // Face the current direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;
@@ -364,7 +353,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop movement when disabled.
         if (rb != null && (health == null || !health.IsDead))
         {
             rb.linearVelocityX = 0f;
@@ -373,7 +361,6 @@ public class SquirrelEnemy : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Show the pounce and ground check.
         Gizmos.DrawWireSphere(transform.position, pounceRange);
 
         if (groundCheck != null)

@@ -46,13 +46,11 @@ public class AliceAttackVFX : MonoBehaviour
     {
         combat = GetComponent<AliceCombat>();
 
-        // Set up the shader property block.
         propertyBlock = new MaterialPropertyBlock();
         opacityId = Shader.PropertyToID("_Opacity");
         thrustColorId = Shader.PropertyToID("_ThrustColor");
         coreColorId = Shader.PropertyToID("_CoreColor");
 
-        // Store the original slash scales.
         if (verticalSlash != null)
         {
             verticalBaseScale = verticalSlash.transform.localScale;
@@ -65,7 +63,6 @@ public class AliceAttackVFX : MonoBehaviour
             ResetEffect(horizontalSlash, horizontalBaseScale);
         }
 
-        // Store the original thrust scale.
         if (thrustEffect != null)
         {
             thrustBaseScale = thrustEffect.transform.localScale;
@@ -75,6 +72,7 @@ public class AliceAttackVFX : MonoBehaviour
 
     public void ShowVerticalSlash()
     {
+        // Match each attack animation to its corresponding slash effect.
         PlayEffect(
             verticalSlash,
             verticalBaseScale
@@ -99,7 +97,6 @@ public class AliceAttackVFX : MonoBehaviour
         bool isHeavy =
             combat != null && combat.IsHeavyAttack;
 
-        // Use the heavy thrust colors.
         if (isHeavy)
         {
             SetThrustColors(
@@ -109,7 +106,6 @@ public class AliceAttackVFX : MonoBehaviour
         }
         else
         {
-            // Use the normal thrust colors.
             SetThrustColors(
                 NormalThrustColor,
                 NormalThrustCoreColor
@@ -134,14 +130,13 @@ public class AliceAttackVFX : MonoBehaviour
             return;
         }
 
-        // Stop the previous slash or thrust effect.
+        // Only one attack effect runs at a time.
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
             activeRoutine = null;
         }
 
-        // Hide both slash effects.
         if (verticalSlash != null)
         {
             ResetEffect(
@@ -158,7 +153,6 @@ public class AliceAttackVFX : MonoBehaviour
             );
         }
 
-        // Hide the thrust effect.
         if (thrustEffect != null)
         {
             ResetEffect(
@@ -167,7 +161,6 @@ public class AliceAttackVFX : MonoBehaviour
             );
         }
 
-        // Play the selected slash or thrust effect.
         activeRoutine = StartCoroutine(
             AnimateEffect(
                 renderer,
@@ -201,7 +194,6 @@ public class AliceAttackVFX : MonoBehaviour
                 elapsed / duration
             );
 
-            // Expand the slash or thrust effect slightly.
             float scaleMultiplier = Mathf.Lerp(
                 startScaleMultiplier,
                 endScaleMultiplier,
@@ -215,7 +207,6 @@ public class AliceAttackVFX : MonoBehaviour
 
             float opacity = 1f;
 
-            // Fade the slash or thrust effect near the end.
             if (t > fadeStart)
             {
                 float fadeT = Mathf.InverseLerp(
@@ -236,7 +227,6 @@ public class AliceAttackVFX : MonoBehaviour
             yield return null;
         }
 
-        // Hide and restore the slash or thrust effect.
         ResetEffect(renderer, baseScale);
         activeRoutine = null;
     }
@@ -262,7 +252,6 @@ public class AliceAttackVFX : MonoBehaviour
             return;
         }
 
-        // Override the thrust shader colors.
         thrustEffect.GetPropertyBlock(propertyBlock);
         propertyBlock.SetColor(thrustColorId, thrustColor);
         propertyBlock.SetColor(coreColorId, coreColor);
@@ -279,7 +268,6 @@ public class AliceAttackVFX : MonoBehaviour
             return;
         }
 
-        // Override the shader opacity.
         renderer.GetPropertyBlock(propertyBlock);
         propertyBlock.SetFloat(opacityId, opacity);
         renderer.SetPropertyBlock(propertyBlock);
@@ -287,14 +275,13 @@ public class AliceAttackVFX : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop the active slash or thrust effect.
+        // Clear any effect still running when Alice is disabled.
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
             activeRoutine = null;
         }
 
-        // Reset both slash effects.
         if (verticalSlash != null)
         {
             ResetEffect(
@@ -311,7 +298,6 @@ public class AliceAttackVFX : MonoBehaviour
             );
         }
 
-        // Reset the thrust effect.
         if (thrustEffect != null)
         {
             ResetEffect(

@@ -61,10 +61,8 @@ public class AliceCombat : MonoBehaviour
     private bool hasUsedAirAttack;
     private bool heavyImpactPlayed;
 
-    // Track objects already damaged by the current attack.
     private readonly HashSet<UnityEngine.Object> damagedThisAttack = new();
 
-    // Reuse attack query results.
     private readonly List<Collider2D> hitResults = new();
     private ContactFilter2D damageFilter;
 
@@ -99,19 +97,17 @@ public class AliceCombat : MonoBehaviour
     {
         movement = GetComponent<AliceMovement>();
 
-        // Heavy attack uses Attack 3's hitbox by default.
+        // Heavy reuses Attack 3's hitbox.
         if (heavyHitbox == null)
         {
             heavyHitbox = attack3Hitbox;
         }
 
-        // Find the Attack action.
         if (inputActions != null)
         {
             attackAction = inputActions.FindAction("Player/Attack");
         }
 
-        // Include trigger hurtboxes in attack checks.
         damageFilter = new ContactFilter2D();
         damageFilter.SetLayerMask(damageLayers);
         damageFilter.useTriggers = true;
@@ -147,7 +143,6 @@ public class AliceCombat : MonoBehaviour
 
     private void Start()
     {
-        // Check the Attack action.
         if (inputActions == null)
         {
             Debug.LogError(
@@ -161,7 +156,6 @@ public class AliceCombat : MonoBehaviour
             );
         }
 
-        // Check the attack states.
         if (!animator.HasState(0, AliceAttack1State) ||
             !animator.HasState(0, AliceAttack2State) ||
             !animator.HasState(0, AliceAttack3State))
@@ -174,13 +168,11 @@ public class AliceCombat : MonoBehaviour
 
     private void Update()
     {
-        // Reset the air attack after Alice lands.
         if (movement.IsGrounded)
         {
             hasUsedAirAttack = false;
         }
 
-        // End the combo window.
         if (waitingForComboInput &&
             Time.time >= comboWindowEndTime)
         {
@@ -190,7 +182,6 @@ public class AliceCombat : MonoBehaviour
 
     private void AttackStarted(InputAction.CallbackContext context)
     {
-        // Start charging the heavy attack.
         if (context.interaction is SlowTapInteraction &&
             !IsAttacking &&
             movement.IsGrounded &&
@@ -203,13 +194,11 @@ public class AliceCombat : MonoBehaviour
 
     private void AttackPerformed(InputAction.CallbackContext context)
     {
-        // Ignore attacks while controls are locked.
         if (!movement.CanAct)
         {
             return;
         }
 
-        // Use the heavy attack.
         if (context.interaction is SlowTapInteraction)
         {
             IsCharging = false;
@@ -222,7 +211,6 @@ public class AliceCombat : MonoBehaviour
             return;
         }
 
-        // Use a normal attack.
         if (context.interaction is TapInteraction)
         {
             IsCharging = false;
@@ -232,7 +220,6 @@ public class AliceCombat : MonoBehaviour
 
     private void AttackCanceled(InputAction.CallbackContext context)
     {
-        // Cancel the charge.
         if (context.interaction is SlowTapInteraction)
         {
             IsCharging = false;
@@ -241,18 +228,19 @@ public class AliceCombat : MonoBehaviour
 
     private void ReadLightAttack()
     {
+        // Start, continue, or buffer the grounded combo from the same input.
         if (!movement.CanAct)
         {
             return;
         }
 
-        // Start Attack 1.
         if (!IsAttacking)
         {
             if (movement.IsGrounded)
             {
                 StartLightAttack(1);
             }
+            // Limit Alice to one basic attack per jump.
             else if (!hasUsedAirAttack)
             {
                 StartAirAttack();
@@ -266,14 +254,12 @@ public class AliceCombat : MonoBehaviour
             return;
         }
 
-        // Continue during the combo window.
         if (waitingForComboInput && currentAttack < 3)
         {
             StartLightAttack(currentAttack + 1);
             return;
         }
 
-        // Queue the next attack.
         if (currentAttack + queuedAttacks < 3)
         {
             queuedAttacks++;
@@ -282,7 +268,6 @@ public class AliceCombat : MonoBehaviour
 
     private void StartLightAttack(int attackNumber)
     {
-        // Reset damaged objects for the new attack.
         damagedThisAttack.Clear();
 
         IsAttacking = true;
@@ -292,7 +277,6 @@ public class AliceCombat : MonoBehaviour
 
         waitingForComboInput = false;
 
-        // Play the current attack.
         switch (currentAttack)
         {
             case 1:
@@ -314,7 +298,6 @@ public class AliceCombat : MonoBehaviour
 
     private void StartAirAttack()
     {
-        // Reset damaged objects for the air attack.
         damagedThisAttack.Clear();
 
         IsAttacking = true;
@@ -326,14 +309,13 @@ public class AliceCombat : MonoBehaviour
 
         waitingForComboInput = false;
 
-        // Air attack uses Attack 1.
         animator.Play(AliceAttack1State, 0, 0f);
         GameAudio.Play(attack01Clip);
     }
 
     private void StartHeavyAttack()
     {
-        // Reset damaged objects for the new attack.
+        // Reuse Attack 3 visually while keeping Heavy damage and state separate.
         damagedThisAttack.Clear();
 
         IsAttacking = true;
@@ -347,14 +329,12 @@ public class AliceCombat : MonoBehaviour
         waitingForComboInput = false;
         heavyImpactPlayed = false;
 
-        // Heavy attack uses Attack 3.
         animator.Play(AliceAttack3State, 0, 0f);
         GameAudio.Play(heavySwingClip);
     }
 
     public void AttackHit()
     {
-        // Check the heavy hitbox.
         if (isHeavyAttack)
         {
             CheckHitbox(
@@ -365,7 +345,6 @@ public class AliceCombat : MonoBehaviour
             return;
         }
 
-        // Check the current hitbox.
         switch (currentAttack)
         {
             case 1:
@@ -423,7 +402,7 @@ public class AliceCombat : MonoBehaviour
 
         foreach (Collider2D hit in hitResults)
         {
-            // Check for deflectable rocks first.
+            // Check deflectable rocks before damage targets.
             RaccoonRock rock =
                 hit.GetComponentInParent<RaccoonRock>();
 
@@ -437,13 +416,12 @@ public class AliceCombat : MonoBehaviour
                 continue;
             }
 
-            // Check for enemies.
             EnemyHealth enemy =
                 hit.GetComponentInParent<EnemyHealth>();
 
             if (enemy != null)
             {
-                // Prevent duplicate damage during the same attack.
+                // Damage each target once per attack.
                 if (damagedThisAttack.Add(enemy))
                 {
                     float knockbackSpeed = isHeavyAttack
@@ -462,11 +440,9 @@ public class AliceCombat : MonoBehaviour
                 continue;
             }
 
-            // Check for destructible objects.
             DestructibleObject destructible =
                 hit.GetComponentInParent<DestructibleObject>();
 
-            // Prevent duplicate damage during the same attack.
             if (destructible != null &&
                 damagedThisAttack.Add(destructible))
             {
@@ -489,21 +465,19 @@ public class AliceCombat : MonoBehaviour
 
     public void AttackFinished()
     {
-        // Finish the air attack.
+        // Continue buffered combo input or return control when the animation ends.
         if (isAirAttack)
         {
             EndAttack();
             return;
         }
 
-        // Finish the heavy attack.
         if (isHeavyAttack)
         {
             EndAttack();
             return;
         }
 
-        // Continue a buffered combo.
         if (queuedAttacks > 0 && currentAttack < 3)
         {
             queuedAttacks--;
@@ -511,20 +485,17 @@ public class AliceCombat : MonoBehaviour
             return;
         }
 
-        // Wait briefly for the next combo input.
         if (currentAttack < 3)
         {
             StartComboWindow();
             return;
         }
 
-        // Attack 3 ends the combo.
         EndAttack();
     }
 
     public void InterruptAttack()
     {
-        // Clear the current attack state.
         IsAttacking = false;
         IsCharging = false;
 
@@ -549,7 +520,6 @@ public class AliceCombat : MonoBehaviour
     {
         InterruptAttack();
 
-        // Return to movement.
         if (!movement.IsGrounded)
         {
             animator.Play(AliceJumpState, 0, 0f);
@@ -566,7 +536,6 @@ public class AliceCombat : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Show the attack hitboxes.
         DrawHitbox(attack1Hitbox);
         DrawHitbox(attack2Hitbox);
         DrawHitbox(attack3Hitbox);

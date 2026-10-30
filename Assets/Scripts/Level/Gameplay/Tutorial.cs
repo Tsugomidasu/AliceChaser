@@ -58,7 +58,6 @@ public class Tutorial: MonoBehaviour
 
     private void Awake()
     {
-        // Find the tutorial references and input actions.
         if (alice == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -82,6 +81,7 @@ public class Tutorial: MonoBehaviour
 
         if (inputActions != null)
         {
+            SettingsMenu.ApplySavedBindings(inputActions);
             moveAction = inputActions.FindAction("Player/Move");
             jumpAction = inputActions.FindAction("Player/Jump");
             attackAction = inputActions.FindAction("Player/Attack");
@@ -90,7 +90,8 @@ public class Tutorial: MonoBehaviour
 
     private void OnEnable()
     {
-        // Listen for actions that can complete a lesson early.
+        SettingsMenu.BindingsChanged += RefreshActivePrompt;
+
         if (jumpAction != null)
         {
             jumpAction.performed += JumpPerformed;
@@ -104,7 +105,8 @@ public class Tutorial: MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop listening and clear any active prompt.
+        SettingsMenu.BindingsChanged -= RefreshActivePrompt;
+
         if (jumpAction != null)
         {
             jumpAction.performed -= JumpPerformed;
@@ -120,7 +122,6 @@ public class Tutorial: MonoBehaviour
 
     private void Start()
     {
-        // Check the tutorial references.
         if (alice == null)
         {
             Debug.LogError("Tutorial Controller is missing Alice.");
@@ -144,12 +145,12 @@ public class Tutorial: MonoBehaviour
 
     private void Update()
     {
-        // Advance lessons as Alice reaches each tutorial area.
         if (alice == null || gameUI == null)
         {
             return;
         }
 
+        // Advance lessons as Alice reaches each tutorial area.
         float progress = alice.position.x - levelStartX;
 
         if (!moveResolved)
@@ -159,7 +160,7 @@ public class Tutorial: MonoBehaviour
                 return;
             }
 
-            // Skip the movement prompt if Alice already moved.
+            // Skip the movement hint after valid movement input.
             if ((aliceMovement != null && aliceMovement.IsMoving) ||
                 (moveAction != null && Mathf.Abs(moveAction.ReadValue<float>()) > 0.01f))
             {
@@ -173,7 +174,7 @@ public class Tutorial: MonoBehaviour
                 movePromptDistance,
                 moveDismissDistance,
                 movePromptDelay,
-                "A / D    ← / →\nMOVE"
+                GetLessonMessage(Lesson.Move)
             );
 
             return;
@@ -187,7 +188,7 @@ public class Tutorial: MonoBehaviour
                 jumpPromptDistance,
                 jumpDismissDistance,
                 hintDelay,
-                "SPACE\nJUMP"
+                GetLessonMessage(Lesson.Jump)
             );
 
             return;
@@ -201,7 +202,7 @@ public class Tutorial: MonoBehaviour
                 attackPromptDistance,
                 attackDismissDistance,
                 hintDelay,
-                "X\nATTACK"
+                GetLessonMessage(Lesson.Attack)
             );
 
             return;
@@ -215,8 +216,37 @@ public class Tutorial: MonoBehaviour
                 heavyPromptDistance,
                 heavyDismissDistance,
                 heavyPromptDelay,
-                "HOLD X\nHEAVY ATTACK"
+                GetLessonMessage(Lesson.Heavy)
             );
+        }
+    }
+
+    private string GetLessonMessage(Lesson lesson)
+    {
+        switch (lesson)
+        {
+            case Lesson.Move:
+                return $"{SettingsMenu.GetMoveLeftDisplay(inputActions)} / {SettingsMenu.GetMoveRightDisplay(inputActions)}    ← / →\nMOVE";
+
+            case Lesson.Jump:
+                return $"{SettingsMenu.GetJumpDisplay(inputActions)}\nJUMP";
+
+            case Lesson.Attack:
+                return $"{SettingsMenu.GetAttackDisplay(inputActions)}\nATTACK";
+
+            case Lesson.Heavy:
+                return $"HOLD {SettingsMenu.GetAttackDisplay(inputActions)}\nHEAVY ATTACK";
+
+            default:
+                return string.Empty;
+        }
+    }
+
+    private void RefreshActivePrompt()
+    {
+        if (activeLesson != Lesson.None && gameUI != null)
+        {
+            gameUI.ShowTutorialPrompt(GetLessonMessage(activeLesson));
         }
     }
 
@@ -228,7 +258,6 @@ public class Tutorial: MonoBehaviour
         float delay,
         string message)
     {
-        // Delay prompts so basic lessons only appear after hesitation.
         if (progress > dismissDistance)
         {
             ResolveLesson(lesson);
@@ -245,6 +274,7 @@ public class Tutorial: MonoBehaviour
             return;
         }
 
+        // Delay hints to prevent trigger overlap.
         if (pendingLesson != lesson)
         {
             pendingLesson = lesson;
@@ -269,7 +299,7 @@ public class Tutorial: MonoBehaviour
 
     private void AttackPerformed(InputAction.CallbackContext context)
     {
-        // Distinguish the held Heavy from a normal tap.
+        // SlowTap distinguishes Heavy from a normal attack.
         if (context.interaction is SlowTapInteraction)
         {
             ResolveLesson(Lesson.Heavy);
@@ -284,7 +314,7 @@ public class Tutorial: MonoBehaviour
 
     private void ResolveLesson(Lesson lesson)
     {
-        // Mark the lesson complete and hide its prompt.
+        // Mark completed lessons so their prompts cannot reappear.
         switch (lesson)
         {
             case Lesson.Move:

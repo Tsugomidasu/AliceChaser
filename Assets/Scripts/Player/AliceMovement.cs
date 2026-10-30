@@ -46,7 +46,6 @@ public class AliceMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         combat = GetComponent<AliceCombat>();
 
-        // Find the movement actions.
         if (inputActions != null)
         {
             moveAction = inputActions.FindAction("Player/Move");
@@ -68,7 +67,6 @@ public class AliceMovement : MonoBehaviour
 
     private void Start()
     {
-        // Check the movement actions.
         if (inputActions == null)
         {
             Debug.LogError(
@@ -85,7 +83,6 @@ public class AliceMovement : MonoBehaviour
 
     private void Update()
     {
-        // Read movement.
         moveInput = 0f;
 
         if (CanAct && moveAction != null)
@@ -93,13 +90,13 @@ public class AliceMovement : MonoBehaviour
             moveInput = moveAction.ReadValue<float>();
         }
 
-        // Check if Alice is on the ground.
         isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
             groundCheckRadius,
             groundLayer
         ) != null;
 
+        // Play the landing sound only on an air-to-ground transition.
         if (groundStateInitialized && isGrounded && !wasGrounded)
         {
             GameAudio.Play(landClip);
@@ -108,7 +105,6 @@ public class AliceMovement : MonoBehaviour
         wasGrounded = isGrounded;
         groundStateInitialized = true;
 
-        // Stop input while controls are locked.
         if (!CanAct)
         {
             jumpRequested = false;
@@ -117,7 +113,7 @@ public class AliceMovement : MonoBehaviour
             return;
         }
 
-        // Jump with the Jump action.
+        // Block jumping during attack states.
         if (jumpAction != null &&
             jumpAction.WasPressedThisFrame() &&
             isGrounded &&
@@ -130,7 +126,6 @@ public class AliceMovement : MonoBehaviour
             animator.SetTrigger("Jump");
         }
 
-        // Update movement animations.
         animator.SetBool("IsMoving", moveInput != 0f);
         animator.SetBool("IsGrounded", isGrounded);
     }
@@ -142,10 +137,8 @@ public class AliceMovement : MonoBehaviour
             return;
         }
 
-        // Move Alice.
         rb.linearVelocityX = moveInput * moveSpeed;
 
-        // Jump.
         if (jumpRequested)
         {
             rb.linearVelocityY = jumpSpeed;
@@ -156,7 +149,7 @@ public class AliceMovement : MonoBehaviour
 
     public void LockControls(float duration)
     {
-        // Extend the current control lock if needed.
+        // Extend an existing lock instead of shortening a longer one.
         controlsLockedUntil = Mathf.Max(
             controlsLockedUntil,
             Time.time + duration
@@ -173,7 +166,6 @@ public class AliceMovement : MonoBehaviour
             return;
         }
 
-        // Show the ground check.
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }

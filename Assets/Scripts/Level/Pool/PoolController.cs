@@ -33,6 +33,11 @@ public class PoolController : MonoBehaviour
     [Header("Spawning")]
     [SerializeField] private float spawnPadding = 1.5f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip backgroundMusicClip;
+    [SerializeField] private AudioClip ambienceClip;
+    [SerializeField, Range(0.1f, 3f)] private float ambiencePitch = 0.9f;
+
     [Header("Progression")]
     [SerializeField] private float levelLength = 135f;
     [SerializeField] private string nextScene = "00_Title";
@@ -56,7 +61,6 @@ public class PoolController : MonoBehaviour
 
     private void Awake()
     {
-        // Store the level start and order the enemy sequence.
         if (alice != null)
         {
             levelStartX = alice.position.x;
@@ -67,7 +71,13 @@ public class PoolController : MonoBehaviour
 
     private void Start()
     {
-        // Check the scene references.
+        GameAudio.PlayMusic(backgroundMusicClip);
+        GameAudio.PlayAmbience(
+            ambienceClip,
+            1f,
+            ambiencePitch
+        );
+
         if (alice == null)
         {
             Debug.LogError(
@@ -97,7 +107,6 @@ public class PoolController : MonoBehaviour
 
     private void Update()
     {
-        // Track progress, spawn encounters, and check level completion.
         SpawnVisibleEnemies();
 
         if (alice == null)
@@ -111,6 +120,7 @@ public class PoolController : MonoBehaviour
             levelLength
         );
 
+        // Keep completion progress even if Alice backtracks.
         furthestProgress = Mathf.Max(
             furthestProgress,
             currentProgress
@@ -118,6 +128,7 @@ public class PoolController : MonoBehaviour
 
         AliceHealth health = alice.GetComponent<AliceHealth>();
 
+        // Start the chapter transition once Alice reaches the level end.
         if (!completionStarted &&
             furthestProgress >= levelLength &&
             (health == null || !health.IsDefeated))
@@ -136,7 +147,6 @@ public class PoolController : MonoBehaviour
 
     private void SpawnVisibleEnemies()
     {
-        // Spawn enemies as Alice approaches their encounter positions.
         if (spawnSequence == null ||
             mainCamera == null ||
             floorCollider == null)
@@ -156,7 +166,7 @@ public class PoolController : MonoBehaviour
                 )
             ).x;
 
-        // Spawn enemies shortly before they enter the camera.
+        // Spawn encounters beyond the camera edge.
         while (nextSpawnIndex < spawnSequence.Length)
         {
             SpawnEntry entry = spawnSequence[nextSpawnIndex];
@@ -174,7 +184,6 @@ public class PoolController : MonoBehaviour
 
     private void SpawnEnemy(SpawnEntry entry, float spawnX)
     {
-        // Place an enemy under the active encounter parent.
         if (entry.prefab == null || floorCollider == null)
         {
             return;
@@ -200,7 +209,7 @@ public class PoolController : MonoBehaviour
 
     private void SpawnPlacements(Placement[] placements, Transform parent)
     {
-        // Place explicit rock and tree variants for the Pool layout.
+        // Place static environment props independently from enemy spawning.
         if (placements == null || floorCollider == null)
         {
             return;
@@ -252,7 +261,6 @@ public class PoolController : MonoBehaviour
 
     private void SortSpawnSequence()
     {
-        // Keep enemy spawns ordered by level distance.
         if (spawnSequence == null)
         {
             return;
@@ -269,7 +277,6 @@ public class PoolController : MonoBehaviour
 
     private void OnValidate()
     {
-        // Keep Inspector edits in spawn order.
         SortSpawnSequence();
     }
 

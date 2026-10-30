@@ -30,6 +30,9 @@ public class RabbitHoleController : MonoBehaviour
     [SerializeField] private float spawnPadding = 1.5f;
     [SerializeField] private float levelLength = 95f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip backgroundMusicClip;
+
     [Header("Progression")]
     [SerializeField] private string nextScene = "03_Pool";
     [SerializeField] private string completionLabel = "CHAPTER I COMPLETE";
@@ -51,7 +54,6 @@ public class RabbitHoleController : MonoBehaviour
 
     private void Awake()
     {
-        // Store the level start and order the furniture sequence.
         if (alice != null)
         {
             levelStartX = alice.position.x;
@@ -62,7 +64,9 @@ public class RabbitHoleController : MonoBehaviour
 
     private void Start()
     {
-        // Check the scene references.
+        GameAudio.PlayMusic(backgroundMusicClip);
+        GameAudio.StopAmbience();
+
         if (alice == null)
         {
             Debug.LogError(
@@ -89,19 +93,18 @@ public class RabbitHoleController : MonoBehaviour
 
     private void Update()
     {
-        // Track progress, spawn furniture, and check level completion.
         if (alice == null)
         {
             return;
         }
 
-        // Track Alice's furthest progress.
         float currentProgress = Mathf.Clamp(
             alice.position.x - levelStartX,
             0f,
             levelLength
         );
 
+        // Keep completion progress even if Alice backtracks.
         furthestProgress = Mathf.Max(
             furthestProgress,
             currentProgress
@@ -111,6 +114,7 @@ public class RabbitHoleController : MonoBehaviour
 
         AliceHealth health = alice.GetComponent<AliceHealth>();
 
+        // Start the chapter transition once Alice reaches the level end.
         if (!completionStarted &&
             furthestProgress >= levelLength &&
             (health == null || !health.IsDefeated))
@@ -129,7 +133,6 @@ public class RabbitHoleController : MonoBehaviour
 
     private void SpawnVisibleEntries()
     {
-        // Spawn furniture as Alice approaches each placement.
         if (spawnSequence == null ||
             mainCamera == null ||
             floorCollider == null)
@@ -149,7 +152,7 @@ public class RabbitHoleController : MonoBehaviour
                 )
             ).x;
 
-        // Spawn objects just before they enter the camera.
+        // Spawn furniture beyond the camera edge.
         while (nextSpawnIndex < spawnSequence.Length)
         {
             SpawnEntry entry = spawnSequence[nextSpawnIndex];
@@ -167,7 +170,6 @@ public class RabbitHoleController : MonoBehaviour
 
     private void SpawnObject(SpawnEntry entry, float spawnX)
     {
-        // Place the selected furniture variant at its level position.
         if (entry.prefab == null || floorCollider == null)
         {
             return;
@@ -183,6 +185,7 @@ public class RabbitHoleController : MonoBehaviour
                 0f
             );
 
+        // Apply the authored size category after the object is spawned.
         GameObject spawnedObject = Instantiate(
             entry.prefab,
             spawnPosition,
@@ -190,7 +193,6 @@ public class RabbitHoleController : MonoBehaviour
             activeObjects
         );
 
-        // Apply the selected furniture size tier.
         spawnedObject.transform.localScale *= GetFurnitureScale(entry.size);
     }
 
@@ -218,7 +220,6 @@ public class RabbitHoleController : MonoBehaviour
 
     private void SortSpawnSequence()
     {
-        // Keep furniture spawns ordered by level distance.
         if (spawnSequence == null)
         {
             return;
@@ -235,7 +236,6 @@ public class RabbitHoleController : MonoBehaviour
 
     private void OnValidate()
     {
-        // Keep Inspector edits in spawn order.
         SortSpawnSequence();
     }
 }

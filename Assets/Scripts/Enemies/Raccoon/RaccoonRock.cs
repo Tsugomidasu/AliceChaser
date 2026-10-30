@@ -24,7 +24,6 @@ public class RaccoonRock : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the projectile components.
         rb = GetComponent<Rigidbody2D>();
         rockCollider = GetComponent<Collider2D>();
     }
@@ -39,12 +38,11 @@ public class RaccoonRock : MonoBehaviour
         launched = true;
         ownerColliders = raccoonColliders;
 
-        // Ignore the owner before deflection.
         SetOwnerCollisionIgnored(true);
 
         float launchDirection = direction >= 0 ? 1f : -1f;
 
-        // Use a fixed arc instead of aiming at Alice.
+        // Use a fixed launch arc instead of aiming at Alice.
         rb.linearVelocity = new Vector2(
             launchDirection * horizontalSpeed,
             arcLift
@@ -65,7 +63,6 @@ public class RaccoonRock : MonoBehaviour
         deflected = true;
         GameAudio.Play(reflectClip);
 
-        // Allow reflected enemy hits.
         SetOwnerCollisionIgnored(false);
 
         if (deflector != null && rockCollider != null)
@@ -132,6 +129,7 @@ public class RaccoonRock : MonoBehaviour
             return;
         }
 
+        // Reflected rocks can damage enemies.
         if (deflected)
         {
             EnemyHealth enemy =

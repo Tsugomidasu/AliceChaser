@@ -18,6 +18,7 @@ public class AliceAnimationEvents : MonoBehaviour
 
     public void PlayFootstep()
     {
+        // Alternate footstep clips between animation events.
         GameAudio.Play(
             useSecondFootstep
                 ? footstep02Clip
@@ -29,13 +30,12 @@ public class AliceAnimationEvents : MonoBehaviour
 
     public void AttackHit()
     {
-        // Apply attack damage.
+        // Let the animation decide the exact active frame for damage.
         combat.AttackHit();
     }
 
     public void AttackFinished()
     {
-        // Finish or continue the combo.
         combat.AttackFinished();
     }
 

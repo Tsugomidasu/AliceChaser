@@ -15,7 +15,6 @@ public class LevelStart : MonoBehaviour
 
     private void Awake()
     {
-        // Find Alice.
         if (alice == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -26,6 +25,7 @@ public class LevelStart : MonoBehaviour
             }
         }
 
+        // Reset the level framing before the Rabbit intro begins.
         PlaceAlice();
         ResetCamera();
         SpawnRabbit();
@@ -38,7 +38,6 @@ public class LevelStart : MonoBehaviour
             return;
         }
 
-        // Place Alice.
         alice.SetPositionAndRotation(
             aliceSpawn.position,
             aliceSpawn.rotation
@@ -70,7 +69,6 @@ public class LevelStart : MonoBehaviour
             return;
         }
 
-        // Spawn the Rabbit.
         GameObject rabbit = Instantiate(
             rabbitPrefab,
             rabbitSpawn.position,
@@ -82,7 +80,7 @@ public class LevelStart : MonoBehaviour
             ? alice.GetComponent<AliceMovement>()
             : null;
 
-        // Lock Alice during the intro.
+        // Lock Alice for the Rabbit intro delay.
         if (intro != null && movement != null)
         {
             movement.LockControls(intro.StartDelay);

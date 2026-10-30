@@ -22,7 +22,6 @@ public class FoxEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Fox components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         health = GetComponent<EnemyHealth>();
@@ -30,11 +29,9 @@ public class FoxEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Store where the Fox entered the encounter.
         startX = rb.position.x;
         GameAudio.Play(spawnClip);
 
-        // Face left while running.
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = spriteFacesRight;
@@ -43,16 +40,15 @@ public class FoxEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
         }
 
-        // Keep running through normal hits.
+        // Normal hits do not interrupt the run.
         rb.linearVelocityX = -runSpeed;
 
-        // Remove the Fox after it leaves the screen.
+        // Remove the Fox after it clears the encounter.
         if (startX - rb.position.x >= despawnDistance)
         {
             Destroy(gameObject);
@@ -61,7 +57,6 @@ public class FoxEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop normal movement when the Fox is disabled.
         if (rb != null && (health == null || !health.IsDead))
         {
             rb.linearVelocityX = 0f;

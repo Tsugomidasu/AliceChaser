@@ -316,10 +316,15 @@ MonoBehaviour:
   rocksParent: {fileID: 8500000000000030012}
   treesParent: {fileID: 8500000000000030022}
   spawnPadding: 1.5
+  backgroundMusicClip: {fileID: 8300000, guid: 0baffe3f609db45fda59a2ff84e4c2c5, type: 3}
+  ambienceClip: {fileID: 8300000, guid: 4950d797e3baf42709b2f8f1848c6328, type: 3}
+  ambienceVolume: 0.8
+  ambiencePitch: 0.9
   levelLength: 135
   nextScene: 00_Title
   completionLabel: CHAPTER II COMPLETE
   completionSubtitle: THE POOL OF TEARS
+  chapterCompleteClip: {fileID: 8300000, guid: cbc61a867c3554cf18ce76e51f7c8cbd, type: 3}
   spawnSequence:
   - prefab: {fileID: 8100000000000000100, guid: d206ba0a9ebd14a8da461046f58020f8, type: 3}
     distance: 15
@@ -1539,6 +1544,9 @@ MonoBehaviour:
   gameOverOptionsFadeTime: 0.3
   levelSelectScene: 01_Levels
   titleScene: 00_Title
+  navigateClip: {fileID: 8300000, guid: 5b6475e782bad4b359661f4c29c98f69, type: 3}
+  confirmClip: {fileID: 8300000, guid: c2a324b2eaa2545fcb7035681c9e9dfa, type: 3}
+  cancelClip: {fileID: 8300000, guid: 9d33e4436fb774d72b4936a0dad3cc6f, type: 3}
 --- !u!1 &8500000000000030001
 GameObject:
   m_ObjectHideFlags: 0

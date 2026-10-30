@@ -10,14 +10,13 @@ public class EnemyCleanup : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the cleanup references.
         mainCamera = Camera.main;
         health = GetComponent<EnemyHealth>();
     }
 
     private void LateUpdate()
     {
-        // Leave defeated enemies to the shared health reaction.
+        // Defeat logic owns dead-enemy cleanup.
         if (health != null && health.IsDead)
         {
             return;
@@ -45,7 +44,7 @@ public class EnemyCleanup : MonoBehaviour
                 )
             ).x;
 
-        // Remove enemies after they move behind the camera.
+        // Remove living enemies only after they pass behind the camera.
         if (transform.position.x < leftEdge - despawnPadding)
         {
             Destroy(gameObject);

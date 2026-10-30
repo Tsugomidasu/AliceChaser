@@ -26,11 +26,9 @@ public class FurnitureVisual : MonoBehaviour
             referenceSprite = variants[0];
         }
 
-        // Choose a furniture variant.
         Sprite sprite = variants[Random.Range(0, variants.Length)];
         ApplyVariant(sprite);
 
-        // Reverse some furniture for variety.
         spriteRenderer.flipX =
             randomFlipX && Random.value < 0.5f;
     }
@@ -49,7 +47,7 @@ public class FurnitureVisual : MonoBehaviour
             return;
         }
 
-        // Keep every variant at the prefab's authored height.
+        // Preserve authored height across sprite variants.
         float heightScale =
             referenceSprite.bounds.size.y / sprite.bounds.size.y;
 

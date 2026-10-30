@@ -51,14 +51,12 @@ public class RoosterEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Rooster components.
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         animator = GetComponentInChildren<Animator>(true);
         health = GetComponent<EnemyHealth>();
 
-        // Keep the peck hitbox inactive until the attack.
         if (peckHitbox != null)
         {
             peckHitbox.enabled = false;
@@ -68,7 +66,6 @@ public class RoosterEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Store the center of the normal patrol area.
         startX = rb.position.x;
         direction = startingDirection >= 0 ? 1 : -1;
 
@@ -78,7 +75,6 @@ public class RoosterEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             if (!deathHandled)
@@ -90,7 +86,7 @@ public class RoosterEnemy : MonoBehaviour
             return;
         }
 
-        // Hits interrupt an active peck.
+        // Hit stun interrupts the current peck.
         if (health.IsHitStunned)
         {
             if (!wasHitStunned)
@@ -119,7 +115,6 @@ public class RoosterEnemy : MonoBehaviour
 
         if (isAggressive)
         {
-            // Disengage from Alice.
             if (!IsEnemyInFrontOfAlice() ||
                 distanceToAlice >= disengageRange ||
                 !HasLineOfSight())
@@ -150,7 +145,7 @@ public class RoosterEnemy : MonoBehaviour
 
     private void AggressiveBehavior(float distanceToAlice)
     {
-        // Stop and peck.
+        // Chase until Alice enters peck range.
         if (distanceToAlice <= peckRange)
         {
             rb.linearVelocityX = 0f;
@@ -158,7 +153,6 @@ public class RoosterEnemy : MonoBehaviour
             return;
         }
 
-        // Keep chasing in the current direction.
         rb.linearVelocityX = direction * aggressiveMoveSpeed;
     }
 
@@ -167,7 +161,6 @@ public class RoosterEnemy : MonoBehaviour
         float leftEdge = startX - patrolDistance;
         float rightEdge = startX + patrolDistance;
 
-        // Turn around at either patrol limit.
         if (rb.position.x <= leftEdge)
         {
             direction = 1;
@@ -198,7 +191,6 @@ public class RoosterEnemy : MonoBehaviour
 
     private bool IsEnemyInFrontOfAlice()
     {
-        // Alice always faces right in gameplay.
         return player != null && rb.position.x > player.position.x;
     }
 
@@ -209,7 +201,6 @@ public class RoosterEnemy : MonoBehaviour
             return false;
         }
 
-        // Check whether Alice is in front.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
@@ -238,7 +229,7 @@ public class RoosterEnemy : MonoBehaviour
                 continue;
             }
 
-            // Enemy bodies do not block line of sight.
+            // Enemy colliders do not block line of sight.
             EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (hitEnemy != null)
             {
@@ -289,7 +280,6 @@ public class RoosterEnemy : MonoBehaviour
         rb.linearVelocityX = 0f;
         animator.SetTrigger(PeckTrigger);
 
-        // Wind up before enabling the hitbox.
         if (peckWindup > 0f)
         {
             yield return new WaitForSeconds(peckWindup);
@@ -303,6 +293,7 @@ public class RoosterEnemy : MonoBehaviour
 
         GameAudio.Play(peckClip);
 
+        // Enable contact only during the peck's active damage window.
         if (peckHitbox != null)
         {
             peckHitbox.enabled = true;
@@ -339,6 +330,7 @@ public class RoosterEnemy : MonoBehaviour
 
     private void CancelPeck(bool returnToWalk)
     {
+        // Clear the attack state before returning to patrol or chase behavior.
         if (peckRoutine != null)
         {
             StopCoroutine(peckRoutine);
@@ -368,12 +360,10 @@ public class RoosterEnemy : MonoBehaviour
 
     private void UpdateFacing()
     {
-        // Face the current direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;
 
-        // Keep the peck hitbox in front.
         if (peckHitbox != null)
         {
             Vector3 localPosition = peckHitbox.transform.localPosition;
@@ -384,7 +374,6 @@ public class RoosterEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop the peck when disabled.
         if (peckRoutine != null)
         {
             StopCoroutine(peckRoutine);
@@ -404,7 +393,6 @@ public class RoosterEnemy : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Show the attack ranges.
         Gizmos.DrawWireSphere(transform.position, aggressionRange);
         Gizmos.DrawWireSphere(transform.position, disengageRange);
         Gizmos.DrawWireSphere(transform.position, peckRange);

@@ -38,13 +38,11 @@ public class EnemyHealth : MonoBehaviour
 
     private void Awake()
     {
-        // Cache shared components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
         animators = GetComponentsInChildren<Animator>(true);
         contactDamageSources = GetComponentsInChildren<ContactDamage>(true);
 
-        // Initialize health.
         CurrentHealth = maxHealth;
     }
 
@@ -64,7 +62,6 @@ public class EnemyHealth : MonoBehaviour
         float knockbackSpeed
     )
     {
-        // Ignore invalid damage.
         if (IsDead || damage <= 0)
         {
             return;
@@ -72,25 +69,20 @@ public class EnemyHealth : MonoBehaviour
 
         GameAudio.Play(hitClip);
 
-        // Store the hit direction.
         defeatDirection = transform.position.x >= damageSource.x
             ? 1f
             : -1f;
 
-        // Remove health.
         CurrentHealth = Mathf.Max(0, CurrentHealth - damage);
 
-        // Start the defeat reaction.
         if (CurrentHealth <= 0)
         {
             StartDefeat();
             return;
         }
 
-        // Apply normal hit recoil before the stun.
         ApplyHitKnockback(knockbackSpeed);
 
-        // Start hit stun.
         StartHitStun();
     }
 
@@ -107,13 +99,12 @@ public class EnemyHealth : MonoBehaviour
 
     private void StartHitStun()
     {
-        // Skip disabled hit stun.
+        // Pause enemy control while the hit reaction is active.
         if (hitStunDuration <= 0f)
         {
             return;
         }
 
-        // Restart hit stun.
         if (hitStunRoutine != null)
         {
             StopCoroutine(hitStunRoutine);
@@ -132,18 +123,18 @@ public class EnemyHealth : MonoBehaviour
 
     private void StartDefeat()
     {
+        // Hand movement and cleanup over to the defeat sequence.
         IsDead = true;
         GameAudio.Play(defeatClip);
         IsHitStunned = false;
 
-        // Stop the hit reaction.
         if (hitStunRoutine != null)
         {
             StopCoroutine(hitStunRoutine);
             hitStunRoutine = null;
         }
 
-        // Disable contact damage.
+        // Disable contact damage as soon as defeat starts.
         foreach (ContactDamage contactDamage in contactDamageSources)
         {
             if (contactDamage != null)
@@ -162,7 +153,7 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator DefeatRoutine()
     {
-        // Freeze on defeat.
+        // Knock the enemy away, then fade it out before removal.
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
@@ -182,7 +173,6 @@ public class EnemyHealth : MonoBehaviour
             yield return new WaitForSeconds(defeatPauseDuration);
         }
 
-        // Apply defeat knockback.
         if (rb != null)
         {
             float upwardSpeed = fallOnDefeat
@@ -195,7 +185,6 @@ public class EnemyHealth : MonoBehaviour
             );
         }
 
-        // Fade before removal.
         if (defeatFadeDuration > 0f)
         {
             float elapsed = 0f;
@@ -228,7 +217,6 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnDisable()
     {
-        // Clear the hit reaction.
         if (hitStunRoutine != null)
         {
             StopCoroutine(hitStunRoutine);

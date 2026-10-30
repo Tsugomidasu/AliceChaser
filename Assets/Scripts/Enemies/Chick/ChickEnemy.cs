@@ -36,7 +36,6 @@ public class ChickEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Chick components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         health = GetComponent<EnemyHealth>();
@@ -44,7 +43,6 @@ public class ChickEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Store the center of the hopping area.
         startX = rb.position.x;
         direction = startingDirection >= 0 ? 1 : -1;
         nextHopTime = Time.time + landingPause;
@@ -69,13 +67,11 @@ public class ChickEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             return;
         }
 
-        // Stop during hit stun.
         if (health.IsHitStunned)
         {
             return;
@@ -88,7 +84,7 @@ public class ChickEnemy : MonoBehaviour
                 groundLayer
             ) != null;
 
-        // Start the landing pause.
+        // Start the landing delay when a hop ends.
         if (isGrounded && !wasGrounded)
         {
             nextHopTime = Time.time + landingPause;
@@ -97,14 +93,13 @@ public class ChickEnemy : MonoBehaviour
 
         if (isGrounded)
         {
-            // Keep the Chick still briefly between hops.
             rb.linearVelocityX = 0f;
 
+            // Hop again only after the landing pause finishes.
             if (Time.time >= nextHopTime)
             {
                 UpdateDirection();
 
-                // Hop forward in a small arc.
                 rb.linearVelocity = new Vector2(
                     direction * forwardSpeed,
                     hopSpeed
@@ -113,7 +108,6 @@ public class ChickEnemy : MonoBehaviour
         }
         else
         {
-            // Keep forward momentum while airborne.
             rb.linearVelocityX = direction * forwardSpeed;
         }
 
@@ -131,7 +125,6 @@ public class ChickEnemy : MonoBehaviour
 
     private void UpdateDirection()
     {
-        // Turn at the patrol limits.
         float leftEdge = startX - patrolDistance;
         float rightEdge = startX + patrolDistance;
 
@@ -147,7 +140,6 @@ public class ChickEnemy : MonoBehaviour
 
     private void UpdateFacing()
     {
-        // Face the current hopping direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;
@@ -155,7 +147,6 @@ public class ChickEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop horizontal movement when disabled.
         if (rb != null)
         {
             rb.linearVelocityX = 0f;
@@ -169,7 +160,6 @@ public class ChickEnemy : MonoBehaviour
             return;
         }
 
-        // Show the ground check.
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }

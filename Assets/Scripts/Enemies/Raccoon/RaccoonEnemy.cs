@@ -51,7 +51,6 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Raccoon components.
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
@@ -72,7 +71,6 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Let shared health handle defeat.
         if (health.IsDead)
         {
             if (!deathHandled)
@@ -104,6 +102,7 @@ public class RaccoonEnemy : MonoBehaviour
         UpdateIntervalAudio();
         rb.linearVelocityX = 0f;
 
+        // Run one behavior phase at a time.
         switch (state)
         {
             case RaccoonState.Idle:
@@ -126,7 +125,6 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void UpdateIntervalAudio()
     {
-        // Keep interval chatter out of the throw windup.
         if (intervalClip == null ||
             state == RaccoonState.Windup ||
             Time.time < nextAudioTime)
@@ -194,14 +192,13 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void Windup()
     {
-        // Recheck detection during the windup.
         if (!CanDetectAlice())
         {
             CancelThrow(false);
             return;
         }
 
-        // Stay aggroed inside the minimum throw range.
+        // Stay aggroed if Alice is too close to throw.
         if (!IsOutsideMinimumThrowRange())
         {
             CancelThrow(true);
@@ -293,7 +290,6 @@ public class RaccoonEnemy : MonoBehaviour
 
     private bool IsEnemyInFrontOfAlice()
     {
-        // Alice always faces right in gameplay.
         return player != null && rb.position.x > player.position.x;
     }
 
@@ -304,7 +300,6 @@ public class RaccoonEnemy : MonoBehaviour
             return false;
         }
 
-        // Check whether Alice is in front.
         float horizontalOffset = player.position.x - rb.position.x;
         return horizontalOffset * direction > 0f;
     }
@@ -333,7 +328,7 @@ public class RaccoonEnemy : MonoBehaviour
                 continue;
             }
 
-            // Enemy bodies do not block line of sight.
+            // Enemy colliders do not block line of sight.
             EnemyHealth hitEnemy = hit.collider.GetComponentInParent<EnemyHealth>();
             if (hitEnemy != null)
             {
@@ -365,6 +360,7 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void CancelThrow(bool stayAggro)
     {
+        // Cancel the windup without losing aggro when Alice is still in range.
         if (animator != null)
         {
             animator.ResetTrigger(ThrowTrigger);
@@ -425,7 +421,6 @@ public class RaccoonEnemy : MonoBehaviour
             return;
         }
 
-        // Keep the Raccoon facing its set attack direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;
@@ -447,7 +442,6 @@ public class RaccoonEnemy : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        // Show the throw ranges.
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.DrawWireSphere(transform.position, minimumThrowRange);
     }

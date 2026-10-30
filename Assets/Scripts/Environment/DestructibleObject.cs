@@ -10,9 +10,9 @@ public class DestructibleObject : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        // Remove health.
         health -= damage;
 
+        // Play only the break sound on the final hit.
         if (health <= 0)
         {
             GameAudio.Play(breakClip);

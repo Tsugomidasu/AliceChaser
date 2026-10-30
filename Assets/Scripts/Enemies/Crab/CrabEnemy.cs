@@ -23,7 +23,6 @@ public class CrabEnemy : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the Crab components.
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(true);
         health = GetComponent<EnemyHealth>();
@@ -31,7 +30,6 @@ public class CrabEnemy : MonoBehaviour
 
     private void Start()
     {
-        // Store the center of the patrol area.
         startX = rb.position.x;
         direction = startingDirection >= 0 ? 1 : -1;
 
@@ -40,17 +38,15 @@ public class CrabEnemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Stop during hit stun.
         if (health.IsHitStunned || health.IsDead)
         {
             return;
         }
 
-        // Calculate the patrol limits.
+        // Keep patrol bounds relative to the spawn point.
         float leftEdge = startX - patrolDistance;
         float rightEdge = startX + patrolDistance;
 
-        // Turn around at either patrol limit.
         int nextDirection = direction;
 
         if (rb.position.x <= leftEdge)
@@ -68,14 +64,12 @@ public class CrabEnemy : MonoBehaviour
             GameAudio.Play(turnClip);
         }
 
-        // Move horizontally.
         rb.linearVelocityX = direction * moveSpeed;
         UpdateFacing();
     }
 
     private void UpdateFacing()
     {
-        // Face the current movement direction.
         spriteRenderer.flipX = spriteFacesRight
             ? direction < 0
             : direction > 0;
@@ -83,7 +77,6 @@ public class CrabEnemy : MonoBehaviour
 
     private void OnDisable()
     {
-        // Stop horizontal movement when disabled.
         if (rb != null)
         {
             rb.linearVelocityX = 0f;

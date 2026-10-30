@@ -8,22 +8,19 @@ public class ContactDamage : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the health component.
         enemyHealth = GetComponentInParent<EnemyHealth>();
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        // Disable damage during reactions.
+        // Disable contact damage during hit stun and defeat.
         if (enemyHealth != null && (enemyHealth.IsHitStunned || enemyHealth.IsDead))
         {
             return;
         }
 
-        // Find Alice on the collider hierarchy.
         AliceHealth alice = other.GetComponentInParent<AliceHealth>();
 
-        // Let AliceHealth handle invulnerability.
         if (alice != null)
         {
             alice.TakeDamage(damage, transform.position);

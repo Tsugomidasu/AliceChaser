@@ -31,11 +31,11 @@ public class TitleScreen : MonoBehaviour
     private Sprite whiteSprite;
     private InputAction navigateAction;
     private InputAction submitAction;
+    private SettingsMenu settingsMenu;
     private int selectedIndex;
 
     private void Awake()
     {
-        // Build the runtime title menu.
         Time.timeScale = 1f;
 
         FindInputActions();
@@ -46,6 +46,7 @@ public class TitleScreen : MonoBehaviour
 
         CreateWhiteSprite();
         BuildUI();
+        BuildSettingsMenu();
         RefreshSelection();
     }
 
@@ -63,7 +64,11 @@ public class TitleScreen : MonoBehaviour
 
     private void Update()
     {
-        // Read menu navigation and confirmation.
+        if (settingsMenu != null && settingsMenu.IsOpen)
+        {
+            return;
+        }
+
         if (navigateAction != null &&
             navigateAction.WasPerformedThisFrame())
         {
@@ -93,7 +98,6 @@ public class TitleScreen : MonoBehaviour
 
     private void FindInputActions()
     {
-        // Find the shared UI actions.
         if (inputActions == null)
         {
             Debug.LogError(
@@ -102,6 +106,7 @@ public class TitleScreen : MonoBehaviour
             return;
         }
 
+        SettingsMenu.ApplySavedBindings(inputActions);
         navigateAction = inputActions.FindAction("UI/Navigate");
         submitAction = inputActions.FindAction("UI/Submit");
     }
@@ -121,7 +126,7 @@ public class TitleScreen : MonoBehaviour
 
     private void BuildUI()
     {
-        // Create the title screen entirely at runtime.
+        // Build the title menu from the configured scene and visual assets.
         GameObject canvasObject = new GameObject("Canvas", typeof(RectTransform));
         canvasObject.transform.SetParent(transform, false);
 
@@ -163,14 +168,28 @@ public class TitleScreen : MonoBehaviour
         );
         title.lineSpacing = 0.78f;
 
-        options.Add(CreateMenuText("START", 0.425f));
-        options.Add(CreateMenuText("LEVEL SELECT", 0.345f));
-        options.Add(CreateMenuText("QUIT", 0.265f));
+        options.Add(CreateMenuText("START", 0.45f));
+        options.Add(CreateMenuText("LEVEL SELECT", 0.38f));
+        options.Add(CreateMenuText("SETTINGS", 0.31f));
+        options.Add(CreateMenuText("QUIT", 0.24f));
+    }
+
+    private void BuildSettingsMenu()
+    {
+        settingsMenu = gameObject.AddComponent<SettingsMenu>();
+        settingsMenu.Initialize(
+            canvas.transform,
+            font,
+            inputActions,
+            navigateClip,
+            confirmClip,
+            confirmClip
+        );
     }
 
     private void ActivateSelection()
     {
-        // Open the selected destination.
+        // Route the current menu selection to its scene or submenu action.
         switch (selectedIndex)
         {
             case 0:
@@ -182,6 +201,15 @@ public class TitleScreen : MonoBehaviour
                 break;
 
             case 2:
+                // Restore SETTINGS as the selected item when returning.
+                settingsMenu?.Open(() =>
+                {
+                    selectedIndex = 2;
+                    RefreshSelection();
+                });
+                break;
+
+            case 3:
                 QuitGame();
                 break;
         }
@@ -189,7 +217,6 @@ public class TitleScreen : MonoBehaviour
 
     private void RefreshSelection()
     {
-        // Update the selector and selected text color.
         for (int i = 0; i < options.Count; i++)
         {
             bool selected = i == selectedIndex;
@@ -207,7 +234,6 @@ public class TitleScreen : MonoBehaviour
 
     private void QuitGame()
     {
-        // Stop Play Mode in the Editor or quit the build.
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

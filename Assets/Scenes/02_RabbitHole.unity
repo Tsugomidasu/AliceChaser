@@ -149,6 +149,8 @@ MonoBehaviour:
   flashInterval: 0.075
   flashAlpha: 0.35
   animator: {fileID: 0}
+  hurtClip: {fileID: 0}
+  defeatClip: {fileID: 0}
 --- !u!1 &352767935
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,9 +325,11 @@ MonoBehaviour:
   activeObjects: {fileID: 1651774950}
   spawnPadding: 4.5
   levelLength: 95
+  backgroundMusicClip: {fileID: 8300000, guid: 812f7492756c446caa7ef8624183c1d3, type: 3}
   nextScene: 03_Pool
   completionLabel: CHAPTER I COMPLETE
   completionSubtitle: DOWN THE RABBIT-HOLE
+  chapterCompleteClip: {fileID: 8300000, guid: cbc61a867c3554cf18ce76e51f7c8cbd, type: 3}
   smallScale: 1.15
   mediumScale: 1.3
   largeScale: 1.45
@@ -2079,6 +2083,9 @@ MonoBehaviour:
   gameOverOptionsFadeTime: 0.3
   levelSelectScene: 01_Levels
   titleScene: 00_Title
+  navigateClip: {fileID: 0}
+  confirmClip: {fileID: 0}
+  cancelClip: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

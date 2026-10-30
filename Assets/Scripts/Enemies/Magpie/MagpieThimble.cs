@@ -18,7 +18,6 @@ public class MagpieThimble : MonoBehaviour
 
     private void Awake()
     {
-        // Cache the projectile components.
         rb = GetComponent<Rigidbody2D>();
         thimbleCollider = GetComponent<Collider2D>();
     }

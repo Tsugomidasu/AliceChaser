@@ -34,7 +34,6 @@ public class CameraFollow : MonoBehaviour
     {
         cameraComponent = GetComponent<Camera>();
 
-        // Find Alice.
         if (target == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -65,7 +64,6 @@ public class CameraFollow : MonoBehaviour
             return;
         }
 
-        // Reset follow velocity.
         previousTargetX = target.position.x;
         cameraVelocityX = 0f;
         lookAheadX = 0f;
@@ -86,6 +84,7 @@ public class CameraFollow : MonoBehaviour
             return;
         }
 
+        // Offset framing toward Alice's current movement direction.
         UpdateLookAhead(deltaTime);
 
         float screenWidth =
@@ -104,7 +103,7 @@ public class CameraFollow : MonoBehaviour
 
         float desiredCameraX = cameraX;
 
-        // Follow after Alice leaves the small dead zone.
+        // Start following outside the dead zone.
         if (targetScreenX < deadZoneLeft)
         {
             desiredCameraX =
@@ -125,7 +124,6 @@ public class CameraFollow : MonoBehaviour
             horizontalDamping
         );
 
-        // Keep Alice inside the larger soft zone.
         float halfSoftZone = softZoneWidth * 0.5f;
         float softZoneLeft = preferredScreenX - halfSoftZone;
         float softZoneRight = preferredScreenX + halfSoftZone;
@@ -134,6 +132,7 @@ public class CameraFollow : MonoBehaviour
             0.5f +
             (target.position.x - nextCameraX) / screenWidth;
 
+        // Clamp Alice to the soft zone.
         if (actualScreenX < softZoneLeft)
         {
             nextCameraX =
@@ -147,7 +146,6 @@ public class CameraFollow : MonoBehaviour
                 (softZoneRight - 0.5f) * screenWidth;
         }
 
-        // Keep the camera inside the level bounds.
         float halfScreenWidth = screenWidth * 0.5f;
         float maximumCameraX = Mathf.Max(
             minimumCameraX,
